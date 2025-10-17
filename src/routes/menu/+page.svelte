@@ -1,0 +1,39 @@
+<script lang="ts">
+	import Header from '$lib/components/layout/header.svelte';
+	import { Button } from '$lib/components/ui/button';
+	import ThemeSelector from '$lib/components/theme-selector.svelte';
+	import { goto } from '$app/navigation';
+
+	// Navigation items
+	const navItems = [
+		{ href: '/', label: 'Accueil' },
+		{ href: '/historic', label: 'Historique' },
+		{ href: '/date-carousel', label: 'Le choix dans la date' }
+	];
+
+	function navigate(href: string) {
+		goto(href, { replaceState: true });
+	}
+</script>
+
+<Header title="Navigation" variant="sidebar" />
+
+<nav>
+	<ul class="flex flex-col">
+		{#each navItems as item}
+			<li>
+				<Button
+					onclick={() => navigate(item.href)}
+					variant="ghost"
+					class="h-auto w-full justify-start rounded-none text-lg"
+				>
+					{item.label}
+				</Button>
+			</li>
+		{/each}
+		<li class="text-center">
+			<hr class="my-4" />
+			<ThemeSelector />
+		</li>
+	</ul>
+</nav>
