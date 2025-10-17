@@ -56,21 +56,15 @@
 			<h2>Comment utiliser votre carnet</h2>
 		</Card.Title>
 	</Card.Header>
-	<Card.Content class="space-y-6">
-		<div class="space-y-4 text-sm text-muted-foreground">
-			<div>
-				<h3 class="text-base font-semibold">Quotidien</h3>
+	<Card.Content class="prose prose-sm max-w-none text-muted-foreground">
+		<h3>Quotidien</h3>
 				<p>Commencez et terminez chaque journée avec gratitude et réflexion</p>
-			</div>
-			<div>
-				<h3 class="text-base font-semibold">Hebdomadaire</h3>
+
+		<h3>Hebdomadaire</h3>
 				<p>Planifiez vos routines le lundi et faites le bilan le dimanche</p>
-			</div>
-			<div>
-				<h3 class="text-base font-semibold">Mensuel</h3>
+
+		<h3>Mensuel</h3>
 				<p>Définissez vos objectifs SMARTE et célébrez vos réussites</p>
-			</div>
-		</div>
 	</Card.Content>
 </Card.Root>
 
@@ -81,28 +75,23 @@
 			<h2>À propos</h2>
 		</Card.Title>
 	</Card.Header>
-	<Card.Content class="space-y-6">
-		<div class="space-y-2 text-sm text-muted-foreground">
-			<h3 class="text-base font-semibold">Vos données</h3>
+	<Card.Content class="prose prose-sm max-w-none text-muted-foreground">
+		<h3>Vos données</h3>
 			<p>
 				Cette application utilise une base de donnée locale et aucune communication n'est effectuée
 				avec le monde extérieur. Pas de sauvegarde cloud ni de tracking.
 			</p>
 			<p>
-				Vous pouvez sauvegarder vos données via l'historique. C'est votre base de données complète
-				en un seul fichier JSON.
+			Vous pouvez sauvegarder vos données via l'historique. C'est votre base de données complète en
+			un seul fichier JSON.
 			</p>
-		</div>
-		<div class="space-y-4 text-sm text-muted-foreground">
-			<h3 class="text-base font-semibold">Cette application</h3>
+		<h3>Cette application</h3>
 			<p>
 				Cette application est distribuée sous une licence libre, avec son code source disponible sur
 				Internet.
 			</p>
 			<p>
-				<a href="/license" class="text-primary underline hover:no-underline">
-					Voir la licence MIT
-				</a>
+			<a href="/license" class="text-primary underline hover:no-underline"> Voir la licence MIT </a>
 			</p>
 			<p>
 				<a
@@ -113,6 +102,5 @@
 					Voir le code source
 				</a>
 			</p>
-		</div>
 	</Card.Content>
 </Card.Root>
