@@ -21,6 +21,6 @@
 		hiddenUntilFound
 		class="space-y-2 overflow-hidden  border-border data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down data-[state=open]:border-t"
 	>
-		<EmptyContent date={data.date} type="day" />
+		<EmptyContent {data} type="day" />
 	</Collapsible.Content>
 </Collapsible.Root>

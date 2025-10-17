@@ -1,6 +1,6 @@
 import type { DayFormType, WeekFormType, MonthFormType } from '$lib/schemas';
 import { loadDayEntry, loadWeekEntry, loadMonthEntry } from '$lib/stores/backend-store';
-import { CalendarDate, today, getLocalTimeZone, startOfWeek } from '@internationalized/date';
+import { CalendarDate, startOfWeek } from '@internationalized/date';
 
 export type DayData = {
 	date: CalendarDate;
@@ -17,10 +17,7 @@ export type MonthData = {
 	formData?: MonthFormType;
 };
 
-const baseDate = $state(today(getLocalTimeZone()));
-const locale = navigator.language;
-
-export function getDayData(offset: number): DayData {
+export function getDayDataAtOffset(baseDate: CalendarDate, offset: number): DayData {
 	const date = baseDate.add({ days: offset });
 	const initialData: DayData = { date, formData: undefined };
 	(async () => {
@@ -32,7 +29,7 @@ export function getDayData(offset: number): DayData {
 	return initialData;
 }
 
-export function getWeekData(offset: number): WeekData {
+export function getWeekDataAtOffset(baseDate: CalendarDate, offset: number): WeekData {
 	const date = baseDate.add({ weeks: offset });
 	const initialData: WeekData = { date, formData: undefined };
 	(async () => {
@@ -44,7 +41,7 @@ export function getWeekData(offset: number): WeekData {
 	return initialData;
 }
 
-export function getMonthData(offset: number): MonthData {
+export function getMonthDataAtOffset(baseDate: CalendarDate, offset: number): MonthData {
 	const date = baseDate.add({ months: offset });
 	const initialData: MonthData = { date, formData: undefined };
 	(async () => {
@@ -61,6 +58,7 @@ export function getDayOffset(baseDate: CalendarDate, targetDate: CalendarDate): 
 }
 
 export function getWeekOffset(baseDate: CalendarDate, targetDate: CalendarDate): number {
+	const locale = navigator.language;
 	const baseWeekStart = startOfWeek(baseDate, locale);
 	const targetWeekStart = startOfWeek(targetDate, locale);
 	return targetWeekStart.compare(baseWeekStart) / 7;
