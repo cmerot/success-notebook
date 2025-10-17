@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as Empty from '$lib/components/ui/empty/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import type { DayData, MonthData, WeekData } from '../utils.svelte';
+	import type { DayData, MonthData, WeekData } from '../utils';
 
 	type Props = {
 		data: DayData | WeekData | MonthData;

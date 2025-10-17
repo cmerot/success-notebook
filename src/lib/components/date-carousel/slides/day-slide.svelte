@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as Collapsible from '$lib/components/ui/collapsible/index.js';
-	import type { DayData } from '$lib/components/date-carousel/utils.svelte';
+	import type { DayData } from '$lib/components/date-carousel/utils';
 	import { formatDay } from '$lib/utils-date';
 	import EmptyContent from './empty-slide.svelte';
 

@@ -6,13 +6,9 @@
 		type DayData,
 		type MonthData,
 		type WeekData
-	} from '$lib/components/date-carousel/utils.svelte';
+	} from '$lib/components/date-carousel/utils';
 	import InfiniteCarousel from '$lib/components/date-carousel/infinite-carousel.svelte';
-	import {
-		getDayOffset,
-		getMonthOffset,
-		getWeekOffset
-	} from '$lib/components/date-carousel/utils.svelte';
+	import { getDayOffset, getMonthOffset, getWeekOffset } from '$lib/components/date-carousel/utils';
 	import { today, getLocalTimeZone } from '@internationalized/date';
 	import { DaySlide, WeekSlide, MonthSlide } from '$lib/components/date-carousel/slides';
 	import { type Slide as SlideType } from '$lib/components/date-carousel/use-carousel.svelte';
