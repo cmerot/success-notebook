@@ -13,11 +13,10 @@
 	let { data }: PageProps = $props();
 
 	const date = data.date;
-	const [year, month, day] = date.toString().split('-');
 
-	const dayURL = ['success', year, month, day, 'day'].join('/');
-	const weekURL = ['success', year, month, day, 'week'].join('/');
-	const monthURL = ['success', year, month, day, 'month'].join('/');
+	const dayURL = ['success', date.year, date.month, date.day, 'day'].join('/');
+	const weekURL = ['success', date.year, date.month, date.day, 'week'].join('/');
+	const monthURL = ['success', date.year, date.month, date.day, 'month'].join('/');
 
 	function showMenu() {
 		goto('/menu');
@@ -36,17 +35,11 @@
 </Header>
 
 <Separator class="from-background to-blue-600" />
-
-<DayCard {dayURL} dayEntry={data.dayEntry} {date} />
-
+<DayCard {date} data={data.day} />
 <Separator class="from-blue-600 to-rose-600" />
-
-<WeekCard {weekURL} weekEntry={data.weekEntry} />
-
+<WeekCard {date} data={data.week} />
 <Separator class="from-rose-600 to-lime-600" />
-
-<MonthCard {monthURL} monthEntry={data.monthEntry} />
-
+<MonthCard {date} data={data.month} />
 <Separator class="from-lime-600 to-background" />
 
 <!-- Help Card -->
@@ -58,13 +51,13 @@
 	</Card.Header>
 	<Card.Content class="prose prose-sm max-w-none text-muted-foreground">
 		<h3>Quotidien</h3>
-				<p>Commencez et terminez chaque journée avec gratitude et réflexion</p>
+		<p>Commencez et terminez chaque journée avec gratitude et réflexion</p>
 
 		<h3>Hebdomadaire</h3>
-				<p>Planifiez vos routines le lundi et faites le bilan le dimanche</p>
+		<p>Planifiez vos routines le lundi et faites le bilan le dimanche</p>
 
 		<h3>Mensuel</h3>
-				<p>Définissez vos objectifs SMARTE et célébrez vos réussites</p>
+		<p>Définissez vos objectifs SMARTE et célébrez vos réussites</p>
 	</Card.Content>
 </Card.Root>
 
@@ -77,30 +70,30 @@
 	</Card.Header>
 	<Card.Content class="prose prose-sm max-w-none text-muted-foreground">
 		<h3>Vos données</h3>
-			<p>
-				Cette application utilise une base de donnée locale et aucune communication n'est effectuée
-				avec le monde extérieur. Pas de sauvegarde cloud ni de tracking.
-			</p>
-			<p>
+		<p>
+			Cette application utilise une base de donnée locale et aucune communication n'est effectuée
+			avec le monde extérieur. Pas de sauvegarde cloud ni de tracking.
+		</p>
+		<p>
 			Vous pouvez sauvegarder vos données via l'historique. C'est votre base de données complète en
 			un seul fichier JSON.
-			</p>
+		</p>
 		<h3>Cette application</h3>
-			<p>
-				Cette application est distribuée sous une licence libre, avec son code source disponible sur
-				Internet.
-			</p>
-			<p>
+		<p>
+			Cette application est distribuée sous une licence libre, avec son code source disponible sur
+			Internet.
+		</p>
+		<p>
 			<a href="/license" class="text-primary underline hover:no-underline"> Voir la licence MIT </a>
-			</p>
-			<p>
-				<a
-					href="https://github.com/cmerot/success-notebook"
-					class="text-primary underline hover:no-underline"
-					target="_blank"
-				>
-					Voir le code source
-				</a>
-			</p>
+		</p>
+		<p>
+			<a
+				href="https://github.com/cmerot/success-notebook"
+				class="text-primary underline hover:no-underline"
+				target="_blank"
+			>
+				Voir le code source
+			</a>
+		</p>
 	</Card.Content>
 </Card.Root>

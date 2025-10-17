@@ -16,18 +16,18 @@
 	import FormSection from './form-section.svelte';
 
 	interface Props {
+		date: CalendarDate;
 		data: {
-			date: CalendarDate;
 			form: SuperValidated<DayFormType>;
 			isNew: boolean;
 		};
 	}
 
-	let { data }: Props = $props();
+	let { date, data }: Props = $props();
 
 	const form = useAutoSaveForm(data.form, {
 		schema: dayFormSchema,
-		onSave: (formData) => saveDayEntry(data.date, formData)
+		onSave: (formData) => saveDayEntry(date, formData)
 	});
 
 	let { form: formData, enhance } = form;
@@ -35,7 +35,7 @@
 </script>
 
 <Header title="Mes succès du quotidien" class="theme-blue">
-	<FormStatus {form} title={formatDay(data.date)} />
+	<FormStatus {form} title={formatDay(date)} />
 </Header>
 
 <main>

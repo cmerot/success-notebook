@@ -3,12 +3,14 @@
 	import { DayForm, WeekForm, MonthForm } from '$lib/components/forms';
 
 	let { data }: PageProps = $props();
+
+	let { date } = data;
 </script>
 
 {#if data.period == 'day'}
-	<DayForm data={{ date: data.date, ...data.day }} />
+	<DayForm {date} data={data.day} />
 {:else if data.period == 'week'}
-	<WeekForm data={{ date: data.date, ...data.week }} />
+	<WeekForm {date} data={data.week} />
 {:else}
-	<MonthForm data={{ date: data.date, ...data.month }} />
+	<MonthForm {date} data={data.month} />
 {/if}

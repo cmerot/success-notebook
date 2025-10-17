@@ -17,18 +17,18 @@
 	import FormSection from './form-section.svelte';
 
 	interface Props {
+		date: CalendarDate;
 		data: {
-			date: CalendarDate;
 			form: SuperValidated<WeekFormType>;
 			isNew: boolean;
 		};
 	}
 
-	let { data }: Props = $props();
+	let { date, data }: Props = $props();
 
 	const form = useAutoSaveForm(data.form, {
 		schema: weekFormSchema,
-		onSave: (formData) => saveWeekEntry(data.date, formData)
+		onSave: (formData) => saveWeekEntry(date, formData)
 	});
 
 	let { form: formData, enhance } = form;
@@ -36,7 +36,7 @@
 </script>
 
 <Header title="Mes succès de la semaine" class="theme-rose">
-	<FormStatus {form} title={formatWeekLong(data.date)} />
+	<FormStatus {form} title={formatWeekLong(date)} />
 </Header>
 
 <main>

@@ -16,18 +16,18 @@
 	import FormSection from './form-section.svelte';
 
 	interface Props {
+		date: CalendarDate;
 		data: {
-			date: CalendarDate;
 			form: SuperValidated<MonthFormType>;
 			isNew: boolean;
 		};
 	}
 
-	let { data }: Props = $props();
+	let { date, data }: Props = $props();
 
 	const form = useAutoSaveForm(data.form, {
 		schema: monthFormSchema,
-		onSave: (formData) => saveMonthEntry(data.date, formData)
+		onSave: (formData) => saveMonthEntry(date, formData)
 	});
 
 	let { form: formData, enhance } = form;
@@ -35,7 +35,7 @@
 </script>
 
 <Header title="Mes succès du mois" class="theme-green">
-	<FormStatus {form} title={formatMonth(data.date)} />
+	<FormStatus {form} title={formatMonth(date)} />
 </Header>
 
 <main>
