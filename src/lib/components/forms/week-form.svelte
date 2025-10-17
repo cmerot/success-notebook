@@ -16,6 +16,7 @@
 	import Routines from './inputs/routines.svelte';
 	import Header from '../layout/header.svelte';
 	import { Separator } from '$lib/components/separator';
+	import FormStatus from './form-status.svelte';
 
 	interface Props {
 		data: {
@@ -69,17 +70,7 @@
 </script>
 
 <Header title="Mes succès de la semaine" class="theme-rose">
-	<div class="flex items-center justify-end gap-2 bg-background p-3 text-foreground">
-		<span class="relative flex size-3">
-			<span
-				class="absolute inline-flex h-full w-full {$tainted &&
-					'animate-ping'} rounded-full bg-sky-400 opacity-75"
-			>
-			</span>
-			<span class="relative inline-flex size-3 rounded-full bg-sky-400"> </span>
-		</span>
-		<div>{formatWeekLong(data.date)}</div>
-	</div>
+	<FormStatus {form} title={formatWeekLong(data.date)} />
 </Header>
 
 <main>

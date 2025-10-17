@@ -15,6 +15,8 @@
 	import Header from '../layout/header.svelte';
 	import TextEmoticons from './inputs/text-emoticons.svelte';
 	import { Separator } from '$lib/components/separator';
+	import FormErrors from './form-errors.svelte';
+	import FormStatus from './form-status.svelte';
 
 	interface Props {
 		data: {
@@ -67,17 +69,7 @@
 </script>
 
 <Header title="Mes succès du quotidien" class="theme-blue">
-	<div class="flex items-center justify-end gap-2 bg-background p-3 text-foreground">
-		<span class="relative flex size-3">
-			<span
-				class="absolute inline-flex h-full w-full {$tainted &&
-					'animate-ping'} rounded-full bg-sky-400 opacity-75"
-			>
-			</span>
-			<span class="relative inline-flex size-3 rounded-full bg-sky-400"> </span>
-		</span>
-		<div>{formatDay(data.date)}</div>
-	</div>
+	<FormStatus {form} title={formatDay(data.date)} />
 </Header>
 
 <main>

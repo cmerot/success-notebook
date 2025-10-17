@@ -15,6 +15,7 @@
 	import Goals from './inputs/goals.svelte';
 	import MonthRoutines from './inputs/month-routines.svelte';
 	import { Separator } from '$lib/components/separator';
+	import FormStatus from './form-status.svelte';
 
 	interface Props {
 		data: {
@@ -73,17 +74,7 @@
 </script>
 
 <Header title="Mes succès du mois" class="theme-green">
-	<div class="flex items-center justify-end gap-2 bg-background p-3 text-foreground">
-		<span class="relative flex size-3">
-			<span
-				class="absolute inline-flex h-full w-full {$tainted &&
-					'animate-ping'} rounded-full bg-sky-400 opacity-75"
-			>
-			</span>
-			<span class="relative inline-flex size-3 rounded-full bg-sky-400"> </span>
-		</span>
-		<div>{formatMonth(data.date)}</div>
-	</div>
+	<FormStatus {form} title={formatMonth(data.date)} />
 </Header>
 
 <main>
