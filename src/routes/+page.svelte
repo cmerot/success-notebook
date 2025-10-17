@@ -5,9 +5,10 @@
 	import { goto } from '$app/navigation';
 	import Header from '$lib/components/layout/header.svelte';
 	import type { PageProps } from './$types';
-	import { formatDayLong } from '$lib/utils-date';
-	import Check from '@lucide/svelte/icons/check';
 	import { Separator } from '$lib/components/separator';
+	import DayCard from '$lib/components/home/day-card.svelte';
+	import WeekCard from '$lib/components/home/week-card.svelte';
+	import MonthCard from '$lib/components/home/month-card.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -36,120 +37,15 @@
 
 <Separator class="from-background to-blue-600" />
 
-<!-- Day Card -->
-<a href={dayURL} class="group block">
-	<Card.Root class="theme-blue rounded-none border-none bg-primary/10 shadow-none ">
-		<Card.Header class="space-y-4">
-			<Card.Title class="text-primary">
-				<div class="flex items-center gap-x-4">
-					<div class="text-4xl">
-						{#if data.dayEntry?.start.mood.icon}
-							{data.dayEntry.start.mood.icon}
-						{:else}
-							☀️
-						{/if}
-					</div>
-					<div class="text-xl text-primary">{formatDayLong(date)}</div>
-				</div>
-			</Card.Title>
-		</Card.Header>
-		<Card.Content>
-			{#if data.dayEntry?.start.todoList.length || data.dayEntry?.start.toRelaxList.length}
-				<div class="mb-2 space-y-4 rounded-2xl bg-background p-4">
-					{#if data.dayEntry?.start.todoList.length}
-						<div>
-							<h3 class="font-semibold text-primary">To Do</h3>
-							<ul>
-								{#each data.dayEntry.start.todoList as todo}
-									<li class="py-1">
-										<Check class="inline {todo.completed ? '' : 'text-muted'}" />
-										<span class={todo.completed ? 'line-through' : ''}> {todo.text}</span>
-									</li>
-								{/each}
-							</ul>
-						</div>
-					{/if}
-					{#if data.dayEntry?.start.toRelaxList.length}
-						<div>
-							<h3 class="font-semibold text-primary">To Relax</h3>
-							<ul>
-								{#each data.dayEntry.start.toRelaxList as todo}
-									<li class="py-1">
-										<Check class="inline {todo.completed ? '' : 'text-muted'}" />
-										<span class={todo.completed ? 'line-through' : ''}> {todo.text}</span>
-									</li>
-								{/each}
-							</ul>
-						</div>
-					{/if}
-				</div>
-			{/if}
-			<h3 class="text-lg font-semibold text-primary">Quotidien</h3>
-			Matin et soirée : gratitude, objectifs et réflexions
-		</Card.Content>
-		<Card.Footer>
-			<Button class="w-full">Ouvrir →</Button>
-		</Card.Footer>
-	</Card.Root>
-</a>
+<DayCard {dayURL} dayEntry={data.dayEntry} {date} />
 
 <Separator class="from-blue-600 to-rose-600" />
 
-<!-- Week Card -->
-<a href={weekURL} class="group block">
-	<Card.Root class="theme-rose rounded-none border-none bg-primary/10 shadow-none ">
-		<Card.Header class="space-y-4">
-			<Card.Title class="text-primary">
-				<div class="flex items-center gap-x-4">
-					<div class="text-4xl">📅</div>
-					{#if data.weekEntry?.start.mantra}
-						<h3 class="text-xl font-semibold italic">
-							<q>
-								{data.weekEntry.start.mantra}
-							</q>
-						</h3>
-					{/if}
-				</div>
-			</Card.Title>
-		</Card.Header>
-		<Card.Content>
-			<h3 class="text-lg font-semibold text-primary">Hebdomadaire</h3>
-			Lundi au dimanche : routines et objectifs SMARTE
-		</Card.Content>
-		<Card.Footer>
-			<Button class="w-full">Ouvrir →</Button>
-		</Card.Footer>
-	</Card.Root>
-</a>
+<WeekCard {weekURL} weekEntry={data.weekEntry} />
 
 <Separator class="from-rose-600 to-lime-600" />
 
-<!-- Month Card -->
-<a href={monthURL} class="group block">
-	<Card.Root class="theme-green rounded-none border-none bg-primary/10 shadow-none ">
-		<Card.Header class="space-y-4">
-			<Card.Title class="text-primary">
-				<div class="flex items-center gap-x-4">
-					<div class="text-4xl">🗓️</div>
-					{#if data.monthEntry?.start.mantra}
-						<h3 class="text-xl font-semibold italic">
-							<q>
-								{data.monthEntry.start.mantra}
-							</q>
-						</h3>
-					{/if}
-				</div>
-			</Card.Title>
-		</Card.Header>
-		<Card.Content>
-			<h3 class="text-lg font-semibold text-primary">Mensuel</h3>
-			Premier au dernier jour : nouvelles routines et bilan
-		</Card.Content>
-		<Card.Footer>
-			<Button class="w-full">Ouvrir →</Button>
-		</Card.Footer>
-	</Card.Root>
-</a>
+<MonthCard {monthURL} monthEntry={data.monthEntry} />
 
 <Separator class="from-lime-600 to-background" />
 
