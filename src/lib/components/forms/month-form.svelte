@@ -12,7 +12,7 @@
 	import Goals from './inputs/goals.svelte';
 	import MonthRoutines from './inputs/month-routines.svelte';
 	import { Separator } from '$lib/components/separator';
-	import FormStatus from './form-status.svelte';
+	import FormStatus from '../form/status/form-status.svelte';
 	import FormSection from './form-section.svelte';
 
 	interface Props {

@@ -12,7 +12,7 @@
 	import Header from '../layout/header.svelte';
 	import TextEmoticons from './inputs/text-emoticons.svelte';
 	import { Separator } from '$lib/components/separator';
-	import FormStatus from './form-status.svelte';
+	import FormStatus from '../form/status/form-status.svelte';
 	import FormSection from './form-section.svelte';
 
 	interface Props {

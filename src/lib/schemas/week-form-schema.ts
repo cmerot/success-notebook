@@ -1,7 +1,8 @@
 import { z } from 'zod';
+import { goalItemSchema } from './common';
 
 // Schema for weekly routines with daily checkboxes
-const routines = z.object({
+export const routineItemSchema = z.object({
 	text: z.string(),
 	monday: z.boolean(),
 	tuesday: z.boolean(),
@@ -12,18 +13,12 @@ const routines = z.object({
 	sunday: z.boolean()
 });
 
-// Schema for SMARTE objectives with completion percentage
-const goals = z.object({
-	text: z.string(),
-	completion: z.number().min(0).max(100).default(0)
-});
-
 // Week form schema
 export const weekFormSchema = z.object({
 	start: z.object({
 		mantra: z.string(),
-		routines: z.array(routines).max(4),
-		goals: z.array(goals).max(3)
+		routines: z.array(routineItemSchema).max(4),
+		goals: z.array(goalItemSchema).max(3)
 	}),
 	end: z.object({
 		achievements: z.string()
@@ -31,3 +26,4 @@ export const weekFormSchema = z.object({
 });
 
 export type WeekFormType = z.infer<typeof weekFormSchema>;
+export type RoutineItemSchemaType = z.infer<typeof routineItemSchema>;

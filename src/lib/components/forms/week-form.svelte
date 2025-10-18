@@ -13,7 +13,7 @@
 	import Routines from './inputs/routines.svelte';
 	import Header from '../layout/header.svelte';
 	import { Separator } from '$lib/components/separator';
-	import FormStatus from './form-status.svelte';
+	import FormStatus from '../form/status/form-status.svelte';
 	import FormSection from './form-section.svelte';
 
 	interface Props {

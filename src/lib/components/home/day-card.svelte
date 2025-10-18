@@ -8,6 +8,9 @@
 	import type { SuperValidated } from 'sveltekit-superforms';
 	import { useAutoSaveForm } from '$lib/hooks/use-auto-save-form.svelte';
 	import { saveDayEntry } from '$lib/stores/backend-store';
+	import TodoList from '../forms/inputs/todo-list2.svelte';
+	import ToggleEditModeButton from '../forms/toggle-edit-mode-button.svelte';
+	import { toggleSection } from '$lib/utils';
 
 	interface Props {
 		date: CalendarDate;
@@ -46,9 +49,9 @@
 			</Card.Title>
 		</Card.Header>
 		<Card.Content>
-			{#if $formData?.start.todoList.length || $formData?.start.toRelaxList.length}
+			{#if $formData.start.todoList.length || $formData.start.toRelaxList.length}
 				<div class="mb-2 space-y-4 rounded-2xl bg-background p-4">
-					{#if $formData?.start.todoList.length}
+					{#if $formData.start.todoList.length}
 						<div>
 							<h3 class="font-semibold text-primary">To Do</h3>
 							<ul>
@@ -61,7 +64,7 @@
 							</ul>
 						</div>
 					{/if}
-					{#if $formData?.start.toRelaxList.length}
+					{#if $formData.start.toRelaxList.length}
 						<div>
 							<h3 class="font-semibold text-primary">To Relax</h3>
 							<ul>

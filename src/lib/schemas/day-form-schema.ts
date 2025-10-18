@@ -1,10 +1,5 @@
 import { z } from 'zod';
-
-// Schema for checklist items
-const checklistItemSchema = z.object({
-	text: z.string(),
-	completed: z.boolean()
-});
+import { checklistItemSchema } from './common';
 
 // Day form schema
 export const dayFormSchema = z.object({
@@ -16,7 +11,7 @@ export const dayFormSchema = z.object({
 		grateful: z.string(),
 		desire: z.string(),
 		goal: z.string(),
-		todoList: z.array(checklistItemSchema).max(3),
+		todoList: z.array(checklistItemSchema),
 		toRelaxList: z.array(checklistItemSchema).max(3)
 	}),
 	end: z.object({

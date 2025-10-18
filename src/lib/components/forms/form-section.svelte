@@ -9,7 +9,7 @@
 		editMode: 'edit' | 'view';
 		title: string;
 		children: Snippet;
-		icon?: typeof Component;
+		icon: typeof Component;
 	}
 
 	let { section, editMode, title, children, icon: Icon }: Props = $props();
