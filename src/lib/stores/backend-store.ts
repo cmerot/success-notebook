@@ -1,12 +1,12 @@
-import { Store } from '@tauri-apps/plugin-store';
+import { getStorageAdapter, type StorageAdapter } from '$lib/adapters/storage';
 import { startOfWeek, type CalendarDate, startOfMonth, parseDate } from '@internationalized/date';
 import type { DayFormType, WeekFormType, MonthFormType } from '$lib/schemas';
 
-// Initialize the store - this is a promise that resolves to the store instance
-const storePromise = Store.load('success-notebook.json');
+// Initialize the storage adapter - automatically selects Tauri or Web implementation
+const storagePromise = getStorageAdapter();
 
-async function getStore(): Promise<Store> {
-	return await storePromise;
+async function getStorage(): Promise<StorageAdapter> {
+	return await storagePromise;
 }
 
 //
@@ -14,13 +14,13 @@ async function getStore(): Promise<Store> {
 //
 
 export async function clearStore(): Promise<void> {
-	const store = await getStore();
-	await store.clear();
+	const storage = await getStorage();
+	await storage.clear();
 }
 
 export async function dumpStore() {
-	const store = await getStore();
-	return await store.entries();
+	const storage = await getStorage();
+	return await storage.entries();
 }
 
 //
@@ -28,23 +28,23 @@ export async function dumpStore() {
 //
 
 export async function loadDayEntry(date: CalendarDate): Promise<DayFormType | null> {
-	const store = await getStore();
+	const storage = await getStorage();
 	const key = `day:${date.toString()}`;
-	const entry = await store.get<DayFormType>(key);
+	const entry = await storage.get<DayFormType>(key);
 	return entry ?? null;
 }
 
 export async function loadWeekEntry(date: CalendarDate): Promise<WeekFormType | null> {
-	const store = await getStore();
+	const storage = await getStorage();
 	const key = `week:${startOfWeek(date, navigator.language).toString()}`;
-	const entry = await store.get<WeekFormType>(key);
+	const entry = await storage.get<WeekFormType>(key);
 	return entry ?? null;
 }
 
 export async function loadMonthEntry(date: CalendarDate): Promise<MonthFormType | null> {
-	const store = await getStore();
+	const storage = await getStorage();
 	const key = `month:${startOfMonth(date).toString()}`;
-	const entry = await store.get<MonthFormType>(key);
+	const entry = await storage.get<MonthFormType>(key);
 	return entry ?? null;
 }
 
@@ -119,27 +119,27 @@ export function isEntryEmpty<T>(entry: T): boolean {
 }
 
 export async function saveDayEntry(date: CalendarDate, entry: DayFormType): Promise<void> {
-	const store = await getStore();
+	const storage = await getStorage();
 	const key = `day:${date.toString()}`;
 	const cleanedEntry = cleanEntry(entry);
-	await store.set(key, cleanedEntry);
-	await store.save();
+	await storage.set(key, cleanedEntry);
+	await storage.save();
 }
 
 export async function saveWeekEntry(date: CalendarDate, entry: WeekFormType): Promise<void> {
-	const store = await getStore();
+	const storage = await getStorage();
 	const key = `week:${startOfWeek(date, navigator.language).toString()}`;
 	const cleanedEntry = cleanEntry(entry);
-	await store.set(key, cleanedEntry);
-	await store.save();
+	await storage.set(key, cleanedEntry);
+	await storage.save();
 }
 
 export async function saveMonthEntry(date: CalendarDate, entry: MonthFormType): Promise<void> {
-	const store = await getStore();
+	const storage = await getStorage();
 	const key = `month:${startOfMonth(date).toString()}`;
 	const cleanedEntry = cleanEntry(entry);
-	await store.set(key, cleanedEntry);
-	await store.save();
+	await storage.set(key, cleanedEntry);
+	await storage.save();
 }
 
 //
@@ -154,8 +154,8 @@ export async function getAllEntries(): Promise<
 		entry: DayFormType | WeekFormType | MonthFormType;
 	}[]
 > {
-	const store = await getStore();
-	const allEntries = await store.entries();
+	const storage = await getStorage();
+	const allEntries = await storage.entries();
 
 	// Sorted by date and none day/week/month entries removed
 	const entries: {

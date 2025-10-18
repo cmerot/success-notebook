@@ -6,8 +6,7 @@
 	import { invalidateAll } from '$app/navigation';
 	import type { PageProps } from './$types';
 	import { formatDayLong, formatMonth, formatWeekLong } from '$lib/utils-date';
-	import { save, confirm } from '@tauri-apps/plugin-dialog';
-	import { writeTextFile } from '@tauri-apps/plugin-fs';
+	import { getFileOperationsAdapter } from '$lib/adapters/file-operations';
 	import { getLocalTimeZone, today } from '@internationalized/date';
 	import Header from '$lib/components/layout/header.svelte';
 
@@ -15,10 +14,14 @@
 
 	function clearData() {
 		(async () => {
-			const confirmation = await confirm('Cette action est irréversible. Toujours ok ?', {
-				title: 'Suppression définitive des données',
-				kind: 'warning'
-			});
+			const fileOps = await getFileOperationsAdapter();
+			const confirmation = await fileOps.confirm(
+				'Cette action est irréversible. Toujours ok ?',
+				{
+					title: 'Suppression définitive des données',
+					kind: 'warning'
+				}
+			);
 			if (!confirmation) return;
 			await clearStore();
 			invalidateAll();
@@ -27,9 +30,10 @@
 
 	function downloadData() {
 		(async () => {
+			const fileOps = await getFileOperationsAdapter();
 			const entries = await dumpStore();
 			const json = JSON.stringify(entries, null, 2);
-			const path = await save({
+			const path = await fileOps.showSaveDialog({
 				filters: [
 					{
 						name: 'JSON',
@@ -39,7 +43,7 @@
 				defaultPath: `success-notebook-${today(getLocalTimeZone()).toString()}.json`
 			});
 			if (path) {
-				await writeTextFile(path, json);
+				await fileOps.writeTextFile(path, json);
 			}
 		})();
 	}
