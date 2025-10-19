@@ -170,7 +170,7 @@ export async function getAllEntries(): Promise<
 			if (key.startsWith('day:')) {
 				const dateString = key.replace('day:', '');
 				const date = parseDate(dateString);
-				const url = `${date.year}/${String(date.month).padStart(2, '0')}/${String(date.day).padStart(2, '0')}/day`;
+				const url = `${date.year}/${String(date.month).padStart(2, '0')}/${String(date.day).padStart(2, '0')}`;
 				entries.push({ date, url, type: 'day', entry: value as DayFormType });
 			} else if (key.startsWith('week:')) {
 				const dateString = key.replace('week:', '');

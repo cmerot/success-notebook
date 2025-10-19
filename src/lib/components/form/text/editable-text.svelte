@@ -31,32 +31,23 @@
 	}: Props = $props();
 </script>
 
-{#if isEditMode}
-	<div class={cn('rounded-lg px-3 py-2 transition-colors hover:bg-accent', containerClass)}>
-		<EditableTextBare
-			{isEditMode}
-			bind:value
-			{multiline}
-			{placeholder}
-			{onBlur}
-			{formProps}
-			inputClass={cn('w-full', inputClass)}
-			{disabled}
-			{emptyText}
-		/>
-	</div>
-{:else}
-	<div class={cn('rounded-lg px-3 py-2', containerClass)}>
-		<EditableTextBare
-			{isEditMode}
-			bind:value
-			{multiline}
-			{placeholder}
-			{onBlur}
-			{formProps}
-			viewClass={cn('w-full', viewClass)}
-			{disabled}
-			{emptyText}
-		/>
-	</div>
-{/if}
+<div
+	class={cn(
+		'rounded-lg px-3 py-2',
+		isEditMode && 'transition-colors hover:bg-accent',
+		containerClass
+	)}
+>
+	<EditableTextBare
+		{isEditMode}
+		bind:value
+		{multiline}
+		{placeholder}
+		{onBlur}
+		{formProps}
+		inputClass={cn('w-full', inputClass)}
+		viewClass={cn('w-full', viewClass)}
+		{disabled}
+		{emptyText}
+	/>
+</div>

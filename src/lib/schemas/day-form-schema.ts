@@ -1,13 +1,10 @@
 import { z } from 'zod';
-import { checklistItemSchema } from './common';
+import { checklistItemSchema, moodSchema } from './common';
 
 // Day form schema
 export const dayFormSchema = z.object({
 	start: z.object({
-		mood: z.object({
-			text: z.string(),
-			icon: z.string()
-		}),
+		mood: moodSchema,
 		grateful: z.string(),
 		desire: z.string(),
 		goal: z.string(),
@@ -16,10 +13,7 @@ export const dayFormSchema = z.object({
 	}),
 	end: z.object({
 		achievements: z.string(),
-		mood: z.object({
-			text: z.string(),
-			icon: z.string()
-		})
+		mood: moodSchema
 	})
 });
 

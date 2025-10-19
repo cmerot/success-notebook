@@ -12,5 +12,11 @@ export const goalItemSchema = z.object({
 	completion: z.number().min(0).max(100).default(0)
 });
 
+export const moodSchema = z.object({
+	text: z.string(),
+	icon: z.string()
+});
+
 export type CheckListItemType = z.infer<typeof checklistItemSchema>;
 export type GoalItemSchemaType = z.infer<typeof goalItemSchema>;
+export type MoodSchemaType = z.infer<typeof moodSchema>;

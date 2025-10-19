@@ -4,15 +4,23 @@
 	import FormErrors from './form-errors.svelte';
 	import * as Popover from '$lib/components/ui/popover/index.js';
 	import { cn } from '$lib/utils';
+	import { Pencil } from 'lucide-svelte';
 
 	type InferredType = z.infer<T>;
-	type Props = {
-		form: FsSuperForm<InferredType>;
-		title?: string;
-		class?: string;
-	};
 
-	const { form, title, class: className }: Props = $props();
+	interface Props {
+		form: FsSuperForm<InferredType>;
+		isEditMode?: boolean;
+		isEditable?: boolean;
+		class?: string;
+	}
+
+	let {
+		form,
+		isEditMode = $bindable(false),
+		isEditable = false,
+		class: className
+	}: Props = $props();
 	const { tainted, errors } = form;
 
 	let showErrors = $state(false);
@@ -45,3 +53,15 @@
 		<FormErrors {form} bind:open={showErrors} />
 	</Popover.Content>
 </Popover.Root>
+{#if isEditable}
+	<button
+		type="button"
+		onclick={() => (isEditMode = !isEditMode)}
+		aria-label={isEditMode ? 'Désactiver le mode édition' : 'Activer le mode édition'}
+		class="rounded-lg p-2 transition-colors hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none {isEditMode
+			? 'bg-primary text-primary-foreground hover:bg-primary/90'
+			: 'text-muted-foreground'}"
+	>
+		<Pencil class="size-5" />
+	</button>
+{/if}

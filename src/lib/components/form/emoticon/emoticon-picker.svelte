@@ -8,11 +8,11 @@
 	interface Props {
 		form: FormPrimitive.FsSuperForm<T>;
 		name: U;
-		isEditMode: boolean;
+		isEditMode?: boolean;
 		class?: string;
 	}
 
-	let { form, name, isEditMode, class: className }: Props = $props();
+	let { form, name, isEditMode = false, class: className }: Props = $props();
 
 	const emoticon = fieldProxy(form.form, name) as unknown as Writable<string>;
 </script>
@@ -25,16 +25,15 @@
 			{/snippet}
 		</Form.Control>
 	{:else}
-		<Form.Control>
-			{#snippet children({ props })}
-				<div
-					class={'inline-flex h-16 w-16 items-center justify-center rounded-full border-2 border-input bg-background text-4xl'}
-					aria-label="Émoticône sélectionnée"
-					{...props}
-				>
-					{$emoticon || '☀️'}
-				</div>
-			{/snippet}
-		</Form.Control>
+		<div
+			class={'inline-flex h-16 w-16 items-center justify-center rounded-full border-2 border-input bg-background text-4xl'}
+			aria-label="Émoticône sélectionnée"
+		>
+			{#if $emoticon}
+				{$emoticon}
+			{:else}
+				<span class="opacity-50">☀️</span>
+			{/if}
+		</div>
 	{/if}
 </Form.Field>

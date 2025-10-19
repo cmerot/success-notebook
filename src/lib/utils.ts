@@ -46,3 +46,15 @@ export const toggleSection = (event: MouseEvent) => {
 	const newMode = currentMode === 'edit' ? 'view' : 'edit';
 	section.setAttribute('data-edit-mode', newMode);
 };
+
+// Helper function to check if a field has content
+export const hasContent = (value: unknown): boolean => {
+	if (value === null || value === undefined) return false;
+	if (typeof value === 'string') return value.trim().length > 0;
+	if (Array.isArray(value)) return value.length > 0 && value.some((item) => hasContent(item));
+	if (typeof value === 'object') {
+		// Check if any property in the object has content
+		return Object.values(value as Record<string, unknown>).some((val) => hasContent(val));
+	}
+	return false;
+};

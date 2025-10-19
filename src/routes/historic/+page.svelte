@@ -15,13 +15,10 @@
 	function clearData() {
 		(async () => {
 			const fileOps = await getFileOperationsAdapter();
-			const confirmation = await fileOps.confirm(
-				'Cette action est irréversible. Toujours ok ?',
-				{
-					title: 'Suppression définitive des données',
-					kind: 'warning'
-				}
-			);
+			const confirmation = await fileOps.confirm('Cette action est irréversible. Toujours ok ?', {
+				title: 'Suppression définitive des données',
+				kind: 'warning'
+			});
 			if (!confirmation) return;
 			await clearStore();
 			invalidateAll();
@@ -60,15 +57,15 @@
 		{#each data.entries as entry}
 			<li>
 				{#if entry.type == 'day'}
-					<Button class="ml-8 capitalize" variant="link" href="/success/{entry.url}">
+					<Button class="ml-8 capitalize" variant="link" href="/{entry.url}">
 						{formatDayLong(entry.date)}
 					</Button>
 				{:else if entry.type == 'week'}
-					<Button class="ml-4 text-lg capitalize" variant="link" href="/success/{entry.url}">
+					<Button class="ml-4 text-lg capitalize" variant="link" href="/{entry.url}">
 						{formatWeekLong(entry.date)}
 					</Button>
 				{:else}
-					<Button class="text-xl capitalize" variant="link" href="/success/{entry.url}">
+					<Button class="text-xl capitalize" variant="link" href="/{entry.url}">
 						{formatMonth(entry.date)}
 					</Button>
 				{/if}

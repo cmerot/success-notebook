@@ -5,11 +5,11 @@
 	import TextControl from './text-control.svelte';
 	import type * as FormPrimitive from 'formsnap';
 
-	type FieldsetProps<T extends Record<string, unknown>, U extends FormPath<T>, M = any> = {
+	interface Props {
 		/**
 		 * The form object returned from calling `superForm` in your component.
 		 */
-		form: FormPrimitive.FsSuperForm<T, M>;
+		form: FormPrimitive.FsSuperForm<T>;
 
 		/**
 		 * The path to the field in the form object.
@@ -26,7 +26,7 @@
 		 * If not specified, there's no limit.
 		 */
 		maxItems?: number;
-	};
+	}
 
 	let {
 		class: className,
@@ -36,7 +36,7 @@
 		maxItems,
 		isEditMode,
 		...restProps
-	}: FieldsetProps<T, U> = $props();
+	}: Props = $props();
 	let value = fieldProxy(form.form, name) as unknown as Writable<string[]>;
 
 	// Ensure there's always one empty item at the end (within maxItems limit)

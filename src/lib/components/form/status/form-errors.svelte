@@ -4,13 +4,13 @@
 	import { Button } from '$lib/components/ui/button';
 	import { cn } from '$lib/utils';
 
-	type Props = {
+	type InferredType = z.infer<T>;
+
+	interface Props {
 		form: FsSuperForm<InferredType>;
 		class?: string;
 		open?: boolean;
-	};
-
-	type InferredType = z.infer<T>;
+	}
 
 	let { form, class: className, open = $bindable() }: Props = $props();
 	const { allErrors } = form;

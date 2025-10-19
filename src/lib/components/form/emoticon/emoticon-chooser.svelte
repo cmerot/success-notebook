@@ -91,7 +91,6 @@
 		value = emoticon;
 		isOpen = false;
 	}
-	console.log(value);
 </script>
 
 <Popover.Root bind:open={isOpen}>
@@ -99,7 +98,11 @@
 		class={'inline-flex h-16 w-16 cursor-pointer items-center justify-center rounded-full border-2 border-input bg-background text-4xl transition-all hover:border-primary hover:bg-accent'}
 		aria-label="Choisir une émoticône"
 	>
-		{value || '☀️'}
+		{#if value}
+			{value}
+		{:else}
+			<span class="opacity-50 transition-opacity hover:opacity-100">☀️</span>
+		{/if}
 	</Popover.Trigger>
 	<Popover.Content class="w-80 p-4">
 		<div class="mb-2 text-sm font-medium text-foreground">Choisis ton émoticône</div>

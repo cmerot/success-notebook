@@ -1,0 +1,96 @@
+import { hasContent } from '$lib/utils';
+import type { SuperForm } from 'sveltekit-superforms';
+import type { FieldConfig, SectionConfig, FieldState, SectionState } from '$lib/types/form';
+import type { CalendarDate } from '@internationalized/date';
+
+interface UseFormFieldsOptions<T extends Record<string, unknown>> {
+	sectionConfig: SectionConfig;
+	isEditMode: boolean;
+	bindToTime?: boolean;
+	date?: CalendarDate;
+	getSectionEditMode?: (
+		isEditMode: boolean,
+		bindToTime: boolean,
+		date: CalendarDate,
+		sectionName: string
+	) => boolean;
+	formData: T;
+	form: SuperForm<T>;
+}
+
+// Helper to get nested value from form data (pure function, not reactive)
+function getFieldValue<T extends Record<string, unknown>>(formData: T, path: string): unknown {
+	const parts = path.split('.');
+	let value: unknown = formData;
+	for (const part of parts) {
+		value = (value as Record<string, unknown>)?.[part];
+	}
+	return value;
+}
+
+// Build props for a field (pure function, not reactive)
+function buildFieldProps<T extends Record<string, unknown>>(
+	config: FieldConfig,
+	form: SuperForm<T>,
+	isEditMode: boolean
+): Record<string, unknown> {
+	const props: Record<string, unknown> = {
+		form,
+		name: config.path,
+		isEditMode
+	};
+
+	if (config.label) props.label = config.label;
+	if (config.legend) props.legend = config.legend;
+	if (config.maxItems) props.maxItems = config.maxItems;
+
+	return props;
+}
+
+export function useSectionFormFields<T extends Record<string, unknown>>(
+	options: UseFormFieldsOptions<T>
+) {
+	const {
+		sectionConfig,
+		isEditMode,
+		bindToTime = false,
+		date,
+		getSectionEditMode,
+		formData,
+		form
+	} = options;
+
+	// Create section states (REACTIVE: depends on formData and isEditMode)
+	const sections = $derived(
+		Object.entries(sectionConfig).map(([sectionName, section]): SectionState => {
+			const sectionIsEditMode =
+				getSectionEditMode && date
+					? getSectionEditMode(isEditMode, bindToTime, date, sectionName)
+					: isEditMode;
+
+			const fields = section.fields.map((config): FieldState => {
+				const value = getFieldValue(formData, config.path);
+				const fieldHasContent = hasContent(value);
+				const fieldShouldShow = fieldHasContent || sectionIsEditMode;
+
+				return {
+					config,
+					sectionName,
+					hasContent: fieldHasContent,
+					isEditMode: sectionIsEditMode,
+					shouldShow: fieldShouldShow,
+					props: buildFieldProps(config, form, sectionIsEditMode)
+				};
+			});
+
+			return {
+				name: sectionName,
+				title: section.title,
+				icon: section.icon,
+				fields,
+				showContent: fields.some((f) => f.shouldShow)
+			};
+		})
+	);
+	return sections;
+}

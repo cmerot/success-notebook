@@ -1,0 +1,37 @@
+<script lang="ts" generics="T extends Record<string, unknown>, U extends FormPath<T>">
+	import * as Form from '$lib/components/ui/form/index.js';
+	import { type FormPath } from 'sveltekit-superforms';
+	import type * as FormPrimitive from 'formsnap';
+	import { TextField } from '../text';
+	import { EmoticonPicker } from '../emoticon';
+
+	interface Props {
+		/**
+		 * The form object returned from calling `superForm` in your component.
+		 */
+		form: FormPrimitive.FsSuperForm<T>;
+
+		/**
+		 * The path to the field in the form object.
+		 * Should point to a MoodSchemaType field.
+		 */
+		name: U;
+
+		isEditMode: boolean;
+
+		legend?: string;
+		class?: string;
+	}
+
+	let { class: className, form, name, legend, isEditMode }: Props = $props();
+</script>
+
+<Form.Fieldset {form} {name} class={className}>
+	{#if legend}
+		<Form.Legend class="mb-3 text-lg font-semibold text-primary">{legend}</Form.Legend>
+	{/if}
+	<div class="flex items-end space-x-1">
+		<EmoticonPicker {form} name={`${name}.icon` as U} {isEditMode} class="inline" />
+		<TextField {form} name={`${name}.text` as U} {isEditMode} class="flex-1" />
+	</div>
+</Form.Fieldset>
