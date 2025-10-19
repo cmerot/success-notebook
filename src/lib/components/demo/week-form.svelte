@@ -11,6 +11,8 @@
 	import { RoutineFieldset } from '$lib/components/form/routine';
 	import { GoalFieldset } from '$lib/components/form/goal';
 	import { TextField } from '$lib/components/form/text';
+	import { Bed, BedDouble, CalendarCheck, Sun } from 'lucide-svelte';
+	import type { Snippet } from 'svelte';
 
 	interface Props {
 		data: {
@@ -20,19 +22,20 @@
 				isNew: boolean;
 			};
 		};
+		footer?: Snippet;
 	}
 
-	let { data }: Props = $props();
+	let { data, footer }: Props = $props();
 
 	const form = useAutoSaveForm(data.week.form, {
 		schema: weekFormSchema,
 		onSave: (formData) => saveWeekEntry(data.date, formData)
 	});
-	let { enhance: weekEnhance } = form;
+	let { enhance } = form;
 	let isEditMode = $state(false);
 </script>
 
-<form use:weekEnhance>
+<form use:enhance>
 	<Surface.Root class="theme-rose">
 		<Surface.Header>
 			{#snippet title()}
@@ -41,7 +44,7 @@
 						class="inline-flex h-16 w-16 items-center justify-center rounded-full border-2 border-input bg-background text-4xl"
 						>🗓️</span
 					>
-					<h3 class="text-2xl font-bold text-primary">{formatWeekLong(data.date)}</h3>
+					<h2 class="text-2xl font-bold text-primary">{formatWeekLong(data.date)}</h2>
 					<FormStatus {form} class="ml-auto inline-block bg-transparent" />
 					<button
 						type="button"
@@ -57,6 +60,11 @@
 			{/snippet}
 		</Surface.Header>
 		<div class="space-y-4">
+			<h2 class="flex items-center gap-3 text-primary">
+				<span class="text-2xl">Lundi matin</span>
+				<Sun class="size-8" />
+			</h2>
+
 			<Surface.Section variant="outline">
 				<TextField label="Mon mantra du mois" {form} name="start.mantra" {isEditMode} />
 			</Surface.Section>
@@ -80,6 +88,11 @@
 			</Surface.Section>
 		</div>
 		<div class="space-y-4">
+			<h2 class="mt-12 flex items-center gap-3 text-primary">
+				<span class="text-2xl">Dimanche soir</span>
+				<CalendarCheck class="size-8" />
+			</h2>
+
 			<Surface.Section variant="outline">
 				<TextField
 					{form}
@@ -89,5 +102,11 @@
 				/>
 			</Surface.Section>
 		</div>
+
+		{#if footer}
+			<Surface.Footer>
+				{@render footer()}
+			</Surface.Footer>
+		{/if}
 	</Surface.Root>
 </form>

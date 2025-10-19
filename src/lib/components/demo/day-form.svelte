@@ -11,6 +11,8 @@
 	import * as Surface from '$lib/components/surface';
 	import { EmoticonPicker } from '$lib/components/form/emoticon';
 	import { TextField } from '$lib/components/form/text';
+	import { Moon, Sun } from 'lucide-svelte';
+	import type { Snippet } from 'svelte';
 
 	interface Props {
 		data: {
@@ -20,9 +22,10 @@
 				isNew: boolean;
 			};
 		};
+		footer?: Snippet;
 	}
 
-	let { data }: Props = $props();
+	let { data, footer }: Props = $props();
 
 	const form = useAutoSaveForm(data.day.form, {
 		schema: dayFormSchema,
@@ -38,7 +41,7 @@
 			{#snippet title()}
 				<div class="mb-6 flex items-center gap-x-2">
 					<EmoticonPicker {form} name="start.mood.icon" {isEditMode} class="inline" />
-					<h3 class="text-2xl font-bold text-primary">{formatDayLong(data.date)}</h3>
+					<h2 class="text-2xl font-bold text-primary">{formatDayLong(data.date)}</h2>
 					<FormStatus {form} class="ml-auto inline-block bg-transparent" />
 					<button
 						type="button"
@@ -55,6 +58,11 @@
 		</Surface.Header>
 
 		<div class="space-y-4">
+			<h2 class="flex items-center gap-3 text-primary">
+				<span class="text-2xl">Matin</span>
+				<Sun class="size-8" />
+			</h2>
+
 			<Surface.Section variant="outline">
 				<TextField
 					{form}
@@ -82,10 +90,22 @@
 				<TodoFieldset legend="To Do List" {form} name="start.todoList" {isEditMode} />
 			</Surface.Section>
 			<Surface.Section variant="outline">
-				<TodoFieldset legend="To Relax List" {form} name="start.toRelaxList" {isEditMode} />
+				<TodoFieldset
+					legend="To Relax List"
+					{form}
+					name="start.toRelaxList"
+					{isEditMode}
+					maxItems={3}
+				/>
 			</Surface.Section>
 		</div>
+
 		<div class="space-y-4">
+			<h2 class="mt-12 flex items-center gap-3 text-primary">
+				<span class="text-2xl">Soirée</span>
+				<Moon class="size-8" />
+			</h2>
+
 			<Surface.Section variant="outline">
 				<TextField
 					{form}
@@ -98,5 +118,11 @@
 				<TextField {form} label="Émotion(s) soir" name="end.mood.text" {isEditMode} />
 			</Surface.Section>
 		</div>
+
+		{#if footer}
+			<Surface.Footer>
+				{@render footer()}
+			</Surface.Footer>
+		{/if}
 	</Surface.Root>
 </form>
