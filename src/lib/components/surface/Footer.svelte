@@ -9,6 +9,6 @@
 	let { children, class: className = '' }: FooterProps = $props();
 </script>
 
-<footer class="w-full pt-4 mt-auto text-sm {className}">
+<footer class="mt-auto w-full pt-4 text-sm {className}">
 	{@render children()}
 </footer>
