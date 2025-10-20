@@ -7,10 +7,12 @@ This project uses an adapter pattern to support both Tauri (desktop) and Web (br
 ### Storage Adapter (`lib/adapters/storage/`)
 
 Provides persistent key-value storage:
+
 - **Tauri**: Uses `@tauri-apps/plugin-store` for file-based storage
 - **Web**: Uses IndexedDB for browser-based storage
 
 **Usage:**
+
 ```typescript
 import { getStorageAdapter } from '$lib/adapters/storage';
 
@@ -22,23 +24,26 @@ const value = await storage.get('key');
 ### File Operations Adapter (`lib/adapters/file-operations/`)
 
 Provides file download/save and dialog operations:
+
 - **Tauri**: Uses native file system dialogs (`@tauri-apps/plugin-dialog` and `@tauri-apps/plugin-fs`)
 - **Web**: Uses browser download APIs and native `confirm()` dialogs
 
 **Usage:**
+
 ```typescript
 import { getFileOperationsAdapter } from '$lib/adapters/file-operations';
 
 const fileOps = await getFileOperationsAdapter();
 const path = await fileOps.showSaveDialog({ defaultPath: 'file.json' });
 if (path) {
-  await fileOps.writeTextFile(path, content);
+	await fileOps.writeTextFile(path, content);
 }
 ```
 
 ## Runtime Detection
 
 The adapters automatically detect the runtime environment by checking for `window.__TAURI__`:
+
 - If present → Tauri adapter is loaded
 - If absent → Web adapter is loaded
 
@@ -49,12 +54,14 @@ Tauri-specific code is loaded via dynamic imports to prevent bundling Tauri depe
 ## Building for Different Platforms
 
 ### Tauri Build (Desktop)
+
 ```bash
 bun run tauri dev   # Development
 bun run tauri build # Production
 ```
 
 ### Web Build (Browser)
+
 ```bash
 bun run dev     # Development
 bun run build   # Production

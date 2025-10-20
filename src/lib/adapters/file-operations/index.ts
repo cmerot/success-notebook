@@ -7,8 +7,7 @@ import type { FileOperationsAdapter } from './interface';
 function isTauriEnvironment(): boolean {
 	// Check if window.__TAURI_INTERNALS__ exists (Tauri v2) or window.__TAURI__ (Tauri v1)
 	return (
-		typeof window !== 'undefined' &&
-		('__TAURI_INTERNALS__' in window || '__TAURI__' in window)
+		typeof window !== 'undefined' && ('__TAURI_INTERNALS__' in window || '__TAURI__' in window)
 	);
 }
 
@@ -46,5 +45,6 @@ export async function getFileOperationsAdapter(): Promise<FileOperationsAdapter>
 export type {
 	FileOperationsAdapter,
 	SaveDialogOptions,
+	OpenDialogOptions,
 	ConfirmDialogOptions
 } from './interface';

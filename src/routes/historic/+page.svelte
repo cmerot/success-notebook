@@ -1,8 +1,8 @@
 <!-- src/routes/entries/+page.svelte -->
 <script lang="ts">
-	import { clearStore, dumpStore } from '$lib/stores/backend-store';
+	import { clearStore, dumpStore, importStore } from '$lib/stores/backend-store';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import { Download, Trash } from 'lucide-svelte';
+	import { Download, Trash, Upload } from 'lucide-svelte';
 	import { invalidateAll } from '$app/navigation';
 	import type { PageProps } from './$types';
 	import { formatDayLong, formatMonth, formatWeekLong } from '$lib/utils-date';
@@ -44,13 +44,61 @@
 			}
 		})();
 	}
+
+	function importData() {
+		(async () => {
+			const fileOps = await getFileOperationsAdapter();
+			const path = await fileOps.showOpenDialog({
+				filters: [
+					{
+						name: 'JSON',
+						extensions: ['json']
+					}
+				],
+				multiple: false
+			});
+
+			if (path && path.length > 0) {
+				try {
+					const content = await fileOps.readTextFile(path[0]);
+					const entries = JSON.parse(content);
+
+					if (!Array.isArray(entries)) {
+						await fileOps.alert('Le fichier ne contient pas un format valide.', {
+							title: "Erreur d'importation",
+							kind: 'error'
+						});
+						return;
+					}
+
+					const result = await importStore(entries);
+
+					await fileOps.alert(
+						`Importation terminée:\n- ${result.imported} nouvelles entrées\n- ${result.merged} entrées fusionnées\n- ${result.skipped} entrées ignorées`,
+						{
+							title: 'Importation réussie',
+							kind: 'info'
+						}
+					);
+
+					invalidateAll();
+				} catch (error) {
+					await fileOps.alert(`Erreur lors de l'importation: ${error}`, {
+						title: "Erreur d'importation",
+						kind: 'error'
+					});
+				}
+			}
+		})();
+	}
 </script>
 
 <Header title="Historique" variant="sidebar" />
 
 <div class="space-y-8 p-3">
 	<p>
-		<Button onclick={downloadData}>Tout télécharger <Download /></Button>
+		<Button onclick={downloadData}>Télécharger <Download /></Button>
+		<Button onclick={importData}>Importer un fichier<Upload /></Button>
 		<Button variant="destructive" onclick={clearData}>Tout supprimer <Trash /></Button>
 	</p>
 	<ul>

@@ -23,6 +23,96 @@ export async function dumpStore() {
 	return await storage.entries();
 }
 
+// Helper type guard for objects with text property
+function hasTextProperty(value: unknown): value is { text: unknown } {
+	return value !== null && typeof value === 'object' && 'text' in value;
+}
+
+// Helper function to merge two entries, preferring non-empty values from the new entry
+function mergeEntries<T>(existing: T, imported: T): T {
+	// If either is null/undefined, return the other
+	if (existing === null || existing === undefined) return imported;
+	if (imported === null || imported === undefined) return existing;
+
+	// For strings, prefer non-empty imported value
+	if (typeof existing === 'string' && typeof imported === 'string') {
+		return imported.trim() !== '' ? imported : existing;
+	}
+
+	// For arrays, merge and deduplicate
+	if (Array.isArray(existing) && Array.isArray(imported)) {
+		const merged = [...existing];
+		for (const item of imported) {
+			// For objects with text property, check for duplicates
+			if (hasTextProperty(item)) {
+				const itemText = item.text;
+				const existingItem = merged.find((m) => {
+					return hasTextProperty(m) && m.text === itemText;
+				});
+				if (!existingItem && !isEntryEmpty(item)) {
+					merged.push(item);
+				}
+			} else if (!isEntryEmpty(item) && !merged.includes(item)) {
+				merged.push(item);
+			}
+		}
+		return merged as T;
+	}
+
+	// For objects, merge recursively
+	if (existing && typeof existing === 'object' && imported && typeof imported === 'object') {
+		const merged = { ...existing } as Record<string, unknown>;
+		for (const [key, value] of Object.entries(imported as Record<string, unknown>)) {
+			if (key in merged) {
+				merged[key] = mergeEntries(merged[key], value);
+			} else {
+				merged[key] = value;
+			}
+		}
+		return merged as T;
+	}
+
+	// For other types, prefer imported value if not empty
+	return !isEntryEmpty(imported) ? imported : existing;
+}
+
+export async function importStore(
+	entries: [string, DayFormType | WeekFormType | MonthFormType][]
+): Promise<{ imported: number; merged: number; skipped: number }> {
+	const storage = await getStorage();
+	let imported = 0;
+	let merged = 0;
+	let skipped = 0;
+
+	for (const [key, value] of entries) {
+		// Skip non-entry keys or invalid entries
+		if (
+			typeof key !== 'string' ||
+			(!key.startsWith('day:') && !key.startsWith('week:') && !key.startsWith('month:')) ||
+			isEntryEmpty(value)
+		) {
+			skipped++;
+			continue;
+		}
+
+		const existing = await storage.get<typeof value>(key);
+
+		if (existing) {
+			// Merge with existing entry
+			const mergedEntry = mergeEntries(existing, value);
+			await storage.set(key, mergedEntry);
+			merged++;
+		} else {
+			// Import as new entry
+			await storage.set(key, value);
+			imported++;
+		}
+	}
+
+	await storage.save();
+	return { imported, merged, skipped };
+}
+
 //
 // Load API
 //
