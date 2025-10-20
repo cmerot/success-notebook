@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Header from '$lib/components/layout/header.svelte';
-	import { Daily, DayForm, MonthForm, WeekForm } from '$lib/components/notebook';
+	import { Notebook, DayForm, MonthForm, WeekForm } from '$lib/components/notebook';
 	import { formatDay, formatMonth, formatWeek } from '$lib/utils-date';
 	import type { PageProps } from './$types';
 	import { goto } from '$app/navigation';
@@ -33,7 +33,7 @@
 		<Header title="Carnet de succès du {formatDay(date)}" variant="sidebar" />
 	{/if}
 
-	<Daily {data} />
+	<Notebook {data} />
 {/if}
 {#snippet nav()}
 	<nav>

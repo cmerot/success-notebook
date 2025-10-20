@@ -2,8 +2,8 @@
 	import * as Form from '$lib/components/ui/form/index.js';
 	import { type FormPath } from 'sveltekit-superforms';
 	import type * as FormPrimitive from 'formsnap';
-	import { TextField } from '../text';
-	import { EmoticonPicker } from '../emoticon';
+	import { TextField } from '$lib/components/form/text';
+	import { EmoticonField } from '$lib/components/form/emoticon';
 
 	interface Props {
 		/**
@@ -31,7 +31,7 @@
 		<Form.Legend class="mb-3 text-lg font-semibold text-primary">{legend}</Form.Legend>
 	{/if}
 	<div class="flex items-end space-x-1">
-		<EmoticonPicker {form} name={`${name}.icon` as U} {isEditMode} class="inline" />
+		<EmoticonField {form} name={`${name}.icon` as U} {isEditMode} class="inline" />
 		<TextField {form} name={`${name}.text` as U} {isEditMode} class="flex-1" />
 	</div>
 </Form.Fieldset>

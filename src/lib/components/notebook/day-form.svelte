@@ -9,9 +9,10 @@
 	import { formatDayLong, getDaySectionEditMode } from '$lib/utils-date';
 	import { saveDayEntry } from '$lib/stores/backend-store';
 	import * as Surface from '$lib/components/surface';
-	import { EmoticonPicker } from '$lib/components/form/emoticon';
+	import { EmoticonField } from '$lib/components/form/emoticon';
 	import type { Snippet } from 'svelte';
 	import Section from './section.svelte';
+	import EmoticonsField from '../form/emoticon/emoticons-field.svelte';
 
 	interface Props {
 		data: {
@@ -61,7 +62,7 @@
 		<Surface.Header>
 			{#snippet title()}
 				<div class="mb-6 flex items-center gap-x-2">
-					<EmoticonPicker {form} name="start.mood.icon" class="inline" />
+					<EmoticonsField {form} startName="start.mood.icon" endName="end.mood.icon" />
 					<h2 class="text-2xl font-bold text-primary">{formatDayLong(data.date)}</h2>
 					<FormStatus
 						{form}

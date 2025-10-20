@@ -1,4 +1,5 @@
-import EmoticonChooser from './emoticon-chooser.svelte';
-import EmoticonPicker from './emoticon-picker.svelte';
+import EmoticonPopover from './emoticon-popover.svelte';
+import EmoticonField from './emoticon-field.svelte';
+import Emoticons from './emoticons.svelte';
 
-export { EmoticonChooser, EmoticonPicker };
+export { EmoticonPopover, EmoticonField, Emoticons };

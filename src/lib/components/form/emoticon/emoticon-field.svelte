@@ -1,6 +1,6 @@
 <script lang="ts" generics="T extends Record<string, unknown>, U extends FormPath<T>">
 	import * as Form from '$lib/components/ui/form/index.js';
-	import EmoticonChooser from './emoticon-chooser.svelte';
+	import EmoticonChooser from './emoticon-popover.svelte';
 	import type { Writable } from 'svelte/store';
 	import { fieldProxy, type FormPath } from 'sveltekit-superforms';
 	import type * as FormPrimitive from 'formsnap';
