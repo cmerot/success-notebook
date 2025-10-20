@@ -40,19 +40,19 @@
 	].join('/');
 </script>
 
-<DayForm {data} isEditMode bindToTime>
+<DayForm {data} bindToTime isEditable isEditMode={data.day.isNew}>
 	{#snippet footer()}
 		<Button href={dayHref} class="w-full">Ouvrir →</Button>
 	{/snippet}
 </DayForm>
 
-<WeekForm {data} isEditMode bindToTime>
+<WeekForm {data} bindToTime isEditable isEditMode={data.week.isNew}>
 	{#snippet footer()}
 		<Button href={weekHref} class="w-full">Ouvrir →</Button>
 	{/snippet}
 </WeekForm>
 
-<MonthForm {data} isEditMode bindToTime>
+<MonthForm {data} bindToTime isEditable isEditMode={data.month.isNew}>
 	{#snippet footer()}
 		<Button href={monthHref} class="w-full">Ouvrir →</Button>
 	{/snippet}
