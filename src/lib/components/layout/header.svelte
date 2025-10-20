@@ -16,13 +16,13 @@
 	const { title, children, nav, class: className, variant = 'default' }: Props = $props();
 
 	const variants = {
-		default: 'sticky top-0 z-50 overflow-x-hidden bg-primary text-primary-foreground',
-		sidebar: 'sticky top-0 z-50 overflow-x-hidden border-b bg-sidebar text-sidebar-foreground'
+		default: 'sticky z-50 overflow-x-hidden bg-primary text-primary-foreground',
+		sidebar: 'sticky z-50 overflow-x-hidden border-b bg-sidebar text-sidebar-foreground'
 	};
 </script>
 
 <!-- Fixed Navigation Header -->
-<header class={cn(variants[variant], className)}>
+<header class={cn(variants[variant], className)} style="top: env(safe-area-inset-top)">
 	<div class="flex items-center gap-x-3 p-3">
 		{#if nav}
 			{@render nav()}
