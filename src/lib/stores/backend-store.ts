@@ -195,11 +195,6 @@ export function isEntryEmpty<T>(entry: T): boolean {
 
 	// For objects
 	if (typeof entry === 'object') {
-		// Objects with a 'text' property are empty if text is empty
-		if ('text' in entry) {
-			return typeof entry.text === 'string' && entry.text.trim() === '';
-		}
-
 		// Objects are empty if all their values are empty
 		return Object.values(entry).every((value) => isEntryEmpty(value));
 	}
