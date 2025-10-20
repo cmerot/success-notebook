@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">success-notebook</string>
-    <string name="main_activity_title">success-notebook</string>
+    <string name="app_name">Carnet de succès</string>
+    <string name="main_activity_title">Carnet de succès</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.co.success_notebook
+package com.themarqueeblink.co.success_notebook
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge

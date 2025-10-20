@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "success-notebook",
+  "productName": "Carnet de succès",
   "version": "0.1.0",
-  "identifier": "com.co.success-notebook",
+  "identifier": "com.themarqueeblink.co.success-notebook",
   "build": {
     "beforeDevCommand": "bun run dev",
     "devUrl": "http://localhost:1420",
@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "success-notebook",
+        "title": "Carnet de succès",
         "width": 800,
         "height": 600,
         "fullscreen": false,

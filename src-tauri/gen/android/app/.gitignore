@@ -1,4 +1,4 @@
-/src/main/java/com/co/success_notebook/generated
+/src/main/java/com/themarqueeblink/co/success_notebook/generated
 /src/main/jniLibs/**/*.so
 /src/main/assets/tauri.conf.json
 /tauri.build.gradle.kts
