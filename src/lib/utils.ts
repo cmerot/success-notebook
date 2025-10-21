@@ -12,21 +12,39 @@ export type WithoutChildren<T> = T extends { children?: any } ? Omit<T, 'childre
 export type WithoutChildrenOrChild<T> = WithoutChildren<WithoutChild<T>>;
 export type WithElementRef<T, U extends HTMLElement = HTMLElement> = T & { ref?: U | null };
 
+/**
+ * Creates a debounced function that delays invoking func until after wait milliseconds
+ * have elapsed since the last time the debounced function was invoked.
+ *
+ * @param func - The function to debounce
+ * @param wait - The number of milliseconds to delay
+ * @returns The debounced function with a cancel method
+ */
 export function debounce<T extends (...args: unknown[]) => void>(
 	func: T,
 	wait: number
-): (...args: Parameters<T>) => void {
+): ((...args: Parameters<T>) => void) & { cancel: () => void } {
 	let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
-	return function (...args: Parameters<T>) {
+	const debounced = function (...args: Parameters<T>) {
 		if (timeoutId) {
 			clearTimeout(timeoutId);
 		}
 
 		timeoutId = setTimeout(() => {
+			timeoutId = undefined;
 			func(...args);
 		}, wait);
 	};
+
+	debounced.cancel = () => {
+		if (timeoutId) {
+			clearTimeout(timeoutId);
+			timeoutId = undefined;
+		}
+	};
+
+	return debounced;
 }
 
 export function fillArray<T>(source: T[], seed: () => T, length: number): T[] {
@@ -36,16 +54,6 @@ export function fillArray<T>(source: T[], seed: () => T, length: number): T[] {
 	}
 	return filled;
 }
-
-export const toggleSection = (event: MouseEvent) => {
-	const target = event.target as HTMLElement;
-	const section = target.closest('[data-section]') as HTMLElement;
-	if (!section) return;
-
-	const currentMode = section.getAttribute('data-edit-mode');
-	const newMode = currentMode === 'edit' ? 'view' : 'edit';
-	section.setAttribute('data-edit-mode', newMode);
-};
 
 // Helper function to check if a field has content
 export const hasContent = (value: unknown): boolean => {

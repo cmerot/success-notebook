@@ -1,6 +1,7 @@
 import { getStorageAdapter, type StorageAdapter } from '$lib/adapters/storage';
 import { startOfWeek, type CalendarDate, startOfMonth, parseDate } from '@internationalized/date';
 import type { DayFormType, WeekFormType, MonthFormType } from '$lib/schemas';
+import { hasContent } from '$lib/utils.js';
 
 // Initialize the storage adapter - automatically selects Tauri or Web implementation
 const storagePromise = getStorageAdapter();
@@ -49,10 +50,10 @@ function mergeEntries<T>(existing: T, imported: T): T {
 				const existingItem = merged.find((m) => {
 					return hasTextProperty(m) && m.text === itemText;
 				});
-				if (!existingItem && !isEntryEmpty(item)) {
+				if (!existingItem && hasContent(item)) {
 					merged.push(item);
 				}
-			} else if (!isEntryEmpty(item) && !merged.includes(item)) {
+			} else if (hasContent(item) && !merged.includes(item)) {
 				merged.push(item);
 			}
 		}
@@ -73,7 +74,7 @@ function mergeEntries<T>(existing: T, imported: T): T {
 	}
 
 	// For other types, prefer imported value if not empty
-	return !isEntryEmpty(imported) ? imported : existing;
+	return hasContent(imported) ? imported : existing;
 }
 
 export async function importStore(
@@ -89,7 +90,7 @@ export async function importStore(
 		if (
 			typeof key !== 'string' ||
 			(!key.startsWith('day:') && !key.startsWith('week:') && !key.startsWith('month:')) ||
-			isEntryEmpty(value)
+			!hasContent(value)
 		) {
 			skipped++;
 			continue;
@@ -175,34 +176,6 @@ function cleanEntry<T>(entry: T): T {
 	return entry;
 }
 
-// Helper function to check if an entry is empty (has no meaningful content)
-export function isEntryEmpty<T>(entry: T): boolean {
-	// Null or undefined is empty
-	if (entry === null || entry === undefined) {
-		return true;
-	}
-
-	// Empty string (after trim) is empty
-	if (typeof entry === 'string') {
-		return entry.trim() === '';
-	}
-
-	// Empty array is empty
-	if (Array.isArray(entry)) {
-		// Array is empty if it has no items, or all items are empty
-		return entry.length === 0 || entry.every((item) => isEntryEmpty(item));
-	}
-
-	// For objects
-	if (typeof entry === 'object') {
-		// Objects are empty if all their values are empty
-		return Object.values(entry).every((value) => isEntryEmpty(value));
-	}
-
-	// Other types (numbers, booleans) are not empty
-	return false;
-}
-
 export async function saveDayEntry(date: CalendarDate, entry: DayFormType): Promise<void> {
 	const storage = await getStorage();
 	const key = `day:${date.toString()}`;
@@ -284,5 +257,5 @@ export async function getAllEntries(): Promise<
 	});
 
 	// Filter out empty entries
-	return entries.filter((e) => !isEntryEmpty(e.entry));
+	return entries.filter((e) => hasContent(e.entry));
 }

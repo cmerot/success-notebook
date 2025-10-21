@@ -3,12 +3,8 @@ import type { PageLoad } from './$types';
 import { CalendarDate, startOfMonth, startOfWeek } from '@internationalized/date';
 import { zod4 } from 'sveltekit-superforms/adapters';
 import { dayFormSchema, monthFormSchema, weekFormSchema } from '$lib/schemas';
-import {
-	isEntryEmpty,
-	loadDayEntry,
-	loadMonthEntry,
-	loadWeekEntry
-} from '$lib/stores/backend-store';
+import { loadDayEntry, loadMonthEntry, loadWeekEntry } from '$lib/stores/backend-store';
+import { hasContent } from '$lib/utils';
 import { error } from '@sveltejs/kit';
 import {
 	getDaySectionEditMode,
@@ -95,19 +91,19 @@ export const load: PageLoad = async ({ params, url }) => {
 	// If the entry is new, or at least one section
 	// is in the time window of editing, return true
 	const dayIsEditMode =
-		isEntryEmpty(dayEntry) ||
-		(isEntryEmpty(dayEntry?.start) && getDaySectionEditMode(true, true, date, 'start')) ||
-		(isEntryEmpty(dayEntry?.end) && getDaySectionEditMode(true, true, date, 'end'));
+		!hasContent(dayEntry) ||
+		(!hasContent(dayEntry?.start) && getDaySectionEditMode(true, true, date, 'start')) ||
+		(!hasContent(dayEntry?.end) && getDaySectionEditMode(true, true, date, 'end'));
 
 	const weekIsEditMode =
-		isEntryEmpty(monthEntry) ||
-		(isEntryEmpty(weekEntry?.start) && getWeekSectionEditMode(true, true, date, 'start')) ||
-		(isEntryEmpty(weekEntry?.end) && getWeekSectionEditMode(true, true, date, 'end'));
+		!hasContent(monthEntry) ||
+		(!hasContent(weekEntry?.start) && getWeekSectionEditMode(true, true, date, 'start')) ||
+		(!hasContent(weekEntry?.end) && getWeekSectionEditMode(true, true, date, 'end'));
 
 	const monthIsEditMode =
-		isEntryEmpty(monthEntry) ||
-		(isEntryEmpty(monthEntry?.start) && getMonthSectionEditMode(true, true, date, 'start')) ||
-		(isEntryEmpty(monthEntry?.end) && getMonthSectionEditMode(true, true, date, 'end'));
+		!hasContent(monthEntry) ||
+		(!hasContent(monthEntry?.start) && getMonthSectionEditMode(true, true, date, 'start')) ||
+		(!hasContent(monthEntry?.end) && getMonthSectionEditMode(true, true, date, 'end'));
 
 	return {
 		date,

@@ -2,8 +2,7 @@
 	import type { CalendarDate } from '@internationalized/date';
 	import type { SuperValidated } from 'sveltekit-superforms';
 	import type { ZodType } from 'zod';
-	import { useAutoSaveForm } from '$lib/hooks/use-auto-save-form.svelte';
-	import { useSectionFormFields } from '$lib/hooks/use-section-form-fields.svelte';
+	import { superFormAutoSave, deriveSectionStates } from '$lib/utils/form.svelte';
 	import { FormStatus } from '$lib/components/form/status';
 	import * as Surface from '$lib/components/surface';
 	import type { Snippet } from 'svelte';
@@ -28,7 +27,7 @@
 		) => boolean;
 		bindToTime?: boolean;
 		isEditMode?: boolean;
-		emoticons?: Snippet<[{ form: ReturnType<typeof useAutoSaveForm<T>> }]>;
+		emoticons?: Snippet<[{ form: ReturnType<typeof superFormAutoSave<T>> }]>;
 		footer?: Snippet;
 	}
 
@@ -45,15 +44,15 @@
 		footer
 	}: Props = $props();
 
-	const form = useAutoSaveForm(data.form, {
+	const form = superFormAutoSave(data.form, {
 		schema,
 		onSave
 	});
 	let { form: formData, enhance } = form;
 
-	// Use the composable hook to manage all field state
+	// Derive section states to manage all field state
 	const { sections, hasContent, isEditable } = $derived(
-		useSectionFormFields({
+		deriveSectionStates({
 			sectionConfig: config.sections,
 			isEditMode,
 			bindToTime,
