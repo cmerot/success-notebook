@@ -174,8 +174,11 @@ export const getWeekSectionEditMode = (
 	const dateIsStartOfWeek = startOfWeek(date, navigator.language).compare(date) === 0;
 	const dateIsEndOfWeek = endOfWeek(date, navigator.language).compare(date) === 0;
 
-	if (sectionName === 'start') return dateIsStartOfWeek;
-	if (sectionName === 'end') return dateIsEndOfWeek;
+	const hour = new Date().getHours();
+	const isStartOfDay = hour < 12;
+
+	if (sectionName === 'start') return dateIsStartOfWeek && isStartOfDay;
+	if (sectionName === 'end') return dateIsEndOfWeek && !isStartOfDay;
 
 	return isEditMode;
 };
@@ -189,7 +192,6 @@ export const getMonthSectionEditMode = (
 ): boolean => {
 	if (!isEditMode) return false;
 	if (!bindToTime) return isEditMode;
-
 	// Time-based logic: turn on editing mode:
 	// - today is start of week
 	// - today is end of week
