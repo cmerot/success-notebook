@@ -76,6 +76,7 @@
 }
 
 @theme inline {
+	--breakpoint-xs: 24rem;
 	--radius-sm: calc(var(--radius) - 4px);
 	--radius-md: calc(var(--radius) - 2px);
 	--radius-lg: var(--radius);
