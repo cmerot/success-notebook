@@ -31,7 +31,7 @@
 		<Form.Legend class="mb-3 text-lg font-semibold text-primary">{legend}</Form.Legend>
 	{/if}
 	<div class="flex items-end space-x-1">
-		<EmoticonField {form} name={`${name}.icon` as U} {isEditMode} class="inline" />
+		<EmoticonField {form} name={`${name}.icon` as U} {isEditMode} size="sm" />
 		<TextField {form} name={`${name}.text` as U} {isEditMode} class="flex-1" />
 	</div>
 </Form.Fieldset>

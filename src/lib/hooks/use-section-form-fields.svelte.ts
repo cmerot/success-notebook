@@ -63,6 +63,13 @@ export function useSectionFormFields<T extends Record<string, unknown>>(
 	// Create section states (REACTIVE: depends on formData and isEditMode)
 	const sections = $derived(
 		Object.entries(sectionConfig).map(([sectionName, section]): SectionState => {
+			// Compute if section WOULD be editable (isEditMode=true scenario)
+			const sectionIsEditable =
+				getSectionEditMode && date
+					? getSectionEditMode(true, bindToTime, date, sectionName)
+					: true;
+
+			// Compute actual current edit mode
 			const sectionIsEditMode =
 				getSectionEditMode && date
 					? getSectionEditMode(isEditMode, bindToTime, date, sectionName)
@@ -88,7 +95,8 @@ export function useSectionFormFields<T extends Record<string, unknown>>(
 				title: section.title,
 				icon: section.icon,
 				fields,
-				showContent: fields.some((f) => f.shouldShow)
+				showContent: fields.some((f) => f.shouldShow),
+				isEditable: sectionIsEditable
 			};
 		})
 	);

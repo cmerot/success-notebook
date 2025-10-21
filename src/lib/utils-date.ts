@@ -11,42 +11,129 @@ import {
 
 const locale = navigator.language;
 
-export function formatDayLong(date: CalendarDate): string {
-	return new DateFormatter(locale, {
-		dateStyle: 'full'
-	}).format(date.toDate(getLocalTimeZone()));
+export type BreakpointSize = 'numeric' | 'sm' | 'md' | 'lg';
+
+export type FormatOptions = {
+	size?: BreakpointSize;
+};
+
+// Helper to normalize options
+function normalizeOptions(options?: BreakpointSize | FormatOptions): { size: BreakpointSize } {
+	if (typeof options === 'string') {
+		return { size: options };
+	}
+	return { size: options?.size ?? 'sm' };
 }
 
-export function formatDay(date: CalendarDate): string {
-	return new DateFormatter(locale, {
-		dateStyle: 'short'
-	}).format(date.toDate(getLocalTimeZone()));
+// New size-based formatters
+
+export function formatDay(
+	date: CalendarDate,
+	options?: BreakpointSize | FormatOptions
+): string {
+	const { size } = normalizeOptions(options);
+	const jsDate = date.toDate(getLocalTimeZone());
+
+	switch (size) {
+		case 'numeric':
+			// "21/10"
+			return new DateFormatter(locale, {
+				day: 'numeric',
+				month: 'numeric'
+			}).format(jsDate);
+		case 'sm':
+			// "mardi 21 oct."
+			return new DateFormatter(locale, {
+				weekday: 'long',
+				day: 'numeric',
+				month: 'short'
+			}).format(jsDate);
+		case 'md':
+		case 'lg':
+			// "mardi 21 octobre"
+			return new DateFormatter(locale, {
+				weekday: 'long',
+				day: 'numeric',
+				month: 'long'
+			}).format(jsDate);
+	}
+}
+
+export function formatWeek(
+	date: CalendarDate,
+	options?: BreakpointSize | FormatOptions
+): string {
+	const { size } = normalizeOptions(options);
+	const start = startOfWeek(date, locale);
+	const end = endOfWeek(date, locale);
+	const startDate = start.toDate(getLocalTimeZone());
+	const endDate = end.toDate(getLocalTimeZone());
+
+	switch (size) {
+		case 'numeric':
+			// "20-26/10"
+			return new DateFormatter(locale, {
+				day: 'numeric',
+				month: 'numeric'
+			}).formatRange(startDate, endDate);
+		case 'sm':
+			// "20-26 oct."
+			return new DateFormatter(locale, {
+				day: 'numeric',
+				month: 'short'
+			}).formatRange(startDate, endDate);
+		case 'md':
+			// "20-26 octobre"
+			return new DateFormatter(locale, {
+				day: 'numeric',
+				month: 'long'
+			}).formatRange(startDate, endDate);
+		case 'lg':
+			// "lundi 20 - dimanche 26 octobre"
+			return new DateFormatter(locale, {
+				weekday: 'long',
+				day: 'numeric',
+				month: 'long'
+			}).formatRange(startDate, endDate);
+	}
+}
+
+export function formatMonth(
+	date: CalendarDate,
+	options?: BreakpointSize | FormatOptions
+): string {
+	const { size } = normalizeOptions(options);
+	const jsDate = date.toDate(getLocalTimeZone());
+
+	switch (size) {
+		case 'numeric':
+			// "10/2025"
+			return new DateFormatter(locale, {
+				month: 'numeric',
+				year: 'numeric'
+			}).format(jsDate);
+		case 'sm':
+			// "oct."
+			return new DateFormatter(locale, {
+				month: 'short'
+			}).format(jsDate);
+		case 'md':
+		case 'lg':
+			// "octobre"
+			return new DateFormatter(locale, {
+				month: 'long'
+			}).format(jsDate);
+	}
+}
+
+// Backward compatibility - keep "long" functions
+
+export function formatDayLong(date: CalendarDate): string {
+	return formatDay(date, 'lg');
 }
 
 export function formatWeekLong(date: CalendarDate): string {
-	const start = startOfWeek(date, locale);
-	const end = endOfWeek(date, locale);
-
-	return new DateFormatter(locale, {
-		dateStyle: 'full'
-	}).formatRange(start.toDate(getLocalTimeZone()), end.toDate(getLocalTimeZone()));
-}
-
-export function formatWeek(date: CalendarDate): string {
-	const start = startOfWeek(date, locale);
-	const end = endOfWeek(date, locale);
-
-	return new DateFormatter(locale, {
-		month: 'numeric',
-		day: 'numeric'
-	}).formatRange(start.toDate(getLocalTimeZone()), end.toDate(getLocalTimeZone()));
-}
-
-export function formatMonth(date: CalendarDate): string {
-	return new DateFormatter(locale, {
-		year: 'numeric',
-		month: 'long'
-	}).format(date.toDate(getLocalTimeZone()));
+	return formatWeek(date, 'lg');
 }
 
 // Function to determine if a section is editable based on time

@@ -33,6 +33,7 @@ export interface SectionState {
 	icon: typeof Component;
 	fields: FieldState[];
 	showContent: boolean;
+	isEditable: boolean;
 }
 
 export interface FormConfig {

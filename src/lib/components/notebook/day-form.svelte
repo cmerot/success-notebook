@@ -6,13 +6,12 @@
 	import { useSectionFormFields } from '$lib/hooks/use-section-form-fields.svelte';
 	import { dayConfig } from '$lib/components/notebook/config';
 	import { FormStatus } from '$lib/components/form/status';
-	import { formatDayLong, getDaySectionEditMode } from '$lib/utils-date';
+	import { formatDay, getDaySectionEditMode } from '$lib/utils-date';
 	import { saveDayEntry } from '$lib/stores/backend-store';
 	import * as Surface from '$lib/components/surface';
-	import { EmoticonField } from '$lib/components/form/emoticon';
 	import type { Snippet } from 'svelte';
 	import Section from './section.svelte';
-	import EmoticonsField from '../form/emoticon/emoticons-field.svelte';
+	import { EmoticonsField } from '$lib/components/form/emoticon';
 
 	interface Props {
 		data: {
@@ -24,17 +23,10 @@
 		};
 		bindToTime?: boolean;
 		isEditMode?: boolean;
-		isEditable?: boolean;
 		footer?: Snippet;
 	}
 
-	let {
-		data,
-		bindToTime = false,
-		isEditMode = $bindable(false),
-		isEditable = $bindable(false),
-		footer
-	}: Props = $props();
+	let { data, bindToTime = false, isEditMode = $bindable(false), footer }: Props = $props();
 
 	const form = useAutoSaveForm(data.day.form, {
 		schema: dayFormSchema,
@@ -62,23 +54,27 @@
 		<Surface.Header>
 			{#snippet title()}
 				<div class="mb-6 flex items-center gap-x-2">
-					<EmoticonsField {form} startName="start.mood.icon" endName="end.mood.icon" />
-					<h2 class="text-2xl font-bold text-primary">{formatDayLong(data.date)}</h2>
+					<EmoticonsField {form} startName="start.mood.icon" endName="end.mood.icon" size="md" />
+					<h2 class="mr-auto text-2xl font-bold text-primary">
+						<span class="xs:hidden">{formatDay(data.date)}</span>
+						<span class="hidden xs:block">{formatDay(data.date, 'md')}</span>
+					</h2>
 					<FormStatus
 						{form}
-						class="ml-auto inline-block bg-transparent"
 						bind:isEditMode
-						{isEditable}
+						isEditable={sections.some((section) => section.isEditable)}
 					/>
 				</div>
 			{/snippet}
 		</Surface.Header>
 
-		{#each sections as section}
-			{#if section.showContent}
-				<Section title={section.title} icon={section.icon} fields={section.fields} />
-			{/if}
-		{/each}
+		<div class="space-y-12">
+			{#each sections as section}
+				{#if section.showContent}
+					<Section title={section.title} icon={section.icon} fields={section.fields} />
+				{/if}
+			{/each}
+		</div>
 
 		{#if !sections.some((section) => section.showContent)}
 			<div>

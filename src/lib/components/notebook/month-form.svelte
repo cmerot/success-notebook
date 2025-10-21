@@ -22,17 +22,10 @@
 		};
 		bindToTime?: boolean;
 		isEditMode?: boolean;
-		isEditable?: boolean;
 		footer?: Snippet;
 	}
 
-	let {
-		data,
-		bindToTime = false,
-		isEditMode = $bindable(false),
-		isEditable = false,
-		footer
-	}: Props = $props();
+	let { data, bindToTime = false, isEditMode = $bindable(false), footer }: Props = $props();
 
 	const form = useAutoSaveForm(data.month.form, {
 		schema: monthFormSchema,
@@ -63,22 +56,23 @@
 						class="inline-flex h-16 w-16 items-center justify-center rounded-full border-2 border-input bg-background text-4xl"
 						>{monthConfig.emoji}</span
 					>
-					<h2 class="text-2xl font-bold text-primary">{formatMonth(data.date)}</h2>
+					<h2 class="text-2xl font-bold text-primary">{formatMonth(data.date, 'md')}</h2>
 					<FormStatus
 						{form}
-						class="ml-auto inline-block bg-transparent"
 						bind:isEditMode
-						{isEditable}
+						isEditable={sections.some((section) => section.isEditable)}
 					/>
 				</div>
 			{/snippet}
 		</Surface.Header>
 
-		{#each sections as section}
-			{#if section.showContent}
-				<Section title={section.title} icon={section.icon} fields={section.fields} />
-			{/if}
-		{/each}
+		<div class="space-y-12">
+			{#each sections as section}
+				{#if section.showContent}
+					<Section title={section.title} icon={section.icon} fields={section.fields} />
+				{/if}
+			{/each}
+		</div>
 
 		{#if !sections.some((section) => section.showContent)}
 			<div>

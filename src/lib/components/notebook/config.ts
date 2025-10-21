@@ -90,7 +90,7 @@ export const weekConfig: FormConfig = {
 					name: 'mantra',
 					path: 'start.mantra',
 					component: TextField,
-					label: 'Mon mantra du mois'
+					label: 'Mon mantra de la semaine'
 				},
 				{
 					name: 'goals',

@@ -14,7 +14,7 @@
 	<div class="h-20 bg-gradient-to-b from-transparent to-primary/10"></div>
 
 	<!-- Main content with solid background -->
-	<div class="space-y-4 bg-primary/10 px-6">
+	<div class="space-y-4 bg-primary/10 px-2 xs:px-4">
 		{@render children()}
 	</div>
 

@@ -19,13 +19,13 @@
 
 {#if data.period == 'day'}
 	<Header title="Mes succès du quotidien {formatDay(date)}" class="theme-blue" />
-	<DayForm {data} isEditable />
+	<DayForm {data} />
 {:else if data.period == 'week'}
 	<Header title="Mes succès de la semaine {formatWeek(date)}" class="theme-rose" />
-	<WeekForm {data} isEditable />
+	<WeekForm {data} />
 {:else if data.period == 'month'}
 	<Header title="Mes succès du mois de {formatMonth(date)}" class="theme-green" />
-	<MonthForm {data} isEditable />
+	<MonthForm {data} />
 {:else}
 	{#if dateIsToday}
 		<Header title="Carnet de succès" variant="sidebar" {nav} />
