@@ -65,9 +65,7 @@ export function useSectionFormFields<T extends Record<string, unknown>>(
 		Object.entries(sectionConfig).map(([sectionName, section]): SectionState => {
 			// Compute if section WOULD be editable (isEditMode=true scenario)
 			const sectionIsEditable =
-				getSectionEditMode && date
-					? getSectionEditMode(true, bindToTime, date, sectionName)
-					: true;
+				getSectionEditMode && date ? getSectionEditMode(true, bindToTime, date, sectionName) : true;
 
 			// Compute actual current edit mode
 			const sectionIsEditMode =
@@ -100,5 +98,10 @@ export function useSectionFormFields<T extends Record<string, unknown>>(
 			};
 		})
 	);
-	return sections;
+
+	// Compute aggregate values once instead of multiple iterations
+	const anyContent = $derived(sections.some((section) => section.showContent));
+	const anyEditable = $derived(sections.some((section) => section.isEditable));
+
+	return { sections, hasContent: anyContent, isEditable: anyEditable };
 }
