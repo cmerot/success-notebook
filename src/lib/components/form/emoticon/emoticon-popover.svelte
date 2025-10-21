@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as Popover from '$lib/components/ui/popover';
-	import { cn } from '$lib/utils';
+	import { cn } from '$lib/utils/utils';
 	import Emoticon from './emoticon.svelte';
 	import type { EmoticonProps } from './types';
 	import { emoticons } from './emoticons-list';

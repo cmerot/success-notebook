@@ -1,6 +1,6 @@
 <script lang="ts">
 	import EditableTextBare from './editable-text-bare.svelte';
-	import { cn } from '$lib/utils';
+	import { cn } from '$lib/utils/utils';
 
 	interface Props {
 		isEditMode: boolean;

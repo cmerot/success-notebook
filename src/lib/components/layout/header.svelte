@@ -2,7 +2,7 @@
 	import type { Snippet } from 'svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { ArrowLeft } from 'lucide-svelte';
-	import { cn } from '$lib/utils';
+	import { cn } from '$lib/utils/utils';
 
 	interface Props {
 		title: string;

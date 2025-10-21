@@ -5,7 +5,7 @@
 	import { Download, Trash, Upload } from 'lucide-svelte';
 	import { invalidateAll } from '$app/navigation';
 	import type { PageProps } from './$types';
-	import { formatDayLong, formatMonth, formatWeekLong, today } from '$lib/utils-date';
+	import { formatDayLong, formatMonth, formatWeekLong, today } from '$lib/utils/date';
 	import { getFileOperationsAdapter } from '$lib/adapters/file-operations';
 	import Header from '$lib/components/layout/header.svelte';
 

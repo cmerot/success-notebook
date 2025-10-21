@@ -2,7 +2,7 @@
 	import type { FsSuperForm } from 'formsnap';
 	import { z } from 'zod';
 	import { Button } from '$lib/components/ui/button';
-	import { cn } from '$lib/utils';
+	import { cn } from '$lib/utils/utils';
 
 	type InferredType = z.infer<T>;
 

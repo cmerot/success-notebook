@@ -2,7 +2,7 @@
 	import * as Form from '$lib/components/ui/form/index.js';
 	import EditableTextBare from '$lib/components/form/text/editable-text-bare.svelte';
 	import { Badge } from '$lib/components/ui/badge/index.js';
-	import { cn } from '$lib/utils';
+	import { cn } from '$lib/utils/utils';
 	import type { Writable } from 'svelte/store';
 	import { fieldProxy, type FormPath } from 'sveltekit-superforms';
 	import type * as FormPrimitive from 'formsnap';

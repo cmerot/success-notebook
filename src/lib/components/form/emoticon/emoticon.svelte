@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from '$lib/utils';
+	import { cn } from '$lib/utils/utils';
 	import { emoticonSizes } from './emoticon-sizes';
 	import type { EmoticonProps } from './types';
 

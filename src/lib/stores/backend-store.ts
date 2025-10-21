@@ -1,7 +1,7 @@
 import { getStorageAdapter, type StorageAdapter } from '$lib/adapters/storage';
 import { startOfWeek, type CalendarDate, startOfMonth, parseDate } from '@internationalized/date';
 import type { DayFormType, WeekFormType, MonthFormType } from '$lib/schemas';
-import { hasContent } from '$lib/utils.js';
+import { hasContent } from '$lib/utils/utils.js';
 
 // Initialize the storage adapter - automatically selects Tauri or Web implementation
 const storagePromise = getStorageAdapter();

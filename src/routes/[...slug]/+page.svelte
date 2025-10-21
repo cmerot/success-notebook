@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Header from '$lib/components/layout/header.svelte';
 	import { Notebook, DayForm, MonthForm, WeekForm } from '$lib/components/notebook';
-	import { formatDay, formatMonth, formatWeek, today } from '$lib/utils-date';
+	import { formatDay, formatMonth, formatWeek, today } from '$lib/utils/date';
 	import type { PageProps } from './$types';
 	import { goto } from '$app/navigation';
 	import { Button } from '$lib/components/ui/button';

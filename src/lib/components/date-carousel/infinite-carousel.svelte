@@ -2,7 +2,7 @@
 	import type { Snippet } from 'svelte';
 	import { useCarousel, type Slide } from './use-carousel.svelte';
 	import emblaCarouselSvelte from 'embla-carousel-svelte';
-	import { cn } from '$lib/utils';
+	import { cn } from '$lib/utils/utils';
 
 	type Props = {
 		getData: (offset: number) => T;

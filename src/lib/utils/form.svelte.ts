@@ -1,7 +1,7 @@
 import { superForm, type SuperValidated, type SuperForm } from 'sveltekit-superforms';
 import { zod4 } from 'sveltekit-superforms/adapters';
 import { get } from 'svelte/store';
-import { debounce, hasContent } from '$lib/utils';
+import { debounce, hasContent } from '$lib/utils/utils';
 import type { z } from 'zod';
 import type { CalendarDate } from '@internationalized/date';
 import type { FieldConfig, SectionConfig, FieldState, SectionState } from '$lib/types/form';

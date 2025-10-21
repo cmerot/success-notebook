@@ -4,14 +4,14 @@ import { CalendarDate, startOfMonth, startOfWeek } from '@internationalized/date
 import { zod4 } from 'sveltekit-superforms/adapters';
 import { dayFormSchema, monthFormSchema, weekFormSchema } from '$lib/schemas';
 import { loadDayEntry, loadMonthEntry, loadWeekEntry } from '$lib/stores/backend-store';
-import { hasContent } from '$lib/utils';
+import { hasContent } from '$lib/utils/utils';
 import { error } from '@sveltejs/kit';
 import {
 	getDaySectionEditMode,
 	getMonthSectionEditMode,
 	getWeekSectionEditMode,
 	today
-} from '$lib/utils-date';
+} from '$lib/utils/date';
 
 interface Slug {
 	year: number;

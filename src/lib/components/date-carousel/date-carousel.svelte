@@ -12,7 +12,7 @@
 	import { DaySlide, WeekSlide, MonthSlide } from '$lib/components/date-carousel/slides';
 	import { type Slide as SlideType } from '$lib/components/date-carousel/use-carousel.svelte';
 	import { title } from '$lib/stores/frontend-store';
-	import { today } from '$lib/utils-date';
+	import { today } from '$lib/utils/date';
 
 	const baseDate = $state(today);
 

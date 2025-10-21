@@ -7,7 +7,7 @@
 	import * as Surface from '$lib/components/surface';
 	import type { Snippet } from 'svelte';
 	import type { FormConfig } from '$lib/types/form';
-	import type { BreakpointSize, FormatOptions } from '$lib/utils-date';
+	import type { BreakpointSize, FormatOptions } from '$lib/utils/date';
 	import Section from './section.svelte';
 
 	interface Props {

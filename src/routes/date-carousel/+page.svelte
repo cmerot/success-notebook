@@ -2,7 +2,7 @@
 	import Header from '$lib/components/layout/header.svelte';
 	import DateCarousel from '$lib/components/date-carousel/date-carousel.svelte';
 	import { title } from '$lib/stores/frontend-store';
-	import { formatDayLong } from '$lib/utils-date';
+	import { formatDayLong } from '$lib/utils/date';
 	import * as Card from '$lib/components/ui/card';
 	import { Separator } from '$lib/components/ui/separator';
 </script>

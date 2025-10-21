@@ -4,7 +4,7 @@
 	import type { SuperValidated } from 'sveltekit-superforms';
 	import type { Snippet } from 'svelte';
 	import { weekConfig } from '$lib/components/notebook/config';
-	import { formatWeek, getWeekSectionEditMode } from '$lib/utils-date';
+	import { formatWeek, getWeekSectionEditMode } from '$lib/utils/date';
 	import { saveWeekEntry } from '$lib/stores/backend-store';
 	import { Emoticon } from '$lib/components/form/emoticon';
 	import BaseForm from './base-form.svelte';

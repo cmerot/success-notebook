@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as Collapsible from '$lib/components/ui/collapsible/index.js';
 	import type { MonthData } from '$lib/components/date-carousel/utils';
-	import { formatMonth } from '$lib/utils-date';
+	import { formatMonth } from '$lib/utils/date';
 	import EmptyContent from './empty-slide.svelte';
 
 	type Props = {

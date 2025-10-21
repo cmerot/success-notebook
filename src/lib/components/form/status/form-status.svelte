@@ -3,7 +3,7 @@
 	import { z } from 'zod';
 	import FormErrors from './form-errors.svelte';
 	import * as Popover from '$lib/components/ui/popover/index.js';
-	import { cn } from '$lib/utils';
+	import { cn } from '$lib/utils/utils';
 	import { Pencil } from 'lucide-svelte';
 	import { Button } from '$lib/components/ui/button';
 
