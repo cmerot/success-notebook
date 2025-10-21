@@ -3,7 +3,7 @@
 	import { fieldProxy, type FormPath } from 'sveltekit-superforms';
 	import type * as FormPrimitive from 'formsnap';
 	import * as Form from '$lib/components/ui/form/index.js';
-	import EmoticonChooser from './emoticon-popover.svelte';
+	import EmoticonPopover from './emoticon-popover.svelte';
 	import Emoticon from './emoticon.svelte';
 	import type { EmoticonProps } from './types';
 
@@ -30,7 +30,7 @@
 	{#if isEditMode}
 		<Form.Control>
 			{#snippet children({ props })}
-				<EmoticonChooser bind:value={$emoticon} {...props} class={emoticonClass} {...restProps} />
+				<EmoticonPopover bind:value={$emoticon} {...props} class={emoticonClass} {...restProps} />
 			{/snippet}
 		</Form.Control>
 	{:else}

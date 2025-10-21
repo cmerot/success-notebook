@@ -8,7 +8,7 @@
 	import { RotateCcw } from 'lucide-svelte';
 
 	interface Props extends EmoticonProps {
-		label: string;
+		label?: string;
 	}
 
 	let {

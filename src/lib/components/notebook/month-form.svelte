@@ -11,6 +11,7 @@
 	import * as Surface from '$lib/components/surface';
 	import type { Snippet } from 'svelte';
 	import Section from './section.svelte';
+	import Emoticon from '../form/emoticon/emoticon.svelte';
 
 	interface Props {
 		data: {
@@ -52,11 +53,8 @@
 		<Surface.Header>
 			{#snippet title()}
 				<div class="mb-6 flex items-center gap-x-2">
-					<span
-						class="inline-flex h-16 w-16 items-center justify-center rounded-full border-2 border-input bg-background text-4xl"
-						>{monthConfig.emoji}</span
-					>
-					<h2 class="text-2xl font-bold text-primary">{formatMonth(data.date, 'md')}</h2>
+					<Emoticon value={monthConfig.emoji} size="sm" />
+					<h2 class="mr-auto text-2xl font-bold text-primary">{formatMonth(data.date, 'md')}</h2>
 					<FormStatus
 						{form}
 						bind:isEditMode

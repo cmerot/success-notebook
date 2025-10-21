@@ -11,6 +11,7 @@
 	import * as Surface from '$lib/components/surface';
 	import type { Snippet } from 'svelte';
 	import Section from './section.svelte';
+	import { Emoticon } from '../form/emoticon';
 
 	interface Props {
 		data: {
@@ -52,11 +53,8 @@
 		<Surface.Header>
 			{#snippet title()}
 				<div class="mb-6 flex items-center gap-x-2">
-					<span
-						class="inline-flex h-16 w-16 items-center justify-center rounded-full border-2 border-input bg-background text-4xl"
-						>{weekConfig.emoji}</span
-					>
-					<h2 class="text-2xl font-bold text-primary">
+					<Emoticon value={weekConfig.emoji} size="sm" />
+					<h2 class="mr-auto text-2xl font-bold text-primary">
 						<span class="xs:hidden">{formatWeek(data.date)}</span>
 						<span class="hidden xs:block">{formatWeek(data.date, 'md')}</span>
 					</h2>
