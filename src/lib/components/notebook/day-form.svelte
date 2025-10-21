@@ -18,7 +18,6 @@
 			date: CalendarDate;
 			day: {
 				form: SuperValidated<DayFormType>;
-				isNew: boolean;
 			};
 		};
 		bindToTime?: boolean;

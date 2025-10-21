@@ -10,15 +10,15 @@
 			date: CalendarDate;
 			day: {
 				form: SuperValidated<DayFormType>;
-				isNew: boolean;
+				isEditMode: boolean;
 			};
 			week: {
 				form: SuperValidated<WeekFormType>;
-				isNew: boolean;
+				isEditMode: boolean;
 			};
 			month: {
 				form: SuperValidated<MonthFormType>;
-				isNew: boolean;
+				isEditMode: boolean;
 			};
 		};
 	}
@@ -40,19 +40,19 @@
 	].join('/');
 </script>
 
-<DayForm {data} bindToTime isEditMode={data.day.isNew}>
+<DayForm {data} bindToTime isEditMode={data.day.isEditMode}>
 	{#snippet footer()}
 		<Button href={dayHref} class="w-full">Ouvrir →</Button>
 	{/snippet}
 </DayForm>
 
-<WeekForm {data} bindToTime isEditMode={data.week.isNew}>
+<WeekForm {data} bindToTime isEditMode={data.week.isEditMode}>
 	{#snippet footer()}
 		<Button href={weekHref} class="w-full">Ouvrir →</Button>
 	{/snippet}
 </WeekForm>
 
-<MonthForm {data} bindToTime isEditMode={data.month.isNew}>
+<MonthForm {data} bindToTime isEditMode={data.month.isEditMode}>
 	{#snippet footer()}
 		<Button href={monthHref} class="w-full">Ouvrir →</Button>
 	{/snippet}

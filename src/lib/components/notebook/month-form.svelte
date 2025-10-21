@@ -18,7 +18,6 @@
 			date: CalendarDate;
 			month: {
 				form: SuperValidated<MonthFormType>;
-				isNew: boolean;
 			};
 		};
 		bindToTime?: boolean;

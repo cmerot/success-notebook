@@ -18,7 +18,6 @@
 			date: CalendarDate;
 			week: {
 				form: SuperValidated<WeekFormType>;
-				isNew: boolean;
 			};
 		};
 		bindToTime?: boolean;

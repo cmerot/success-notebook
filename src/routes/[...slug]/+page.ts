@@ -10,7 +10,12 @@ import {
 	loadWeekEntry
 } from '$lib/stores/backend-store';
 import { error } from '@sveltejs/kit';
-import { today } from '$lib/utils-date';
+import {
+	getDaySectionEditMode,
+	getMonthSectionEditMode,
+	getWeekSectionEditMode,
+	today
+} from '$lib/utils-date';
 
 interface Slug {
 	year: number;
@@ -87,11 +92,28 @@ export const load: PageLoad = async ({ params, url }) => {
 	const monthEntry = await loadMonthEntry(date);
 	const monthForm = await superValidate(monthEntry, zod4(monthFormSchema));
 
+	// If the entry is new, or at least one section
+	// is in the time window of editing, return true
+	const dayIsEditMode =
+		isEntryEmpty(dayEntry) ||
+		(isEntryEmpty(dayEntry?.start) && getDaySectionEditMode(true, true, date, 'start')) ||
+		(isEntryEmpty(dayEntry?.end) && getDaySectionEditMode(true, true, date, 'end'));
+
+	const weekIsEditMode =
+		isEntryEmpty(monthEntry) ||
+		(isEntryEmpty(weekEntry?.start) && getWeekSectionEditMode(true, true, date, 'start')) ||
+		(isEntryEmpty(weekEntry?.end) && getWeekSectionEditMode(true, true, date, 'end'));
+
+	const monthIsEditMode =
+		isEntryEmpty(monthEntry) ||
+		(isEntryEmpty(monthEntry?.start) && getMonthSectionEditMode(true, true, date, 'start')) ||
+		(isEntryEmpty(monthEntry?.end) && getMonthSectionEditMode(true, true, date, 'end'));
+
 	return {
 		date,
 		period,
-		day: { form: dayForm, isNew: isEntryEmpty(dayEntry) },
-		week: { form: weekForm, isNew: isEntryEmpty(weekEntry) },
-		month: { form: monthForm, isNew: isEntryEmpty(monthEntry) }
+		day: { form: dayForm, isEditMode: dayIsEditMode },
+		week: { form: weekForm, isEditMode: weekIsEditMode },
+		month: { form: monthForm, isEditMode: monthIsEditMode }
 	};
 };
