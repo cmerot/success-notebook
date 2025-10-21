@@ -3,6 +3,7 @@
 	import { fieldProxy, type FormPath } from 'sveltekit-superforms';
 	import type * as FormPrimitive from 'formsnap';
 	import Emoticons from './emoticons.svelte';
+	import type { EmoticonSize } from './emoticon-sizes';
 
 	interface Props {
 		form: FormPrimitive.FsSuperForm<T>;
@@ -10,6 +11,7 @@
 		endName: U;
 		fallback?: string;
 		class?: string;
+		size?: EmoticonSize;
 	}
 
 	let { form, startName, endName, ...restProps }: Props = $props();

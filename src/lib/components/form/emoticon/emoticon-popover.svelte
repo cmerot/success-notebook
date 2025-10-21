@@ -1,89 +1,22 @@
 <script lang="ts">
-	import * as Popover from '$lib/components/ui/popover/index.js';
+	import * as Popover from '$lib/components/ui/popover';
+	import { cn } from '$lib/utils';
+	import Emoticon from './emoticon.svelte';
+	import type { EmoticonProps } from './types';
+	import { emoticons } from './emoticons-list';
+	import { Button } from '$lib/components/ui/button';
+	import { RotateCcw } from 'lucide-svelte';
 
-	interface Props {
-		value?: string;
+	interface Props extends EmoticonProps {
+		label: string;
 	}
 
-	let { value = $bindable('☀️') }: Props = $props();
-
-	const emoticons = [
-		'😊',
-		'😃',
-		'😄',
-		'😁',
-		'😆',
-		'😅',
-		'🤣',
-		'😂',
-		'🙂',
-		'🙃',
-		'😉',
-		'😌',
-		'😍',
-		'🥰',
-		'😘',
-		'😗',
-		'😙',
-		'😚',
-		'😋',
-		'😛',
-		'😝',
-		'😜',
-		'🤪',
-		'🤨',
-		'🧐',
-		'🤓',
-		'😎',
-		'🤩',
-		'🥳',
-		'😏',
-		'😒',
-		'😞',
-		'😔',
-		'😟',
-		'😕',
-		'🙁',
-		'😣',
-		'😖',
-		'😫',
-		'😩',
-		'🥺',
-		'😢',
-		'😭',
-		'😤',
-		'😠',
-		'😡',
-		'🤬',
-		'🤯',
-		'😳',
-		'🥵',
-		'🥶',
-		'😱',
-		'😨',
-		'😰',
-		'😥',
-		'😓',
-		// Weather emoticons
-		'☀️',
-		'🌤️',
-		'⛅',
-		'🌥️',
-		'☁️',
-		'🌦️',
-		'🌧️',
-		'⛈️',
-		'🌩️',
-		'🌨️',
-		'❄️',
-		'🌪️',
-		'🌈',
-		'🌙',
-		'⭐',
-		'🌡️',
-		'💧',
-		'💨'
-	];
+	let {
+		value = $bindable(),
+		label = 'Choisis ton émoticône',
+		class: className,
+		...restProps
+	}: Props = $props();
 
 	let isOpen = $state(false);
 
@@ -91,21 +24,30 @@
 		value = emoticon;
 		isOpen = false;
 	}
+
+	function clearEmoticon() {
+		value = '';
+		isOpen = false;
+	}
 </script>
 
 <Popover.Root bind:open={isOpen}>
-	<Popover.Trigger
-		class={'inline-flex h-16 w-16 cursor-pointer items-center justify-center rounded-full border-2 border-input bg-background text-4xl transition-all hover:border-primary hover:bg-accent'}
-		aria-label="Choisir une émoticône"
-	>
-		{#if value}
+	<Popover.Trigger>
+		<Emoticon
 			{value}
-		{:else}
-			<span class="opacity-50 transition-opacity hover:opacity-100">☀️</span>
-		{/if}
+			class={cn('transition-all hover:border-primary hover:bg-accent', className)}
+			{...restProps}
+		/>
 	</Popover.Trigger>
 	<Popover.Content class="w-80 p-4">
-		<div class="mb-2 text-sm font-medium text-foreground">Choisis ton émoticône</div>
+		<div class="mb-2 flex items-center justify-between">
+			<div class="text-sm font-medium text-foreground">{label}</div>
+			{#if value}
+				<Button variant="ghost" onclick={clearEmoticon} aria-label="Supprimer l'émoticône">
+					<RotateCcw />
+				</Button>
+			{/if}
+		</div>
 		<div class="grid grid-cols-8 gap-2">
 			{#each emoticons as emoticon}
 				<button
