@@ -42,6 +42,7 @@ export interface FormConfig {
 	sections: SectionConfig;
 	emptyState: {
 		title: string;
-		description: string;
+		start: string;
+		end: string;
 	};
 }

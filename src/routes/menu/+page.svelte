@@ -7,8 +7,8 @@
 	// Navigation items
 	const navItems = [
 		{ href: '/', label: "Aujourd'hui" },
-		{ href: '/historic', label: 'Historique' },
-		{ href: '/date-carousel', label: 'Le choix dans la date' }
+		{ href: '/historic', label: 'Historique' }
+		// { href: '/date-carousel', label: 'Le choix dans la date' }
 	];
 
 	function navigate(href: string) {
@@ -31,7 +31,7 @@
 				</Button>
 			</li>
 		{/each}
-		<li class="text-center">
+		<li class="p-4">
 			<hr class="my-4" />
 			<ThemeSelector />
 		</li>

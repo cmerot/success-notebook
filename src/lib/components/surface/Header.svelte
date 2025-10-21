@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { isSnippet } from '$lib/utils/utils';
 	import type { Snippet } from 'svelte';
 
 	interface Props {
@@ -8,11 +9,6 @@
 	}
 
 	let { title, children, class: className = '' }: Props = $props();
-
-	// Helper function to check if title is a snippet
-	const isSnippet = (value: unknown): value is Snippet => {
-		return typeof value === 'function';
-	};
 </script>
 
 <header class="w-full pb-4 {className}">

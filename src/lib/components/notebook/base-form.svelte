@@ -91,8 +91,9 @@
 
 		{#if !hasContent}
 			<div>
-				<h3 class="text-lg font-semibold text-primary/50">{config.emptyState.title}</h3>
-				<p class="text-muted-foreground">{config.emptyState.description}</p>
+				<h3 class="mb-2 text-lg font-semibold text-primary/50">{config.emptyState.title}</h3>
+				<p class="text-muted-foreground">{config.emptyState.start}</p>
+				<p class="text-muted-foreground">{config.emptyState.end}</p>
 			</div>
 		{/if}
 

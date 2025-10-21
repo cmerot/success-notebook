@@ -39,7 +39,8 @@ export function formatDay(date: CalendarDate, options?: BreakpointSize | FormatO
 			// "21/10"
 			return new DateFormatter(locale, {
 				day: 'numeric',
-				month: 'numeric'
+				month: 'numeric',
+				year: 'numeric'
 			}).format(jsDate);
 		case 'sm':
 			// "mardi 21 oct."
@@ -68,11 +69,16 @@ export function formatWeek(date: CalendarDate, options?: BreakpointSize | Format
 
 	switch (size) {
 		case 'numeric':
-			// "20-26/10"
-			return new DateFormatter(locale, {
-				day: 'numeric',
-				month: 'numeric'
-			}).formatRange(startDate, endDate);
+			// "20-26/10/2025"
+			return (
+				new DateFormatter(locale, { day: 'numeric' }).format(startDate) +
+				'-' +
+				new DateFormatter(locale, {
+					day: 'numeric',
+					month: 'numeric',
+					year: 'numeric'
+				}).format(endDate)
+			);
 		case 'sm':
 			// "20-26 oct."
 			return new DateFormatter(locale, {

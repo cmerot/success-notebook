@@ -39,7 +39,7 @@
 			{...restProps}
 		/>
 	</Popover.Trigger>
-	<Popover.Content class="w-80 p-4">
+	<Popover.Content class="w-full p-4" side="top">
 		<div class="mb-2 flex items-center justify-between">
 			<div class="text-sm font-medium text-foreground">{label}</div>
 			{#if value}
@@ -48,12 +48,12 @@
 				</Button>
 			{/if}
 		</div>
-		<div class="grid grid-cols-8 gap-2">
+		<div class="grid max-h-64 grid-cols-8 gap-2 overflow-auto">
 			{#each emoticons as emoticon}
 				<button
 					type="button"
 					onclick={() => selectEmoticon(emoticon)}
-					class="flex h-10 w-10 items-center justify-center rounded-md text-2xl transition-all hover:bg-accent focus:ring-2 focus:ring-ring focus:outline-none"
+					class="flex h-8 w-8 items-center justify-center rounded-md text-2xl transition-all hover:bg-accent focus:ring-2 focus:ring-ring focus:outline-none"
 					aria-label={`Sélectionner ${emoticon}`}
 				>
 					{emoticon}

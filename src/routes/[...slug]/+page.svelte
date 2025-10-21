@@ -6,6 +6,7 @@
 	import { goto } from '$app/navigation';
 	import { Button } from '$lib/components/ui/button';
 	import { Menu } from 'lucide-svelte';
+	import DatePicker from '$lib/components/date-picker/date-picker.svelte';
 
 	let { data }: PageProps = $props();
 	let { date } = data;
@@ -17,20 +18,58 @@
 </script>
 
 {#if data.period == 'day'}
-	<Header title="Mes succès du quotidien {formatDay(date)}" class="theme-blue" />
+	<Header class="theme-blue">
+		{#snippet title()}
+			<h2 class="flex w-full items-center">
+				<span class="text-xl">Succès du quotidien</span>
+				<DatePicker class="ml-auto">
+					<span class="xs:hidden">{date.year}</span>
+					<span class="hidden xs:inline">{formatDay(date, 'numeric')}</span>
+				</DatePicker>
+			</h2>
+		{/snippet}
+	</Header>
+
 	<DayForm {data} />
 {:else if data.period == 'week'}
-	<Header title="Mes succès de la semaine {formatWeek(date)}" class="theme-rose" />
+	<Header class="theme-rose">
+		{#snippet title()}
+			<h2 class="flex w-full items-center">
+				<span class="text-xl">Succès de la semaine</span>
+				<DatePicker class="ml-auto">
+					<span class="xs:hidden">{date.year}</span>
+					<span class="hidden xs:inline">{formatWeek(date, 'numeric')}</span>
+				</DatePicker>
+			</h2>
+		{/snippet}
+	</Header>
 	<WeekForm {data} />
 {:else if data.period == 'month'}
-	<Header title="Mes succès du mois de {formatMonth(date)}" class="theme-green" />
+	<Header class="theme-green">
+		{#snippet title()}
+			<h2 class="flex w-full items-center">
+				<span class="text-xl">Succès du mois</span>
+				<DatePicker class="ml-auto">
+					<span class="xs:hidden">{date.year}</span>
+					<span class="hidden xs:inline">{formatMonth(date, 'numeric')}</span>
+				</DatePicker>
+			</h2>
+		{/snippet}
+	</Header>
+
 	<MonthForm {data} />
 {:else}
-	{#if dateIsToday}
-		<Header title="Carnet de succès" variant="sidebar" {nav} />
-	{:else}
-		<Header title="Carnet de succès du {formatDay(date)}" variant="sidebar" />
-	{/if}
+	<Header variant="sidebar" nav={dateIsToday ? nav : undefined}>
+		{#snippet title()}
+			<h2 class="flex w-full items-center">
+				<span class="text-xl">Carnet de succès</span>
+				<DatePicker class="ml-auto">
+					<span class="xs:hidden">{date.year}</span>
+					<span class="hidden xs:inline">{formatDay(date, 'numeric')}</span>
+				</DatePicker>
+			</h2>
+		{/snippet}
+	</Header>
 
 	<Notebook {data} />
 {/if}

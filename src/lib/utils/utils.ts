@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from 'clsx';
+import type { Snippet } from 'svelte';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
@@ -66,3 +67,8 @@ export const hasContent = (value: unknown): boolean => {
 	}
 	return false;
 };
+
+// Helper function to check if value is a snippet
+export function isSnippet(value: unknown): value is Snippet {
+	return typeof value === 'function';
+}

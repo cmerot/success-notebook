@@ -74,7 +74,8 @@ export const dayConfig: FormConfig = {
 	},
 	emptyState: {
 		title: 'Quotidien',
-		description: 'Matin et soirée : gratitude, objectifs et réflexions'
+		start: 'Matin : humeur, réflexion et chose à faire',
+		end: 'Soir : humeur et bilan'
 	}
 };
 
@@ -121,7 +122,8 @@ export const weekConfig: FormConfig = {
 	},
 	emptyState: {
 		title: 'Hebdomadaire',
-		description: 'Lundi au dimanche : routines et objectifs SMARTE'
+		start: 'Lundi matin : routines et objectifs SMARTE',
+		end: 'Dimanche soir : fiertés et réussites'
 	}
 };
 
@@ -168,6 +170,7 @@ export const monthConfig: FormConfig = {
 	},
 	emptyState: {
 		title: 'Mensuel',
-		description: 'Premier au dernier jour : nouvelles routines et bilan'
+		start: 'Premier jour du mois : mantra, routines, objectifs',
+		end: 'Dernier jour : fiertés et réussites, évaluation'
 	}
 };

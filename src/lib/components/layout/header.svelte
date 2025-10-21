@@ -2,10 +2,10 @@
 	import type { Snippet } from 'svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { ArrowLeft } from 'lucide-svelte';
-	import { cn } from '$lib/utils/utils';
+	import { cn, isSnippet } from '$lib/utils/utils';
 
 	interface Props {
-		title: string;
+		title: Snippet | string;
 		theme?: string;
 		children?: Snippet<[]>;
 		nav?: Snippet<[]>;
@@ -23,7 +23,7 @@
 
 <!-- Fixed Navigation Header -->
 <header class={cn(variants[variant], className)} style="top: env(safe-area-inset-top)">
-	<div class="flex items-center gap-x-3 p-3">
+	<div class="flex items-center gap-x-2 px-2 py-3">
 		{#if nav}
 			{@render nav()}
 		{:else}
@@ -32,7 +32,13 @@
 				<span class="sr-only">Retour</span>
 			</Button>
 		{/if}
-		<h1 class="text-xl">{title}</h1>
+		{#if title}
+			{#if isSnippet(title)}
+				{@render title()}
+			{:else}
+				<h2 class="text-xl">{title}</h2>
+			{/if}
+		{/if}
 	</div>
 	{@render children?.()}
 </header>
