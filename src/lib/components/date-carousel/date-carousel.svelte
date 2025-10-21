@@ -9,12 +9,12 @@
 	} from '$lib/components/date-carousel/utils';
 	import InfiniteCarousel from '$lib/components/date-carousel/infinite-carousel.svelte';
 	import { getDayOffset, getMonthOffset, getWeekOffset } from '$lib/components/date-carousel/utils';
-	import { today, getLocalTimeZone } from '@internationalized/date';
 	import { DaySlide, WeekSlide, MonthSlide } from '$lib/components/date-carousel/slides';
 	import { type Slide as SlideType } from '$lib/components/date-carousel/use-carousel.svelte';
 	import { title } from '$lib/stores/frontend-store';
+	import { today } from '$lib/utils-date';
 
-	const baseDate = $state(today(getLocalTimeZone()));
+	const baseDate = $state(today);
 
 	let isUpdating = $state(false);
 

@@ -5,9 +5,8 @@
 	import { Download, Trash, Upload } from 'lucide-svelte';
 	import { invalidateAll } from '$app/navigation';
 	import type { PageProps } from './$types';
-	import { formatDayLong, formatMonth, formatWeekLong } from '$lib/utils-date';
+	import { formatDayLong, formatMonth, formatWeekLong, today } from '$lib/utils-date';
 	import { getFileOperationsAdapter } from '$lib/adapters/file-operations';
-	import { getLocalTimeZone, today } from '@internationalized/date';
 	import Header from '$lib/components/layout/header.svelte';
 
 	let { data }: PageProps = $props();
@@ -37,7 +36,7 @@
 						extensions: ['json']
 					}
 				],
-				defaultPath: `success-notebook-${today(getLocalTimeZone()).toString()}.json`
+				defaultPath: `success-notebook-${today.toString()}.json`
 			});
 			if (path) {
 				await fileOps.writeTextFile(path, json);

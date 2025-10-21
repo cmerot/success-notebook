@@ -1,12 +1,6 @@
 import { superValidate } from 'sveltekit-superforms';
 import type { PageLoad } from './$types';
-import {
-	CalendarDate,
-	getLocalTimeZone,
-	startOfMonth,
-	startOfWeek,
-	today
-} from '@internationalized/date';
+import { CalendarDate, startOfMonth, startOfWeek } from '@internationalized/date';
 import { zod4 } from 'sveltekit-superforms/adapters';
 import { dayFormSchema, monthFormSchema, weekFormSchema } from '$lib/schemas';
 import {
@@ -16,6 +10,7 @@ import {
 	loadWeekEntry
 } from '$lib/stores/backend-store';
 import { error } from '@sveltejs/kit';
+import { today } from '$lib/utils-date';
 
 interface Slug {
 	year: number;
@@ -58,8 +53,7 @@ export const load: PageLoad = async ({ params, url }) => {
 	if (!slug && url.pathname !== '/') {
 		throw error(404, 'Pas une date !');
 	}
-
-	const date = slug ? new CalendarDate(slug.year, slug.month, slug.day) : today(getLocalTimeZone());
+	const date = slug ? new CalendarDate(slug.year, slug.month, slug.day) : today;
 
 	//
 	// Avoid multiple URLs serving same content

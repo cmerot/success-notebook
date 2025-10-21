@@ -1,17 +1,16 @@
 <script lang="ts">
 	import Header from '$lib/components/layout/header.svelte';
 	import { Notebook, DayForm, MonthForm, WeekForm } from '$lib/components/notebook';
-	import { formatDay, formatMonth, formatWeek } from '$lib/utils-date';
+	import { formatDay, formatMonth, formatWeek, today } from '$lib/utils-date';
 	import type { PageProps } from './$types';
 	import { goto } from '$app/navigation';
 	import { Button } from '$lib/components/ui/button';
 	import { Menu } from 'lucide-svelte';
-	import { getLocalTimeZone, today } from '@internationalized/date';
 
 	let { data }: PageProps = $props();
 	let { date } = data;
 
-	let dateIsToday = $derived(date.compare(today(getLocalTimeZone())) === 0);
+	let dateIsToday = $derived(date.compare(today) === 0);
 	function showMenu() {
 		goto('/menu');
 	}

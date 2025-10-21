@@ -1,10 +1,10 @@
 import {
+	CalendarDate,
 	DateFormatter,
-	type CalendarDate,
 	getLocalTimeZone,
 	startOfWeek,
 	endOfWeek,
-	today,
+	today as calendarDateToday,
 	startOfMonth,
 	endOfMonth
 } from '@internationalized/date';
@@ -17,6 +17,9 @@ export type FormatOptions = {
 	size?: BreakpointSize;
 };
 
+const today = calendarDateToday(getLocalTimeZone());
+export { today };
+
 // Helper to normalize options
 function normalizeOptions(options?: BreakpointSize | FormatOptions): { size: BreakpointSize } {
 	if (typeof options === 'string') {
@@ -27,10 +30,7 @@ function normalizeOptions(options?: BreakpointSize | FormatOptions): { size: Bre
 
 // New size-based formatters
 
-export function formatDay(
-	date: CalendarDate,
-	options?: BreakpointSize | FormatOptions
-): string {
+export function formatDay(date: CalendarDate, options?: BreakpointSize | FormatOptions): string {
 	const { size } = normalizeOptions(options);
 	const jsDate = date.toDate(getLocalTimeZone());
 
@@ -59,10 +59,7 @@ export function formatDay(
 	}
 }
 
-export function formatWeek(
-	date: CalendarDate,
-	options?: BreakpointSize | FormatOptions
-): string {
+export function formatWeek(date: CalendarDate, options?: BreakpointSize | FormatOptions): string {
 	const { size } = normalizeOptions(options);
 	const start = startOfWeek(date, locale);
 	const end = endOfWeek(date, locale);
@@ -98,10 +95,7 @@ export function formatWeek(
 	}
 }
 
-export function formatMonth(
-	date: CalendarDate,
-	options?: BreakpointSize | FormatOptions
-): string {
+export function formatMonth(date: CalendarDate, options?: BreakpointSize | FormatOptions): string {
 	const { size } = normalizeOptions(options);
 	const jsDate = date.toDate(getLocalTimeZone());
 
@@ -149,7 +143,7 @@ export const getDaySectionEditMode = (
 	// Time-based logic: turn on editing mode:
 	// - for today
 	// - depending on the hour
-	const dateIsToday = today(getLocalTimeZone()).compare(date) === 0;
+	const dateIsToday = today.compare(date) === 0;
 	if (!dateIsToday) return false;
 
 	const hour = new Date().getHours();
@@ -174,7 +168,7 @@ export const getWeekSectionEditMode = (
 	// Time-based logic: turn on editing mode:
 	// - today is start of week
 	// - today is end of week
-	const dateIsToday = today(getLocalTimeZone()).compare(date) === 0;
+	const dateIsToday = today.compare(date) === 0;
 	if (!dateIsToday) return false;
 
 	const dateIsStartOfWeek = startOfWeek(date, navigator.language).compare(date) === 0;
@@ -199,7 +193,7 @@ export const getMonthSectionEditMode = (
 	// Time-based logic: turn on editing mode:
 	// - today is start of week
 	// - today is end of week
-	const dateIsToday = today(getLocalTimeZone()).compare(date) === 0;
+	const dateIsToday = today.compare(date) === 0;
 	if (!dateIsToday) return false;
 
 	const dateIsStartOfMonth = startOfMonth(date).compare(date) === 0;
