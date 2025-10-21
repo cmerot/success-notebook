@@ -7,7 +7,8 @@
 	// Navigation items
 	const navItems = [
 		{ href: '/', label: "Aujourd'hui" },
-		{ href: '/historic', label: 'Historique' }
+		{ href: '/historic', label: 'Historique' },
+		{ href: '/about', label: 'Aide et à propos' }
 		// { href: '/date-carousel', label: 'Le choix dans la date' }
 	];
 

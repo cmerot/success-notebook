@@ -7,6 +7,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Menu } from 'lucide-svelte';
 	import DatePicker from '$lib/components/date-picker/date-picker.svelte';
+	import { dayConfig, monthConfig, weekConfig } from '$lib/components/notebook/config';
 
 	let { data }: PageProps = $props();
 	let { date } = data;
@@ -18,7 +19,7 @@
 </script>
 
 {#if data.period == 'day'}
-	<Header class="theme-blue">
+	<Header class={dayConfig.theme}>
 		{#snippet title()}
 			<h2 class="flex w-full items-center">
 				<span class="text-xl">Succès du quotidien</span>
@@ -32,7 +33,7 @@
 
 	<DayForm {data} />
 {:else if data.period == 'week'}
-	<Header class="theme-rose">
+	<Header class={weekConfig.theme}>
 		{#snippet title()}
 			<h2 class="flex w-full items-center">
 				<span class="text-xl">Succès de la semaine</span>
@@ -45,7 +46,7 @@
 	</Header>
 	<WeekForm {data} />
 {:else if data.period == 'month'}
-	<Header class="theme-green">
+	<Header class={monthConfig.theme}>
 		{#snippet title()}
 			<h2 class="flex w-full items-center">
 				<span class="text-xl">Succès du mois</span>
