@@ -1,24 +1,30 @@
 <script lang="ts">
-	import CalendarIcon from '@lucide/svelte/icons/calendar';
-	import { type DateValue, DateFormatter, getLocalTimeZone } from '@internationalized/date';
+	import { type CalendarDate, type DateValue } from '@internationalized/date';
 	import { cn } from '$lib/utils/utils.js';
 	import { Button, buttonVariants } from '$lib/components/ui/button/index.js';
 	import { Calendar } from '$lib/components/ui/calendar/index.js';
 	import * as Popover from '$lib/components/ui/popover/index.js';
 	import { goto } from '$app/navigation';
 	import type { Snippet } from 'svelte';
+	import { page } from '$app/state';
+
 	interface Props {
 		children: Snippet;
 		class?: string;
+		date: CalendarDate;
 	}
 
-	const { children, class: className }: Props = $props();
+	let { children, date, class: className }: Props = $props();
 
-	let value = $state<DateValue>();
+	let value = $state<DateValue>(date);
 
 	$effect(() => {
-		if (!value) return;
-		goto(['', value.year, value.month, value.day].join('/'), { replaceState: true });
+		const targetPath = ['', value.year, value.month, value.day].join('/');
+		if (page.url.pathname === targetPath) return;
+
+		goto(targetPath, {
+			replaceState: page.url.pathname !== '/'
+		});
 	});
 </script>
 

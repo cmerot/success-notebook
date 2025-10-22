@@ -23,7 +23,7 @@
 		{#snippet title()}
 			<h2 class="flex w-full items-center">
 				<span class="text-xl">Succès du quotidien</span>
-				<DatePicker class="ml-auto">
+				<DatePicker class="ml-auto" {date}>
 					<span class="xs:hidden">{date.year}</span>
 					<span class="hidden xs:inline">{formatDay(date, 'numeric')}</span>
 				</DatePicker>
@@ -37,7 +37,7 @@
 		{#snippet title()}
 			<h2 class="flex w-full items-center">
 				<span class="text-xl">Succès de la semaine</span>
-				<DatePicker class="ml-auto">
+				<DatePicker class="ml-auto" {date}>
 					<span class="xs:hidden">{date.year}</span>
 					<span class="hidden xs:inline">{formatWeek(date, 'numeric')}</span>
 				</DatePicker>
@@ -50,7 +50,7 @@
 		{#snippet title()}
 			<h2 class="flex w-full items-center">
 				<span class="text-xl">Succès du mois</span>
-				<DatePicker class="ml-auto">
+				<DatePicker class="ml-auto" {date}>
 					<span class="xs:hidden">{date.year}</span>
 					<span class="hidden xs:inline">{formatMonth(date, 'numeric')}</span>
 				</DatePicker>
@@ -64,7 +64,7 @@
 		{#snippet title()}
 			<h2 class="flex w-full items-center">
 				<span class="text-xl">Carnet de succès</span>
-				<DatePicker class="ml-auto">
+				<DatePicker class="ml-auto" {date}>
 					<span class="xs:hidden">{date.year}</span>
 					<span class="hidden xs:inline">{formatDay(date, 'numeric')}</span>
 				</DatePicker>
@@ -74,6 +74,7 @@
 
 	<Notebook {data} />
 {/if}
+
 {#snippet nav()}
 	<nav>
 		<Button variant="ghost" size="icon" onclick={showMenu} class="-ml-1">
