@@ -7,6 +7,7 @@
 	import { goto } from '$app/navigation';
 	import type { Snippet } from 'svelte';
 	import { page } from '$app/state';
+	import { today } from '$lib/utils/date';
 
 	interface Props {
 		children: Snippet;
@@ -16,16 +17,34 @@
 
 	let { children, date, class: className }: Props = $props();
 
-	let value = $state<DateValue>(date);
+	function handleChange(value?: DateValue) {
+		if (!value) return;
 
-	$effect(() => {
+		if (today.compare(value) === 0) {
+			if (page.url.pathname !== '/') goto('/');
+			return;
+		}
+
 		const targetPath = ['', value.year, value.month, value.day].join('/');
-		if (page.url.pathname === targetPath) return;
+		if (date.compare(value) === 0) {
+			if (page.url.pathname !== targetPath) goto(targetPath);
+			return;
+		}
 
-		goto(targetPath, {
-			replaceState: page.url.pathname !== '/'
-		});
-	});
+		// If on a form page, go back first to remove it, then replace the date page
+		// See README for an extended description of the problem, under "navigation sequences"
+		const isOnFormPage = page.url.pathname.match(/\/(day)|(month)|(week)$/);
+		if (isOnFormPage) {
+			history.go(-1);
+			setTimeout(() => {
+				goto(targetPath, { replaceState: true });
+			}, 100);
+			return;
+		}
+
+		const replaceState = page.url.pathname !== '/';
+		goto(targetPath, { replaceState });
+	}
 </script>
 
 <Popover.Root>
@@ -41,6 +60,12 @@
 		{@render children()}
 	</Popover.Trigger>
 	<Popover.Content class="w-auto p-0">
-		<Calendar bind:value type="single" locale={navigator.language} />
+		<Calendar
+			preventDeselect={true}
+			onValueChange={handleChange}
+			value={date}
+			type="single"
+			locale={navigator.language}
+		/>
 	</Popover.Content>
 </Popover.Root>
