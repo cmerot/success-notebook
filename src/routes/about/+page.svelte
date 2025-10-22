@@ -10,13 +10,13 @@
 	<Surface.Header title="Comment utiliser votre carnet" />
 
 	<Surface.Section class="prose prose-sm max-w-none text-muted-foreground">
-		<h3>Quotidien</h3>
+		<h3 class="text-primary">Quotidien</h3>
 		<p>Commencez et terminez chaque journée avec gratitude et réflexion</p>
 
-		<h3>Hebdomadaire</h3>
+		<h3 class="text-primary">Hebdomadaire</h3>
 		<p>Planifiez vos routines le lundi et faites le bilan le dimanche</p>
 
-		<h3>Mensuel</h3>
+		<h3 class="text-primary">Mensuel</h3>
 		<p class="mb-0">Définissez vos objectifs SMARTE et célébrez vos réussites</p>
 	</Surface.Section>
 </Surface.Root>
@@ -26,7 +26,7 @@
 	<Surface.Header title="À propos" />
 
 	<Surface.Section class="prose prose-sm max-w-none text-muted-foreground">
-		<h3>Vos données</h3>
+		<h3 class="text-primary">Vos données</h3>
 		<p>
 			Cette application utilise une base de donnée locale et aucune communication n'est effectuée
 			avec le monde extérieur. Pas de sauvegarde cloud ni de tracking.
@@ -35,7 +35,7 @@
 			Vous pouvez sauvegarder vos données via l'historique. C'est votre base de données complète en
 			un seul fichier JSON.
 		</p>
-		<h3>Cette application</h3>
+		<h3 class="text-primary">Cette application</h3>
 		<p>
 			Cette application est distribuée sous une licence libre, avec son code source disponible sur
 			Internet.
