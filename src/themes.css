@@ -249,3 +249,95 @@
 		--sidebar-ring: var(--color-violet-900);
 	}
 }
+
+.theme-cyan {
+	--primary: var(--color-cyan-600);
+	--primary-foreground: var(--color-cyan-50);
+	--ring: var(--color-cyan-400);
+	--chart-1: var(--color-cyan-300);
+	--chart-2: var(--color-cyan-500);
+	--chart-3: var(--color-cyan-600);
+	--chart-4: var(--color-cyan-700);
+	--chart-5: var(--color-cyan-800);
+	--sidebar-primary: var(--color-cyan-600);
+	--sidebar-primary-foreground: var(--color-cyan-50);
+	--sidebar-ring: var(--color-cyan-400);
+
+	@variant dark {
+		--primary: var(--color-cyan-500);
+		--primary-foreground: var(--color-cyan-50);
+		--ring: var(--color-cyan-900);
+		--sidebar-primary: var(--color-cyan-500);
+		--sidebar-primary-foreground: var(--color-cyan-50);
+		--sidebar-ring: var(--color-cyan-900);
+	}
+}
+
+.theme-emerald {
+	--primary: var(--color-emerald-600);
+	--primary-foreground: var(--color-emerald-50);
+	--ring: var(--color-emerald-400);
+	--chart-1: var(--color-emerald-300);
+	--chart-2: var(--color-emerald-500);
+	--chart-3: var(--color-emerald-600);
+	--chart-4: var(--color-emerald-700);
+	--chart-5: var(--color-emerald-800);
+	--sidebar-primary: var(--color-emerald-600);
+	--sidebar-primary-foreground: var(--color-emerald-50);
+	--sidebar-ring: var(--color-emerald-400);
+
+	@variant dark {
+		--primary: var(--color-emerald-500);
+		--primary-foreground: var(--color-emerald-50);
+		--ring: var(--color-emerald-900);
+		--sidebar-primary: var(--color-emerald-500);
+		--sidebar-primary-foreground: var(--color-emerald-50);
+		--sidebar-ring: var(--color-emerald-900);
+	}
+}
+
+.theme-sky {
+	--primary: var(--color-sky-600);
+	--primary-foreground: var(--color-sky-50);
+	--ring: var(--color-sky-400);
+	--chart-1: var(--color-sky-300);
+	--chart-2: var(--color-sky-500);
+	--chart-3: var(--color-sky-600);
+	--chart-4: var(--color-sky-700);
+	--chart-5: var(--color-sky-800);
+	--sidebar-primary: var(--color-sky-600);
+	--sidebar-primary-foreground: var(--color-sky-50);
+	--sidebar-ring: var(--color-sky-400);
+
+	@variant dark {
+		--primary: var(--color-sky-500);
+		--primary-foreground: var(--color-sky-50);
+		--ring: var(--color-sky-900);
+		--sidebar-primary: var(--color-sky-500);
+		--sidebar-primary-foreground: var(--color-sky-50);
+		--sidebar-ring: var(--color-sky-900);
+	}
+}
+
+.theme-indigo {
+	--primary: var(--color-indigo-600);
+	--primary-foreground: var(--color-indigo-50);
+	--ring: var(--color-indigo-400);
+	--chart-1: var(--color-indigo-300);
+	--chart-2: var(--color-indigo-500);
+	--chart-3: var(--color-indigo-600);
+	--chart-4: var(--color-indigo-700);
+	--chart-5: var(--color-indigo-800);
+	--sidebar-primary: var(--color-indigo-600);
+	--sidebar-primary-foreground: var(--color-indigo-50);
+	--sidebar-ring: var(--color-indigo-400);
+
+	@variant dark {
+		--primary: var(--color-indigo-500);
+		--primary-foreground: var(--color-indigo-50);
+		--ring: var(--color-indigo-900);
+		--sidebar-primary: var(--color-indigo-500);
+		--sidebar-primary-foreground: var(--color-indigo-50);
+		--sidebar-ring: var(--color-indigo-900);
+	}
+}

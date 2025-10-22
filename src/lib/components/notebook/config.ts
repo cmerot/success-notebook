@@ -7,7 +7,7 @@ import MoodFieldset from '$lib/components/form/mood/mood-fieldset.svelte';
 import type { FormConfig } from '$lib/types/form';
 
 export const dayConfig: FormConfig = {
-	theme: 'theme-purple',
+	theme: 'theme-teal',
 	emoji: '😊',
 	sections: {
 		start: {
@@ -80,7 +80,7 @@ export const dayConfig: FormConfig = {
 };
 
 export const weekConfig: FormConfig = {
-	theme: 'theme-rose',
+	theme: 'theme-sky',
 	emoji: '🗓️',
 	sections: {
 		start: {
@@ -128,7 +128,7 @@ export const weekConfig: FormConfig = {
 };
 
 export const monthConfig: FormConfig = {
-	theme: 'theme-teal',
+	theme: 'theme-indigo',
 	emoji: '📈',
 	sections: {
 		start: {
