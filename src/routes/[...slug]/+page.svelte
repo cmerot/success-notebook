@@ -13,10 +13,26 @@
 	let { date } = data;
 
 	let dateIsToday = $derived(date.compare(today) === 0);
+
 	function showMenu() {
 		goto('/menu');
 	}
+
+	let title = $state('Carnet de succès');
+	if (data.period == 'day') {
+		title = `${formatDay(date, 'numeric')} - ${dayConfig.emptyState.title}`;
+	} else if (data.period == 'week') {
+		title = `${formatWeek(date, 'numeric')} - ${weekConfig.emptyState.title}`;
+	} else if (data.period == 'month') {
+		title = `${formatMonth(date, 'numeric')} - ${monthConfig.emptyState.title}`;
+	} else if (date.compare(today) !== 0) {
+		title = `${formatDay(date, 'numeric')} - Carnet`;
+	}
 </script>
+
+<svelte:head>
+	<title>{title}</title>
+</svelte:head>
 
 {#if data.period == 'day'}
 	<Header class={dayConfig.theme}>
