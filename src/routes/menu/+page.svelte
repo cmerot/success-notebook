@@ -8,6 +8,7 @@
 	const navItems = [
 		{ href: '/', label: "Aujourd'hui" },
 		{ href: '/historic', label: 'Historique' },
+		{ href: '/data', label: 'Vos données' },
 		{ href: '/about', label: 'Aide et à propos' }
 	];
 

@@ -5,14 +5,7 @@
 	import { Download, Trash, Upload } from 'lucide-svelte';
 	import { invalidateAll } from '$app/navigation';
 	import type { PageProps } from './$types';
-	import {
-		formatDay,
-		formatDayLong,
-		formatMonth,
-		formatWeek,
-		formatWeekLong,
-		today
-	} from '$lib/utils/date';
+	import { today } from '$lib/utils/date';
 	import { getFileOperationsAdapter } from '$lib/adapters/file-operations';
 	import Header from '$lib/components/layout/header.svelte';
 	import * as Surface from '$lib/components/surface';
@@ -100,32 +93,41 @@
 	}
 </script>
 
-<Header title="Historique" variant="sidebar" />
+<Header title="Vos données" variant="sidebar" />
 
 <Surface.Root class="theme-blue">
-	<Surface.Section>
-		<ul class="">
-			{#each data.entries as entry}
-				<li>
-					{#if entry.type == 'day'}
-						<Button class="capitalize" variant="link" href="/{entry.url}">
-							{formatDay(entry.date, { size: 'lg' })}
-						</Button>
-					{:else if entry.type == 'week'}
-						<h3>
-							<Button class="text-xl capitalize" variant="link" href="/{entry.url}">
-								{formatWeek(entry.date, { size: 'lg' })}
-							</Button>
-						</h3>
-					{:else}
-						<h1>
-							<Button class="text-3xl capitalize" variant="link" href="/{entry.url}">
-								{formatMonth(entry.date, { size: 'lg' })}
-							</Button>
-						</h1>
-					{/if}
-				</li>
-			{/each}
-		</ul>
+	<Surface.Header title="Télécharger" />
+
+	<Surface.Section class="text-muted-foreground">
+		<p class="mb-3">
+			Téléchargez votre carnet au format <code>json</code>.
+		</p>
+		<p>
+			<Button onclick={downloadData}>Télécharger <Download /></Button>
+		</p>
+	</Surface.Section>
+</Surface.Root>
+
+<Surface.Root class="theme-blue">
+	<Surface.Header title="Importer" />
+
+	<Surface.Section class="text-muted-foreground">
+		<p class="mb-3">
+			Importez votre carnet au format <code>json</code>.
+		</p>
+		<p>
+			<Button onclick={importData}>Importer un fichier<Upload /></Button>
+		</p>
+	</Surface.Section>
+</Surface.Root>
+
+<Surface.Root class="theme-rose">
+	<Surface.Header title="Supprimer" />
+
+	<Surface.Section class="text-muted-foreground">
+		<p class="mb-3">Supprimez votre carnet de ce périphérique.</p>
+		<p>
+			<Button variant="destructive" onclick={clearData}>Tout supprimer <Trash /></Button>
+		</p>
 	</Surface.Section>
 </Surface.Root>

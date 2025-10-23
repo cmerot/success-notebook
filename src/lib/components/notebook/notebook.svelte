@@ -4,6 +4,7 @@
 	import type { SuperValidated } from 'sveltekit-superforms';
 	import { Button } from '$lib/components/ui/button';
 	import { DayForm, WeekForm, MonthForm } from '.';
+	import { ArrowRight } from 'lucide-svelte';
 
 	interface Props {
 		data: {
@@ -31,18 +32,18 @@
 
 <DayForm {data} bindToTime isEditMode={data.day.isEditMode}>
 	{#snippet footer()}
-		<Button href={data.day.url} class="w-full">Ouvrir →</Button>
+		<Button size="lg" href={data.day.url} class="w-full">Carnet quotidien <ArrowRight /></Button>
 	{/snippet}
 </DayForm>
 
 <WeekForm {data} bindToTime isEditMode={data.week.isEditMode}>
 	{#snippet footer()}
-		<Button href={data.week.url} class="w-full">Ouvrir →</Button>
+		<Button size="lg" href={data.week.url} class="w-full">Carnet hebdo <ArrowRight /></Button>
 	{/snippet}
 </WeekForm>
 
 <MonthForm {data} bindToTime isEditMode={data.month.isEditMode}>
 	{#snippet footer()}
-		<Button href={data.month.url} class="w-full">Ouvrir →</Button>
+		<Button size="lg" href={data.month.url} class="w-full">Carnet mensuel <ArrowRight /></Button>
 	{/snippet}
 </MonthForm>
