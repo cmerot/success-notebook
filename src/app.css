@@ -124,52 +124,142 @@
 		padding: 0;
 	}
 
-	/* App container with safe area insets */
-	#app {
-		min-height: 100vh;
-		min-height: 100dvh; /* Use dynamic viewport height for mobile */
-		/* Add safe area padding to constrain content within safe boundaries */
-		/* Top padding handled by sticky header */
-		padding-bottom: env(safe-area-inset-bottom);
-		padding-left: env(safe-area-inset-left);
-		padding-right: env(safe-area-inset-right);
-		box-sizing: border-box;
+	/* Prevent flash during view transitions */
+	html {
+		background-color: var(--background);
 	}
-}
 
-[data-variant] {
-	display: grid;
-	grid-template-rows: 0fr;
-	transition: grid-template-rows 200ms ease-out;
-	pointer-events: none;
-}
+	::view-transition-group(root) {
+		animation-duration: var(--transition-duration);
+	}
 
-[data-variant] > * {
-	overflow: hidden;
-	padding: 0.5rem;
-	margin: -0.5rem;
-	height: auto;
-	transition:
-		margin 100ms ease-out,
-		padding 100ms ease-out;
-}
+	::view-transition-old(root),
+	::view-transition-new(root) {
+		mix-blend-mode: normal;
+		overflow: clip;
+		animation-duration: var(--transition-duration);
+	}
 
-[data-edit-mode='edit'] [data-variant='edit'],
-[data-edit-mode='view'] [data-variant='view'] {
-	grid-template-rows: 1fr;
-	pointer-events: all;
-}
-[data-edit-mode='view'] [data-variant='edit'] > *,
-[data-edit-mode='edit'] [data-variant='view'] > * {
-	margin: 0;
-	padding: 0;
-}
+	/* Disable default cross-fade */
+	::view-transition-old(root) {
+		animation-name: none;
+	}
 
-.bg-from-primary-to-violet {
-	background-image: linear-gradient(to bottom, var(--color-primary), var(--color-violet-600));
-	opacity: 0.1;
+	::view-transition-new(root) {
+		animation-name: none;
+	}
 }
 
 button {
 	cursor: pointer;
+}
+
+/* View Transitions for page navigation */
+:root {
+	--transition-duration: 300ms;
+	--transition-easing: cubic-bezier(0.33, 1, 0.68, 1);
+	--transition-shadow-offset: 8px;
+	--transition-shadow-blur: 24px;
+	--transition-shadow-opacity: 0.1;
+	--transition-overshoot: 32px;
+}
+
+@keyframes slide-in-from-right {
+	from {
+		transform: translateX(calc(100% + var(--transition-overshoot)));
+	}
+	to {
+		transform: translateX(0);
+	}
+}
+
+@keyframes slide-out-to-right {
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(calc(100% + var(--transition-overshoot)));
+	}
+}
+
+@keyframes slide-in-from-left {
+	from {
+		transform: translateX(calc(-100% - var(--transition-overshoot)));
+	}
+	to {
+		transform: translateX(0);
+	}
+}
+
+@keyframes slide-out-to-left {
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(calc(-100% - var(--transition-overshoot)));
+	}
+}
+
+/* Forward navigation (normal page) - slide from right */
+html[data-transition='forward']::view-transition-old(root) {
+	animation: none;
+	z-index: 1;
+	opacity: 1;
+}
+
+html[data-transition='forward']::view-transition-new(root) {
+	animation: slide-in-from-right var(--transition-duration) var(--transition-easing);
+	z-index: 2;
+	box-shadow: calc(-1 * var(--transition-shadow-offset)) 0 var(--transition-shadow-blur)
+		rgba(0, 0, 0, var(--transition-shadow-opacity));
+}
+
+/* Forward navigation to menu - slide from left */
+html[data-transition='forward-to-menu']::view-transition-old(root) {
+	animation: none;
+	z-index: 1;
+	opacity: 1;
+}
+
+html[data-transition='forward-to-menu']::view-transition-new(root) {
+	animation: slide-in-from-left var(--transition-duration) var(--transition-easing);
+	z-index: 2;
+	box-shadow: var(--transition-shadow-offset) 0 var(--transition-shadow-blur)
+		rgba(0, 0, 0, var(--transition-shadow-opacity));
+}
+
+/* Back navigation (normal page) - slide to right */
+html[data-transition='back']::view-transition-old(root) {
+	animation-name: slide-out-to-right;
+	animation-duration: var(--transition-duration);
+	animation-timing-function: var(--transition-easing);
+	animation-fill-mode: forwards;
+	z-index: 2;
+	box-shadow: calc(-1 * var(--transition-shadow-offset)) 0 var(--transition-shadow-blur)
+		rgba(0, 0, 0, var(--transition-shadow-opacity));
+}
+
+html[data-transition='back']::view-transition-new(root) {
+	animation-name: none;
+	z-index: 1;
+	opacity: 1;
+	transform: translateX(0);
+}
+
+/* Back navigation from menu - slide to left */
+html[data-transition='back-from-menu']::view-transition-old(root) {
+	animation-name: slide-out-to-left;
+	animation-duration: var(--transition-duration);
+	animation-timing-function: var(--transition-easing);
+	animation-fill-mode: forwards;
+	z-index: 2;
+	box-shadow: var(--transition-shadow-offset) 0 var(--transition-shadow-blur)
+		rgba(0, 0, 0, var(--transition-shadow-opacity));
+}
+
+html[data-transition='back-from-menu']::view-transition-new(root) {
+	animation-name: none;
+	z-index: 1;
+	opacity: 1;
+	transform: translateX(0);
 }

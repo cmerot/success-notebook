@@ -19,8 +19,6 @@
 	});
 </script>
 
-<div style="text-3xl text-white">xxs</div>
-
 <div
 	class="fixed bottom-1 left-1 z-50 flex h-6 w-auto items-center justify-center gap-2 rounded-full bg-gray-800 p-3 font-mono text-xs text-white"
 >

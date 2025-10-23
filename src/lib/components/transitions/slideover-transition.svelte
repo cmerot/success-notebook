@@ -18,7 +18,6 @@
 		children: Snippet;
 		key: string;
 		duration?: number;
-		restoreScrollPosition?: boolean;
 	};
 
 	type Params = {
@@ -27,7 +26,7 @@
 		easing?: EasingFunction;
 	};
 
-	let { children, key, duration = 300, restoreScrollPosition = false }: Props = $props();
+	let { children, key, duration = 300 }: Props = $props();
 
 	let navigationState = $state<{
 		isBack: boolean;
@@ -39,45 +38,12 @@
 		toPath: ''
 	});
 
-	// Store scroll positions per path
-	const scrollPositions = new Map<string, number>();
-	let containerElement = $state<HTMLDivElement>();
-
 	beforeNavigate((navigation) => {
 		const fromPath = navigation.from?.url.pathname || '';
 		const toPath = navigation.to?.url.pathname || '';
 		const isBack = navigation.type === 'popstate';
 
-		// Save current scroll position before navigating away
-		if (containerElement && fromPath) {
-			scrollPositions.set(fromPath, containerElement.scrollTop);
-		}
-
 		navigationState = { isBack, fromPath, toPath };
-	});
-
-	// Restore scroll position after navigation
-	$effect(() => {
-		if (!restoreScrollPosition) return;
-
-		// Watch for key changes (route changes)
-		key;
-
-		if (containerElement && navigationState.toPath) {
-			const savedPosition = scrollPositions.get(navigationState.toPath);
-
-			if (savedPosition !== undefined && navigationState.isBack) {
-				// Wait for transition to complete + a bit more for DOM to settle
-				setTimeout(() => {
-					if (containerElement) {
-						containerElement.scrollTop = savedPosition;
-					}
-				}, duration + 50);
-			} else {
-				// For forward navigation, scroll to top
-				containerElement.scrollTop = 0;
-			}
-		}
 	});
 
 	function slideIn(
@@ -133,7 +99,6 @@
 
 {#key key}
 	<div
-		bind:this={containerElement}
 		in:slideIn={{ duration }}
 		out:slideOut={{ duration }}
 		style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; overflow-x: hidden; overflow-y: auto;"

@@ -13,10 +13,10 @@ class MainActivity : TauriActivity() {
     super.onCreate(savedInstanceState)
   }
 
-  @SuppressLint("SourceLockedOrientationActivity")
-  override fun onConfigurationChanged(newConfig: Configuration) {
-    super.onConfigurationChanged(newConfig)
-    WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars =
-      (newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK) != Configuration.UI_MODE_NIGHT_YES
-  }
+  // @SuppressLint("SourceLockedOrientationActivity")
+  // override fun onConfigurationChanged(newConfig: Configuration) {
+  //   super.onConfigurationChanged(newConfig)
+  //   WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars =
+  //     (newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK) != Configuration.UI_MODE_NIGHT_YES
+  // }
 }

@@ -22,7 +22,7 @@
 </script>
 
 <!-- Fixed Navigation Header -->
-<header class={cn(variants[variant], className)} style="top: env(safe-area-inset-top)">
+<header class={cn('top-0 pt-[env(safe-area-inset-top)]', variants[variant], className)}>
 	<div class="flex items-center gap-x-2 px-2 py-3">
 		{#if nav}
 			{@render nav()}
