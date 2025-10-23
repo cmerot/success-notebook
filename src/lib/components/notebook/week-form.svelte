@@ -29,13 +29,13 @@
 	config={weekConfig}
 	schema={weekFormSchema}
 	onSave={(formData) => saveWeekEntry(data.date, formData)}
-	formatTitle={formatWeek}
+	formatTitle={(date: CalendarDate) => formatWeek(date, { size: 'md' })}
 	getSectionEditMode={getWeekSectionEditMode}
 	{bindToTime}
 	bind:isEditMode
 	{footer}
 >
 	{#snippet emoticons()}
-		<Emoticon value={weekConfig.emoji} size="sm" />
+		<Emoticon value={weekConfig.emoji} />
 	{/snippet}
 </BaseForm>

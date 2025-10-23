@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { type CalendarDate } from '@internationalized/date';
+	import { CalendarDate } from '@internationalized/date';
 	import type { SuperValidated } from 'sveltekit-superforms';
 	import { monthFormSchema, type MonthFormType } from '$lib/schemas';
 	import { monthConfig } from '$lib/components/notebook/config';
@@ -29,13 +29,13 @@
 	config={monthConfig}
 	schema={monthFormSchema}
 	onSave={(formData) => saveMonthEntry(data.date, formData)}
-	formatTitle={formatMonth}
+	formatTitle={(date: CalendarDate) => formatMonth(date, { size: 'md' })}
 	getSectionEditMode={getMonthSectionEditMode}
 	{bindToTime}
 	bind:isEditMode
 	{footer}
 >
 	{#snippet emoticons()}
-		<Emoticon value={monthConfig.emoji} size="sm" />
+		<Emoticon value={monthConfig.emoji} />
 	{/snippet}
 </BaseForm>
