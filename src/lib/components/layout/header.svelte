@@ -3,6 +3,8 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { ArrowLeft } from 'lucide-svelte';
 	import { cn, isSnippet } from '$lib/utils/utils';
+	import { mode } from 'mode-watcher';
+	import { setDark, setLight } from 'tauri-plugin-statusbar-api';
 
 	interface Props {
 		title: Snippet | string;
@@ -19,6 +21,26 @@
 		default: 'sticky z-50 overflow-x-hidden bg-primary text-primary-foreground',
 		sidebar: 'sticky z-50 overflow-x-hidden border-b bg-sidebar text-sidebar-foreground'
 	};
+
+	async function setMode(value: 'light' | 'dark') {
+		try {
+			if (value == 'light') {
+				await setLight();
+			} else {
+				await setDark();
+			}
+		} catch (error) {
+			// no-op
+		}
+	}
+
+	$effect(() => {
+		if (variant == 'sidebar' && mode.current == 'light') {
+			setMode('dark');
+		} else {
+			setMode('light');
+		}
+	});
 </script>
 
 <!-- Fixed Navigation Header -->

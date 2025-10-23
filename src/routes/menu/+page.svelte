@@ -8,8 +8,7 @@
 	const navItems = [
 		{ href: '/', label: "Aujourd'hui" },
 		{ href: '/historic', label: 'Historique' },
-		{ href: '/about', label: 'Aide et à propos' },
-		{ href: '/statusbar', label: 'StatusBar' }
+		{ href: '/about', label: 'Aide et à propos' }
 	];
 
 	function navigate(href: string) {
@@ -32,9 +31,5 @@
 				</Button>
 			</li>
 		{/each}
-		<li class="p-4">
-			<hr class="my-4" />
-			<ThemeSelector />
-		</li>
 	</ul>
 </nav>
