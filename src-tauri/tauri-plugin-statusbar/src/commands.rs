@@ -11,3 +11,17 @@ pub(crate) async fn ping<R: Runtime>(
 ) -> Result<PingResponse> {
     app.statusbar().ping(payload)
 }
+
+#[command]
+pub(crate) async fn set_dark<R: Runtime>(
+    app: AppHandle<R>,
+) -> Result<SetDarkResponse> {
+    app.statusbar().set_dark()
+}
+
+#[command]
+pub(crate) async fn set_light<R: Runtime>(
+    app: AppHandle<R>,
+) -> Result<SetLightResponse> {
+    app.statusbar().set_light()
+}

@@ -31,4 +31,18 @@ impl<R: Runtime> Statusbar<R> {
       .run_mobile_plugin("ping", payload)
       .map_err(Into::into)
   }
+
+  pub fn set_dark(&self) -> crate::Result<SetDarkResponse> {
+    self
+      .0
+      .run_mobile_plugin("setDark", ())
+      .map_err(Into::into)
+  }
+
+  pub fn set_light(&self) -> crate::Result<SetLightResponse> {
+    self
+      .0
+      .run_mobile_plugin("setLight", ())
+      .map_err(Into::into)
+  }
 }

@@ -11,3 +11,15 @@ pub struct PingRequest {
 pub struct PingResponse {
   pub value: Option<String>,
 }
+
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SetDarkResponse {
+  pub res: Option<String>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SetLightResponse {
+  pub res: Option<String>,
+}

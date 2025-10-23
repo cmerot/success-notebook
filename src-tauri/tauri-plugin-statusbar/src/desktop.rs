@@ -19,4 +19,16 @@ impl<R: Runtime> Statusbar<R> {
       value: payload.value,
     })
   }
+
+  pub fn set_dark(&self) -> crate::Result<SetDarkResponse> {
+    Ok(SetDarkResponse {
+      res: Some("dark ok".to_string()),
+    })
+  }
+
+  pub fn set_light(&self) -> crate::Result<SetLightResponse> {
+    Ok(SetLightResponse {
+      res: Some("light ok".to_string()),
+    })
+  }
 }

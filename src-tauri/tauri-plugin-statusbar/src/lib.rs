@@ -35,7 +35,7 @@ impl<R: Runtime, T: Manager<R>> crate::StatusbarExt<R> for T {
 /// Initializes the plugin.
 pub fn init<R: Runtime>() -> TauriPlugin<R> {
   Builder::new("statusbar")
-    .invoke_handler(tauri::generate_handler![commands::ping])
+    .invoke_handler(tauri::generate_handler![commands::ping, commands::set_dark, commands::set_light])
     .setup(|app, api| {
       #[cfg(mobile)]
       let statusbar = mobile::init(app, api)?;
