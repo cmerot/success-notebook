@@ -2,7 +2,7 @@
 	import Header from '$lib/components/layout/header.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { invoke } from '@tauri-apps/api/core';
-	import { ping } from 'tauri-plugin-statusbar-api';
+	import { ping, setLight, setDark } from 'tauri-plugin-statusbar-api';
 
 	let response = $state('');
 
@@ -33,6 +33,14 @@
 			})
 			.catch(updateResponse);
 	}
+
+	async function _setLight() {
+		await setLight(); // Sets status bar to light theme
+	}
+
+	async function _setDark() {
+		await setDark(); // Sets status bar to dark theme
+	}
 </script>
 
 <Header title="StatusBar" variant="sidebar" />
@@ -40,5 +48,7 @@
 <div class="space-y-8 p-8">
 	<Button onclick={_ping}>Ping with plugin API</Button>
 	<Button onclick={_ping2}>Ping2 with invoke</Button>
+	<Button onclick={_setLight}>Light</Button>
+	<Button onclick={_setDark}>Dark</Button>
 	<div>{@html response}</div>
 </div>

@@ -25,4 +25,30 @@ class ExamplePlugin(private val activity: Activity): Plugin(activity) {
         ret.put("value", implementation.pong(args.value ?: "default value :("))
         invoke.resolve(ret)
     }
+
+    // New command to set status bar text/icons to a dark color
+    @Command
+    fun setDark(invoke: Invoke) {
+        // Run the UI update on the main thread
+        activity.runOnUiThread {
+            implementation.setDarkStatusBar(activity)
+            // Signal to the frontend that the command succeeded
+            val ret = JSObject()
+            ret.put("res", "dark ok")
+            invoke.resolve(ret)
+        }
+    }
+
+    // New command to set status bar text/icons to a light color
+    @Command
+    fun setLight(invoke: Invoke) {
+        // Run the UI update on the main thread
+        activity.runOnUiThread {
+            implementation.setLightStatusBar(activity)
+            // Signal to the frontend that the command succeeded
+            val ret = JSObject()
+            ret.put("res", "light ok")
+            invoke.resolve(ret)
+        }
+    }
 }
