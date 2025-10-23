@@ -79,8 +79,23 @@ export const load: PageLoad = async ({ params, url }) => {
 	// Data management
 	//
 
+	const firstDayOfWeek = startOfWeek(date, navigator.language);
+	const firstDayOfMonth = startOfMonth(date);
+	const dayHref = ['', date.year, date.month, date.day, 'day'].join('/');
+	const weekHref = ['', firstDayOfWeek.year, firstDayOfWeek.month, firstDayOfWeek.day, 'week'].join(
+		'/'
+	);
+	const monthHref = [
+		'',
+		firstDayOfMonth.year,
+		firstDayOfMonth.month,
+		firstDayOfMonth.day,
+		'month'
+	].join('/');
+
 	const dayEntry = await loadDayEntry(date);
 	const dayForm = await superValidate(dayEntry, zod4(dayFormSchema));
+	// const dayUrl =
 
 	const weekEntry = await loadWeekEntry(date);
 	const weekForm = await superValidate(weekEntry, zod4(weekFormSchema));
@@ -108,8 +123,8 @@ export const load: PageLoad = async ({ params, url }) => {
 	return {
 		date,
 		period,
-		day: { form: dayForm, isEditMode: dayIsEditMode },
-		week: { form: weekForm, isEditMode: weekIsEditMode },
-		month: { form: monthForm, isEditMode: monthIsEditMode }
+		day: { form: dayForm, isEditMode: dayIsEditMode, url: dayHref },
+		week: { form: weekForm, isEditMode: weekIsEditMode, url: weekHref },
+		month: { form: monthForm, isEditMode: monthIsEditMode, url: monthHref }
 	};
 };

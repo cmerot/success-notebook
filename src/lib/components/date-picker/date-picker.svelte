@@ -17,17 +17,22 @@
 
 	let { children, date, class: className }: Props = $props();
 
+	let open = $state(false);
+
 	function handleChange(value?: DateValue) {
+		console.log('handleChange', value);
 		if (!value) return;
 
 		if (today.compare(value) === 0) {
 			if (page.url.pathname !== '/') goto('/');
+			open = false;
 			return;
 		}
 
 		const targetPath = ['', value.year, value.month, value.day].join('/');
 		if (date.compare(value) === 0) {
 			if (page.url.pathname !== targetPath) goto(targetPath);
+			open = false;
 			return;
 		}
 
@@ -38,16 +43,18 @@
 			history.go(-1);
 			setTimeout(() => {
 				goto(targetPath, { replaceState: true });
+				open = false;
 			}, 100);
 			return;
 		}
 
 		const replaceState = page.url.pathname !== '/';
 		goto(targetPath, { replaceState });
+		open = false;
 	}
 </script>
 
-<Popover.Root>
+<Popover.Root bind:open>
 	<Popover.Trigger
 		class={cn(
 			buttonVariants({

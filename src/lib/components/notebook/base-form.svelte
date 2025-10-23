@@ -65,42 +65,42 @@
 </script>
 
 <form use:enhance>
-	<Surface.Root class={config.theme}>
-		<Surface.Header>
-			{#snippet title()}
-				<div class="mb-6 flex items-center gap-x-2">
-					{#if emoticons}
-						{@render emoticons({ form })}
+		<Surface.Root class={config.theme}>
+			<Surface.Header>
+				{#snippet title()}
+					<div class="mb-6 flex items-center gap-x-2">
+						{#if emoticons}
+							{@render emoticons({ form })}
+						{/if}
+						<h2 class="mr-auto text-2xl font-bold text-primary">
+							<span class="xs:hidden">{formatTitle(data.date)}</span>
+							<span class="hidden xs:block">{formatTitle(data.date, 'md')}</span>
+						</h2>
+						<FormStatus {form} bind:isEditMode {isEditable} />
+					</div>
+				{/snippet}
+			</Surface.Header>
+
+			<div class="space-y-12">
+				{#each sections as section}
+					{#if section.showContent}
+						<Section title={section.title} icon={section.icon} fields={section.fields} />
 					{/if}
-					<h2 class="mr-auto text-2xl font-bold text-primary">
-						<span class="xs:hidden">{formatTitle(data.date)}</span>
-						<span class="hidden xs:block">{formatTitle(data.date, 'md')}</span>
-					</h2>
-					<FormStatus {form} bind:isEditMode {isEditable} />
-				</div>
-			{/snippet}
-		</Surface.Header>
-
-		<div class="space-y-12">
-			{#each sections as section}
-				{#if section.showContent}
-					<Section title={section.title} icon={section.icon} fields={section.fields} />
-				{/if}
-			{/each}
-		</div>
-
-		{#if !hasContent}
-			<div>
-				<h3 class="mb-2 text-lg font-semibold text-primary/50">{config.emptyState.title}</h3>
-				<p class="text-muted-foreground">{config.emptyState.start}</p>
-				<p class="text-muted-foreground">{config.emptyState.end}</p>
+				{/each}
 			</div>
-		{/if}
 
-		{#if footer}
-			<Surface.Footer>
-				{@render footer()}
-			</Surface.Footer>
-		{/if}
-	</Surface.Root>
+			{#if !hasContent}
+				<div>
+					<h3 class="mb-2 text-lg font-semibold text-primary/50">{config.emptyState.title}</h3>
+					<p class="text-muted-foreground">{config.emptyState.start}</p>
+					<p class="text-muted-foreground">{config.emptyState.end}</p>
+				</div>
+			{/if}
+
+			{#if footer}
+				<Surface.Footer>
+					{@render footer()}
+				</Surface.Footer>
+			{/if}
+		</Surface.Root>
 </form>

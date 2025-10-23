@@ -22,15 +22,10 @@
 	}
 
 	let { data, bindToTime = false, isEditMode = $bindable(false), footer }: Props = $props();
-
-	const weekData = {
-		date: data.date,
-		form: data.week.form
-	};
 </script>
 
 <BaseForm
-	data={weekData}
+	data={{ date: data.date, form: data.week.form }}
 	config={weekConfig}
 	schema={weekFormSchema}
 	onSave={(formData) => saveWeekEntry(data.date, formData)}

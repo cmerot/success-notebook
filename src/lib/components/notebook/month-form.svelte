@@ -22,15 +22,10 @@
 	}
 
 	let { data, bindToTime = false, isEditMode = $bindable(false), footer }: Props = $props();
-
-	const monthData = {
-		date: data.date,
-		form: data.month.form
-	};
 </script>
 
 <BaseForm
-	data={monthData}
+	data={{ date: data.date, form: data.month.form }}
 	config={monthConfig}
 	schema={monthFormSchema}
 	onSave={(formData) => saveMonthEntry(data.date, formData)}

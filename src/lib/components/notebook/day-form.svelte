@@ -22,15 +22,10 @@
 	}
 
 	let { data, bindToTime = false, isEditMode = $bindable(false), footer }: Props = $props();
-
-	const dayData = {
-		date: data.date,
-		form: data.day.form
-	};
 </script>
 
 <BaseForm
-	data={dayData}
+	data={{ date: data.date, form: data.day.form }}
 	config={dayConfig}
 	schema={dayFormSchema}
 	onSave={(formData) => saveDayEntry(data.date, formData)}

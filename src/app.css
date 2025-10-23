@@ -156,7 +156,7 @@ button {
 
 /* View Transitions for page navigation */
 :root {
-	--transition-duration: 300ms;
+	--transition-duration: 400ms;
 	--transition-easing: cubic-bezier(0.33, 1, 0.68, 1);
 	--transition-shadow-offset: 8px;
 	--transition-shadow-blur: 24px;

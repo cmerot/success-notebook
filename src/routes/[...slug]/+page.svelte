@@ -10,24 +10,25 @@
 	import { dayConfig, monthConfig, weekConfig } from '$lib/components/notebook/config';
 
 	let { data }: PageProps = $props();
-	let { date } = data;
 
-	let dateIsToday = $derived(date.compare(today) === 0);
+	let dateIsToday = $derived(data.date.compare(today) === 0);
 
 	function showMenu() {
 		goto('/menu');
 	}
 
-	let title = $state('Carnet de succès');
-	if (data.period == 'day') {
-		title = `${formatDay(date, 'numeric')} - ${dayConfig.emptyState.title}`;
-	} else if (data.period == 'week') {
-		title = `${formatWeek(date, 'numeric')} - ${weekConfig.emptyState.title}`;
-	} else if (data.period == 'month') {
-		title = `${formatMonth(date, 'numeric')} - ${monthConfig.emptyState.title}`;
-	} else if (date.compare(today) !== 0) {
-		title = `${formatDay(date, 'numeric')} - Carnet`;
-	}
+	let title = $derived.by(() => {
+		if (data.period == 'day') {
+			return `${formatDay(data.date, 'numeric')} - ${dayConfig.emptyState.title}`;
+		} else if (data.period == 'week') {
+			return `${formatWeek(data.date, 'numeric')} - ${weekConfig.emptyState.title}`;
+		} else if (data.period == 'month') {
+			return `${formatMonth(data.date, 'numeric')} - ${monthConfig.emptyState.title}`;
+		} else if (data.date.compare(today) !== 0) {
+			return `${formatDay(data.date, 'numeric')} - Carnet`;
+		}
+		return 'Carnet de succès';
+	});
 </script>
 
 <svelte:head>
@@ -39,56 +40,64 @@
 		{#snippet title()}
 			<h2 class="flex w-full items-center">
 				<span class="text-xl">Succès du quotidien</span>
-				<DatePicker class="ml-auto" {date}>
-					<span class="xs:hidden">{date.year}</span>
-					<span class="hidden xs:inline">{formatDay(date, 'numeric')}</span>
+				<DatePicker class="ml-auto" date={data.date}>
+					<span class="xs:hidden">{data.date.year}</span>
+					<span class="hidden xs:inline">{formatDay(data.date, 'numeric')}</span>
 				</DatePicker>
 			</h2>
 		{/snippet}
 	</Header>
 
-	<DayForm {data} />
+	{#key `${data.date}`}
+		<DayForm {data} />
+	{/key}
 {:else if data.period == 'week'}
 	<Header class={weekConfig.theme}>
 		{#snippet title()}
 			<h2 class="flex w-full items-center">
 				<span class="text-xl">Succès de la semaine</span>
-				<DatePicker class="ml-auto" {date}>
-					<span class="xs:hidden">{date.year}</span>
-					<span class="hidden xs:inline">{formatWeek(date, 'numeric')}</span>
+				<DatePicker class="ml-auto" date={data.date}>
+					<span class="xs:hidden">{data.date.year}</span>
+					<span class="hidden xs:inline">{formatWeek(data.date, 'numeric')}</span>
 				</DatePicker>
 			</h2>
 		{/snippet}
 	</Header>
-	<WeekForm {data} />
+	{#key `${data.date}`}
+		<WeekForm {data} />
+	{/key}
 {:else if data.period == 'month'}
 	<Header class={monthConfig.theme}>
 		{#snippet title()}
 			<h2 class="flex w-full items-center">
 				<span class="text-xl">Succès du mois</span>
-				<DatePicker class="ml-auto" {date}>
-					<span class="xs:hidden">{date.year}</span>
-					<span class="hidden xs:inline">{formatMonth(date, 'numeric')}</span>
+				<DatePicker class="ml-auto" date={data.date}>
+					<span class="xs:hidden">{data.date.year}</span>
+					<span class="hidden xs:inline">{formatMonth(data.date, 'numeric')}</span>
 				</DatePicker>
 			</h2>
 		{/snippet}
 	</Header>
 
-	<MonthForm {data} />
+	{#key `${data.date}`}
+		<MonthForm {data} />
+	{/key}
 {:else}
 	<Header variant="sidebar" nav={dateIsToday ? nav : undefined}>
 		{#snippet title()}
 			<h2 class="flex w-full items-center">
 				<span class="text-xl">Carnet de succès</span>
-				<DatePicker class="ml-auto" {date}>
-					<span class="xs:hidden">{date.year}</span>
-					<span class="hidden xs:inline">{formatDay(date, 'numeric')}</span>
+				<DatePicker class="ml-auto" date={data.date}>
+					<span class="xs:hidden">{data.date.year}</span>
+					<span class="hidden xs:inline">{formatDay(data.date, 'numeric')}</span>
 				</DatePicker>
 			</h2>
 		{/snippet}
 	</Header>
 
-	<Notebook {data} />
+	{#key `${data.date}`}
+		<Notebook {data} />
+	{/key}
 {/if}
 
 {#snippet nav()}
