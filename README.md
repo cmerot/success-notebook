@@ -66,6 +66,16 @@ bunx tauri android dev
 
 This will build the app and deploy it to a connected Android device or emulator.
 
+## Updating dependencies
+
+To do in the root folder and in the `src-tauri/tauri-plugin-statusbar`:
+
+```bash
+bun update @tauri-apps/cli @tauri-apps/api --latest
+cd src-tauri
+cargo update
+```
+
 ## Building
 
 ### Web Build
