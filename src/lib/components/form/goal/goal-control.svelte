@@ -1,5 +1,6 @@
 <script lang="ts" generics="T extends Record<string, unknown>, U extends FormPath<T>">
 	import * as Form from '$lib/components/ui/form/index.js';
+	import * as Popover from '$lib/components/ui/popover/index.js';
 	import EditableTextBare from '$lib/components/form/text/editable-text-bare.svelte';
 	import { Slider } from '$lib/components/ui/slider/index.js';
 	import { cn } from '$lib/utils/utils';
@@ -7,6 +8,7 @@
 	import { fieldProxy, type FormPath } from 'sveltekit-superforms';
 	import type * as FormPrimitive from 'formsnap';
 	import type { GoalItemSchemaType } from '$lib/schemas/common';
+	import Button, { buttonVariants } from '$lib/components/ui/button/button.svelte';
 
 	interface Props {
 		form: FormPrimitive.FsSuperForm<T>;
@@ -19,6 +21,8 @@
 	let { form, name, isEditMode, disableCompletion = false, onBlur }: Props = $props();
 
 	const goal = fieldProxy(form.form, name) as unknown as Writable<GoalItemSchemaType>;
+
+	let popoverOpen = $state(false);
 </script>
 
 {#if isEditMode || $goal.text}
@@ -35,23 +39,32 @@
 					placeholder="Nouvel objectif..."
 					{onBlur}
 					formProps={isEditMode ? props : {}}
-					inputClass="block min-h-[1.25rem] w-0 flex-1"
-					viewClass="block min-h-[1.25rem] w-0 flex-1 text-left text-foreground"
+					inputClass="block flex-1"
+					viewClass="block flex-1"
 					emptyText=""
 				/>
-				<div class={cn('shrink-0', isEditMode ? 'relative w-24 grow-0' : 'max-w-24 min-w-24')}>
-					<Slider
-						type="single"
-						bind:value={$goal.completion}
-						min={0}
-						max={100}
-						step={5}
+				<Popover.Root bind:open={popoverOpen}>
+					<Popover.Trigger
 						disabled={isEditMode ? disableCompletion || !$goal.text : disableCompletion}
-					/>
-				</div>
-				<span class="min-w-[3ch] text-right text-sm text-muted-foreground">
-					{$goal.completion}%
-				</span>
+						class={cn(buttonVariants({ variant: 'outline', size: 'sm' }), 'w-[4rem]')}
+					>
+						{$goal.completion}%
+					</Popover.Trigger>
+					<Popover.Content side="top" align="center" class="w-auto">
+						<Slider
+							type="single"
+							bind:value={$goal.completion}
+							min={0}
+							max={100}
+							step={5}
+							orientation="vertical"
+							disabled={isEditMode ? disableCompletion || !$goal.text : disableCompletion}
+							onValueCommit={() => {
+								popoverOpen = false;
+							}}
+						/>
+					</Popover.Content>
+				</Popover.Root>
 			</div>
 		{/snippet}
 	</Form.Control>
