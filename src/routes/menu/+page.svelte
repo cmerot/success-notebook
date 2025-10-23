@@ -10,7 +10,6 @@
 		{ href: '/historic', label: 'Historique' },
 		{ href: '/about', label: 'Aide et à propos' },
 		{ href: '/statusbar', label: 'StatusBar' }
-		// { href: '/date-carousel', label: 'Le choix dans la date' }
 	];
 
 	function navigate(href: string) {
