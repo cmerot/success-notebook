@@ -20,6 +20,7 @@
 		"@tauri-apps/plugin-fs": "~2",
 		"@tauri-apps/plugin-opener": "^2",
 		"@tauri-apps/plugin-store": "^2.4.0",
+		"tauri-plugin-statusbar-api": "./src-tauri/tauri-plugin-statusbar",
 		"zod": "^4.1.12"
 	},
 	"devDependencies": {
