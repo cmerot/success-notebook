@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { dev } from '$app/environment';
 	import { onNavigate } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import '../app.css';
 	import { Toaster } from '$lib/components/ui/sonner';
 	import { ModeWatcher } from 'mode-watcher';
@@ -43,8 +44,9 @@
 		}
 
 		// Determine transition type
-		const isToMenu = toPath === '/menu';
-		const isFromMenu = fromPath === '/menu';
+		const menuPath = resolve('/menu');
+		const isToMenu = toPath === menuPath;
+		const isFromMenu = fromPath === menuPath;
 		const transitionType = isBack
 			? (isFromMenu ? 'back-from-menu' : 'back')
 			: (isToMenu ? 'forward-to-menu' : 'forward');
