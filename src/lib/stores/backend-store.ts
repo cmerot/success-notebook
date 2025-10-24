@@ -3,11 +3,34 @@ import { startOfWeek, type CalendarDate, startOfMonth, parseDate } from '@intern
 import type { DayFormType, WeekFormType, MonthFormType } from '$lib/schemas';
 import { hasContent, type HasContentValue } from '$lib/utils/utils.js';
 
-// Initialize the storage adapter - automatically selects Tauri or Web implementation
-const storagePromise = getStorageAdapter();
+// Storage adapter instance - lazy initialized or injected for testing
+let storagePromise: Promise<StorageAdapter> | null = null;
+let injectedStorage: StorageAdapter | null = null;
 
 async function getStorage(): Promise<StorageAdapter> {
+	// If storage was injected (for testing), use it
+	if (injectedStorage) {
+		return injectedStorage;
+	}
+
+	// Otherwise, lazy initialize the real storage adapter
+	if (!storagePromise) {
+		storagePromise = getStorageAdapter();
+	}
 	return await storagePromise;
+}
+
+/**
+ * Inject a storage adapter for testing purposes.
+ * ONLY use this in tests - it bypasses the normal storage initialization.
+ * @param adapter - The storage adapter to inject, or null to reset
+ */
+export function _setStorageAdapter(adapter: StorageAdapter | null): void {
+	injectedStorage = adapter;
+	// Reset the promise when injecting to ensure clean state
+	if (adapter) {
+		storagePromise = null;
+	}
 }
 
 //
