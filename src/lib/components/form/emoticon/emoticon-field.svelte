@@ -6,6 +6,7 @@
 	import EmoticonPopover from './emoticon-popover.svelte';
 	import Emoticon from './emoticon.svelte';
 	import type { EmoticonProps } from './types';
+	import { cn } from '$lib/utils/utils';
 
 	interface Props extends Omit<EmoticonProps, 'value'> {
 		form: FormPrimitive.FsSuperForm<T>;
@@ -34,6 +35,10 @@
 			{/snippet}
 		</Form.Control>
 	{:else}
-		<Emoticon value={$emoticon} class={emoticonClass} {...restProps} />
+		<Emoticon
+			value={$emoticon}
+			class={cn('border-2 border-transparent', emoticonClass)}
+			{...restProps}
+		/>
 	{/if}
 </Form.Field>
