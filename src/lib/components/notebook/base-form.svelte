@@ -1,8 +1,11 @@
 <script lang="ts" generics="T extends Record<string, any>">
 	import type { CalendarDate } from '@internationalized/date';
-	import type { SuperValidated } from 'sveltekit-superforms';
+	import { superForm, type SuperValidated } from 'sveltekit-superforms';
+	import { zod4 } from 'sveltekit-superforms/adapters';
+	import { get } from 'svelte/store';
 	import type { ZodType } from 'zod';
-	import { superFormAutoSave, deriveSectionStates } from '$lib/utils/form.svelte';
+	import { getSectionStates } from '$lib/utils/form';
+	import { debounce } from '$lib/utils/utils';
 	import { FormStatus } from '$lib/components/form/status';
 	import * as Surface from '$lib/components/surface';
 	import type { Snippet } from 'svelte';
@@ -27,7 +30,7 @@
 		) => boolean;
 		bindToTime?: boolean;
 		isEditMode?: boolean;
-		emoticons?: Snippet<[{ form: ReturnType<typeof superFormAutoSave<T>> }]>;
+		emoticons?: Snippet<[{ form: ReturnType<typeof superForm<T>> }]>;
 		footer?: Snippet;
 	}
 
@@ -44,15 +47,56 @@
 		footer
 	}: Props = $props();
 
-	const form = superFormAutoSave(data.form, {
-		schema,
-		onSave
+	// Set up superForm with auto-save
+	const form = superForm(data.form, {
+		SPA: true,
+		resetForm: false,
+		// @ts-expect-error - Generic zod schema type is not fully compatible with zod4 validator
+		validators: zod4(schema),
+		dataType: 'json',
+		async onUpdate({ form, cancel }) {
+			if (form.valid) {
+				try {
+					await onSave(form.data);
+					// At this point submitting the form will
+					// do nothing, except reproducing the behaviour
+					// of a none js form, which is to reset focus
+					cancel();
+					tainted.set(undefined);
+				} catch (error) {
+					console.error('Error saving form:', error);
+				}
+			}
+		}
 	});
-	let { form: formData, enhance } = form;
+
+	let { form: formData, enhance, tainted } = form;
+
+	// Create debounced auto-save function
+	const autoSave = debounce(() => {
+		// Only submit if form has actual user changes
+		if (get(tainted)) {
+			form.submit();
+		}
+	}, 1000);
+
+	// Track form data changes and trigger auto-save
+	$effect(() => {
+		// Subscribe to formData changes
+		const unsubscribe = formData.subscribe(() => {
+			autoSave();
+		});
+
+		// Cleanup: unsubscribe and cancel pending debounced calls
+		return () => {
+			unsubscribe();
+			autoSave.cancel?.();
+		};
+	});
 
 	// Derive section states to manage all field state
 	const { sections, hasContent, isEditable } = $derived(
-		deriveSectionStates({
+		getSectionStates({
 			sectionConfig: config.sections,
 			isEditMode,
 			bindToTime,
