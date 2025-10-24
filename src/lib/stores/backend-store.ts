@@ -207,7 +207,6 @@ export async function saveMonthEntry(date: CalendarDate, entry: MonthFormType): 
 export async function getAllEntries(): Promise<
 	{
 		date: CalendarDate;
-		url: string;
 		type: 'day' | 'week' | 'month';
 		entry: DayFormType | WeekFormType | MonthFormType;
 	}[]
@@ -218,7 +217,6 @@ export async function getAllEntries(): Promise<
 	// Sorted by date and none day/week/month entries removed
 	const entries: {
 		date: CalendarDate;
-		url: string;
 		type: 'day' | 'week' | 'month';
 		entry: DayFormType | WeekFormType | MonthFormType;
 	}[] = [];
@@ -228,18 +226,15 @@ export async function getAllEntries(): Promise<
 			if (key.startsWith('day:')) {
 				const dateString = key.replace('day:', '');
 				const date = parseDate(dateString);
-				const url = `${date.year}/${String(date.month).padStart(2, '0')}/${String(date.day).padStart(2, '0')}`;
-				entries.push({ date, url, type: 'day', entry: value as DayFormType });
+				entries.push({ date, type: 'day', entry: value as DayFormType });
 			} else if (key.startsWith('week:')) {
 				const dateString = key.replace('week:', '');
 				const date = parseDate(dateString);
-				const url = `${date.year}/${String(date.month).padStart(2, '0')}/${String(date.day).padStart(2, '0')}/week`;
-				entries.push({ date, url, type: 'week', entry: value as WeekFormType });
+				entries.push({ date, type: 'week', entry: value as WeekFormType });
 			} else if (key.startsWith('month:')) {
 				const dateString = key.replace('month:', '');
 				const date = parseDate(dateString);
-				const url = `${date.year}/${String(date.month).padStart(2, '0')}/${String(date.day).padStart(2, '0')}/month`;
-				entries.push({ date, url, type: 'month', entry: value as MonthFormType });
+				entries.push({ date, type: 'month', entry: value as MonthFormType });
 			}
 		}
 	}

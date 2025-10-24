@@ -212,3 +212,110 @@ export const getMonthSectionEditMode = (
 
 	return isEditMode;
 };
+
+// Types for hierarchical entries
+export type HierarchicalDay = {
+	date: CalendarDate;
+	type: string;
+};
+
+export type HierarchicalWeek = {
+	date: CalendarDate;
+	hasEntry: boolean;
+	days: HierarchicalDay[];
+};
+
+export type HierarchicalMonth = {
+	date: CalendarDate;
+	hasEntry: boolean;
+	weeks: HierarchicalWeek[];
+};
+
+// Build hierarchical structure from flat entries list
+export function buildHierarchicalEntries(
+	entries: Array<{
+		date: CalendarDate;
+		type: 'day' | 'week' | 'month';
+	}>
+): HierarchicalMonth[] {
+	const months = new Map<
+		string,
+		{
+			date: CalendarDate;
+			hasEntry: boolean;
+			weeks: Map<
+				string,
+				{
+					date: CalendarDate;
+					hasEntry: boolean;
+					days: Array<{ date: CalendarDate; type: string }>;
+				}
+			>;
+		}
+	>();
+
+	// Process all entries
+	for (const entry of entries) {
+		const monthStart = startOfMonth(entry.date);
+		const monthKey = monthStart.toString();
+
+		// Ensure month exists
+		if (!months.has(monthKey)) {
+			months.set(monthKey, {
+				date: monthStart,
+				hasEntry: false,
+				weeks: new Map()
+			});
+		}
+		const month = months.get(monthKey)!;
+
+		// Mark if this is a month entry
+		if (entry.type === 'month') {
+			month.hasEntry = true;
+		}
+
+		// Only process week/day entries for weeks
+		if (entry.type === 'week' || entry.type === 'day') {
+			const weekStart = startOfWeek(entry.date, locale);
+			const weekKey = weekStart.toString();
+
+			// Ensure week exists
+			if (!month.weeks.has(weekKey)) {
+				month.weeks.set(weekKey, {
+					date: weekStart,
+					hasEntry: false,
+					days: []
+				});
+			}
+			const week = month.weeks.get(weekKey)!;
+
+			// Mark if this is a week entry
+			if (entry.type === 'week') {
+				week.hasEntry = true;
+			}
+
+			// Add day entry
+			if (entry.type === 'day') {
+				week.days.push({ date: entry.date, type: entry.type });
+			}
+		}
+	}
+
+	// Sort months, weeks, and days by date (descending)
+	const sortedMonths = Array.from(months.entries())
+		.sort(([, a], [, b]) => b.date.compare(a.date))
+		.map(([, month]) => {
+			const sortedWeeks = Array.from(month.weeks.entries())
+				.sort(([, a], [, b]) => b.date.compare(a.date))
+				.map(([, week]) => ({
+					...week,
+					days: week.days.sort((a, b) => b.date.compare(a.date))
+				}));
+			return {
+				...month,
+				weeks: sortedWeeks
+			};
+		});
+
+	return sortedMonths;
+}
