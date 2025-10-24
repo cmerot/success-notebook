@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { type CalendarDate, type DateValue } from '@internationalized/date';
 	import { cn } from '$lib/utils/utils.js';
-	import { Button, buttonVariants } from '$lib/components/ui/button/index.js';
+	import { buttonVariants } from '$lib/components/ui/button/index.js';
 	import { Calendar } from '$lib/components/ui/calendar/index.js';
 	import * as Popover from '$lib/components/ui/popover/index.js';
 	import { goto } from '$app/navigation';
 	import type { Snippet } from 'svelte';
 	import { page } from '$app/state';
 	import { today } from '$lib/utils/date';
+	import { resolve } from '$app/paths';
 
 	interface Props {
 		children: Snippet;
@@ -24,12 +25,12 @@
 		if (!value) return;
 
 		if (today.compare(value) === 0) {
-			if (page.url.pathname !== '/') goto('/');
+			if (page.url.pathname !== resolve('/')) goto(resolve('/'));
 			open = false;
 			return;
 		}
 
-		const targetPath = ['', value.year, value.month, value.day].join('/');
+		const targetPath = resolve(`/${value.year}/${value.month}/${value.day}`);
 		if (date.compare(value) === 0) {
 			if (page.url.pathname !== targetPath) goto(targetPath);
 			open = false;
@@ -48,7 +49,7 @@
 			return;
 		}
 
-		const replaceState = page.url.pathname !== '/';
+		const replaceState = page.url.pathname !== resolve('/');
 		goto(targetPath, { replaceState });
 		open = false;
 	}

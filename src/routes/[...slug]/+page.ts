@@ -12,6 +12,7 @@ import {
 	getWeekSectionEditMode,
 	today
 } from '$lib/utils/date';
+import { resolve } from '$app/paths';
 
 interface Slug {
 	year: number;
@@ -51,7 +52,7 @@ function parseSlug(path: string): Slug | null {
 export const load: PageLoad = async ({ params, url }) => {
 	const slug = parseSlug(params.slug);
 
-	if (!slug && url.pathname !== '/') {
+	if (!slug && url.pathname !== resolve('/')) {
 		throw error(404, 'Pas une date !');
 	}
 	const date = slug ? new CalendarDate(slug.year, slug.month, slug.day) : today;
@@ -81,17 +82,13 @@ export const load: PageLoad = async ({ params, url }) => {
 
 	const firstDayOfWeek = startOfWeek(date, navigator.language);
 	const firstDayOfMonth = startOfMonth(date);
-	const dayHref = ['', date.year, date.month, date.day, 'day'].join('/');
-	const weekHref = ['', firstDayOfWeek.year, firstDayOfWeek.month, firstDayOfWeek.day, 'week'].join(
-		'/'
+	const dayHref = resolve(`/${date.year}/${date.month}/${date.day}/day`);
+	const weekHref = resolve(
+		`/${firstDayOfWeek.year}/${firstDayOfWeek.month}/${firstDayOfWeek.day}/week`
 	);
-	const monthHref = [
-		'',
-		firstDayOfMonth.year,
-		firstDayOfMonth.month,
-		firstDayOfMonth.day,
-		'month'
-	].join('/');
+	const monthHref = resolve(
+		`/${firstDayOfMonth.year}/${firstDayOfMonth.month}/${firstDayOfMonth.day}/month`
+	);
 
 	const dayEntry = await loadDayEntry(date);
 	const dayForm = await superValidate(dayEntry, zod4(dayFormSchema));

@@ -8,13 +8,14 @@
 	import { Menu } from 'lucide-svelte';
 	import DatePicker from '$lib/components/date-picker/date-picker.svelte';
 	import { dayConfig, monthConfig, weekConfig } from '$lib/components/notebook/config';
+	import { resolve } from '$app/paths';
 
 	let { data }: PageProps = $props();
 
 	let dateIsToday = $derived(data.date.compare(today) === 0);
 
 	function showMenu() {
-		goto('/menu');
+		goto(resolve('/menu'));
 	}
 
 	let title = $derived.by(() => {

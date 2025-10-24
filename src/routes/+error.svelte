@@ -4,9 +4,10 @@
 	import { Menu } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
+	import { resolve } from '$app/paths';
 
 	function showMenu() {
-		goto('/menu');
+		goto(resolve('/menu'));
 	}
 </script>
 

@@ -16,6 +16,7 @@
 	import { getFileOperationsAdapter } from '$lib/adapters/file-operations';
 	import Header from '$lib/components/layout/header.svelte';
 	import * as Surface from '$lib/components/surface';
+	import { resolve } from '$app/paths';
 
 	let { data }: PageProps = $props();
 
@@ -108,18 +109,18 @@
 			{#each data.entries as entry}
 				<li>
 					{#if entry.type == 'day'}
-						<Button class="capitalize" variant="link" href="/{entry.url}">
+						<Button class="capitalize" variant="link" href={resolve(`/${entry.url}`)}>
 							{formatDay(entry.date, { size: 'lg' })}
 						</Button>
 					{:else if entry.type == 'week'}
 						<h3>
-							<Button class="text-xl capitalize" variant="link" href="/{entry.url}">
+							<Button class="text-xl capitalize" variant="link" href={resolve(`/${entry.url}`)}>
 								{formatWeek(entry.date, { size: 'lg' })}
 							</Button>
 						</h3>
 					{:else}
 						<h1>
-							<Button class="text-3xl capitalize" variant="link" href="/{entry.url}">
+							<Button class="text-3xl capitalize" variant="link" href={resolve(`/${entry.url}`)}>
 								{formatMonth(entry.date, { size: 'lg' })}
 							</Button>
 						</h1>

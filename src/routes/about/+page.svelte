@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Header from '$lib/components/layout/header.svelte';
 	import * as Surface from '$lib/components/surface';
+	import { resolve } from '$app/paths';
 </script>
 
 <Header title="Aide et à propos" variant="sidebar" />
@@ -41,7 +42,7 @@
 			Internet.
 		</p>
 		<p>
-			<a href="/license" class="text-primary underline hover:no-underline"> Voir la licence MIT </a>
+			<a href={resolve('/license')} class="text-primary underline hover:no-underline"> Voir la licence MIT </a>
 		</p>
 		<p class="mb-0">
 			<a
