@@ -48,8 +48,12 @@
 		const isToMenu = toPath === menuPath;
 		const isFromMenu = fromPath === menuPath;
 		const transitionType = isBack
-			? (isFromMenu ? 'back-from-menu' : 'back')
-			: (isToMenu ? 'forward-to-menu' : 'forward');
+			? isFromMenu
+				? 'back-from-menu'
+				: 'back'
+			: isToMenu
+				? 'forward-to-menu'
+				: 'forward';
 
 		document.documentElement.dataset.transition = transitionType;
 

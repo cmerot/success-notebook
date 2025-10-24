@@ -42,7 +42,9 @@
 			Internet.
 		</p>
 		<p>
-			<a href={resolve('/license')} class="text-primary underline hover:no-underline"> Voir la licence MIT </a>
+			<a href={resolve('/license')} class="text-primary underline hover:no-underline">
+				Voir la licence MIT
+			</a>
 		</p>
 		<p class="mb-0">
 			<a
