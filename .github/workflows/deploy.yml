@@ -23,13 +23,11 @@ jobs:
           bun-version-file: '.bun-version'
 
       - name: Install statusbar dependencies
-        env:
-          BASE_PATH: '/src-tauri/tauri-plugin-statusbar'
+        working-directory: 'src-tauri/tauri-plugin-statusbar'
         run: bun install
 
       - name: Build statusbar
-        env:
-          BASE_PATH: '/src-tauri/tauri-plugin-statusbar'
+        working-directory: 'src-tauri/tauri-plugin-statusbar'
         run: bun run build
 
       - name: Install dependencies
