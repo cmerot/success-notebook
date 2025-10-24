@@ -32,7 +32,7 @@
 </script>
 
 <Popover.Root bind:open={isOpen}>
-	<Popover.Trigger>
+	<Popover.Trigger class="rounded-full border-2 border-primary/20">
 		<Emoticon
 			{value}
 			class={cn('transition-all hover:border-primary hover:bg-accent', className)}

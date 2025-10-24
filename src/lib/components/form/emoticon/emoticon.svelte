@@ -17,10 +17,10 @@
 
 <div
 	class={cn(
-		'inline-flex items-center justify-center rounded-full border-2 border-input bg-background',
+		'inline-flex items-center justify-center rounded-full bg-background',
 		sizeConfig.container,
 		sizeConfig.textSingle,
-		value ? '' : children ? '' : 'opacity-50',
+		value ? '' : children ? '' : 'opacity-30',
 		className
 	)}
 	aria-label={ariaLabel}
