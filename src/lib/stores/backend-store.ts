@@ -1,7 +1,7 @@
 import { getStorageAdapter, type StorageAdapter } from '$lib/adapters/storage';
 import { startOfWeek, type CalendarDate, startOfMonth, parseDate } from '@internationalized/date';
 import type { DayFormType, WeekFormType, MonthFormType } from '$lib/schemas';
-import { hasContent } from '$lib/utils/utils.js';
+import { hasContent, type HasContentValue } from '$lib/utils/utils.js';
 
 // Initialize the storage adapter - automatically selects Tauri or Web implementation
 const storagePromise = getStorageAdapter();
@@ -50,10 +50,10 @@ function mergeEntries<T>(existing: T, imported: T): T {
 				const existingItem = merged.find((m) => {
 					return hasTextProperty(m) && m.text === itemText;
 				});
-				if (!existingItem && hasContent(item)) {
+				if (!existingItem && hasContent(item as HasContentValue)) {
 					merged.push(item);
 				}
-			} else if (hasContent(item) && !merged.includes(item)) {
+			} else if (hasContent(item as HasContentValue) && !merged.includes(item)) {
 				merged.push(item);
 			}
 		}
@@ -74,7 +74,7 @@ function mergeEntries<T>(existing: T, imported: T): T {
 	}
 
 	// For other types, prefer imported value if not empty
-	return hasContent(imported) ? imported : existing;
+	return hasContent(imported as HasContentValue) ? imported : existing;
 }
 
 export async function importStore(
@@ -90,7 +90,7 @@ export async function importStore(
 		if (
 			typeof key !== 'string' ||
 			(!key.startsWith('day:') && !key.startsWith('week:') && !key.startsWith('month:')) ||
-			!hasContent(value)
+			!hasContent(value as HasContentValue)
 		) {
 			skipped++;
 			continue;

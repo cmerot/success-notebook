@@ -1,4 +1,4 @@
-import { hasContent } from '$lib/utils/utils';
+import { hasContent, type HasContentValue } from '$lib/utils/utils';
 import type { CalendarDate } from '@internationalized/date';
 import type { FieldConfig, SectionConfig, FieldState, SectionState } from '$lib/types/form';
 import type { SuperForm } from 'sveltekit-superforms';
@@ -78,7 +78,7 @@ export function getSectionStates<T extends Record<string, unknown>>(
 
 		const fields = section.fields.map((config): FieldState => {
 			const value = getFieldValue(formData, config.path);
-			const fieldHasContent = hasContent(value);
+			const fieldHasContent = hasContent(value as HasContentValue);
 			const fieldShouldShow = fieldHasContent || sectionIsEditMode;
 
 			return {

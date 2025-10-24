@@ -48,22 +48,26 @@ export function debounce<T extends (...args: unknown[]) => void>(
 	return debounced;
 }
 
-export function fillArray<T>(source: T[], seed: () => T, length: number): T[] {
-	const filled = [...source];
-	while (filled.length < length) {
-		filled.push(seed());
-	}
-	return filled;
-}
+// Type for values that can be checked for content
+export type HasContentValue =
+	| string
+	| number
+	| boolean
+	| unknown[]
+	| Record<string, unknown>
+	| null
+	| undefined;
 
 // Helper function to check if a field has content
-export const hasContent = (value: unknown): boolean => {
+export const hasContent = (value: HasContentValue): boolean => {
 	if (value === null || value === undefined) return false;
 	if (typeof value === 'string') return value.trim().length > 0;
-	if (Array.isArray(value)) return value.length > 0 && value.some((item) => hasContent(item));
+	if (typeof value === 'number' || typeof value === 'boolean') return false;
+	if (Array.isArray(value))
+		return value.length > 0 && value.some((item) => hasContent(item as HasContentValue));
 	if (typeof value === 'object') {
 		// Check if any property in the object has content
-		return Object.values(value as Record<string, unknown>).some((val) => hasContent(val));
+		return Object.values(value).some((val) => hasContent(val as HasContentValue));
 	}
 	return false;
 };

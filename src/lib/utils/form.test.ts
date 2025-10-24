@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, vi } from 'vitest';
 import { getSectionStates } from './form';
 import { CalendarDate } from '@internationalized/date';
-import type { SectionConfig, FieldConfig } from '$lib/types/form';
+import type { SectionConfig } from '$lib/types/form';
 
 // Mock component for testing
 const MockComponent = {};
@@ -29,7 +30,7 @@ function createMockSuperForm(): any {
 	};
 }
 
-describe('deriveSectionStates', () => {
+describe('getSectionStates', () => {
 	describe('basic functionality', () => {
 		it('should return empty sections for empty config', () => {
 			const result = getSectionStates({
@@ -233,7 +234,7 @@ describe('deriveSectionStates', () => {
 		};
 
 		it('should use custom getSectionEditMode when provided', () => {
-			const getSectionEditMode = vi.fn((isEditMode, bindToTime, date, sectionName) => {
+			const getSectionEditMode = vi.fn((isEditMode, bindToTime, date) => {
 				// Only allow editing sections from today
 				return isEditMode && date.compare(new CalendarDate(2025, 1, 15)) === 0;
 			});
