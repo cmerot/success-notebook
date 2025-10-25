@@ -57,7 +57,7 @@ describe('entries', () => {
 			const date = new CalendarDate(2025, 1, 15);
 			const entry: DayFormType = {
 				start: {
-					mood: { text: '😊', icon: 'smile' },
+					mood: { text: '😊', level: 4 },
 					grateful: 'Test',
 					desire: '',
 					goal: '',
@@ -65,7 +65,7 @@ describe('entries', () => {
 					toRelaxList: []
 				},
 				end: {
-					mood: { text: '😊', icon: 'smile' },
+					mood: { text: '😊', level: 4 },
 					achievements: ''
 				}
 			};
@@ -150,7 +150,7 @@ describe('entries', () => {
 			const date = new CalendarDate(2025, 1, 15);
 			const entry: DayFormType = {
 				start: {
-					mood: { text: '😊', icon: 'smile' },
+					mood: { text: '😊', level: 4 },
 					grateful: '  Test  ',
 					desire: '',
 					goal: '',
@@ -158,7 +158,7 @@ describe('entries', () => {
 					toRelaxList: []
 				},
 				end: {
-					mood: { text: '😊', icon: 'smile' },
+					mood: { text: '😊', level: 4 },
 					achievements: ''
 				}
 			};
@@ -180,7 +180,7 @@ describe('entries', () => {
 			const date = new CalendarDate(2025, 1, 15);
 			const entry: DayFormType = {
 				start: {
-					mood: { text: '😊', icon: 'smile' },
+					mood: { text: '😊', level: 4 },
 					grateful: '',
 					desire: '',
 					goal: '',
@@ -192,7 +192,7 @@ describe('entries', () => {
 					toRelaxList: []
 				},
 				end: {
-					mood: { text: '😊', icon: 'smile' },
+					mood: { text: '😊', level: 4 },
 					achievements: ''
 				}
 			};
@@ -248,14 +248,14 @@ describe('entries', () => {
 		it('should return all entries sorted by date and type', async () => {
 			const dayEntry: DayFormType = {
 				start: {
-					mood: { text: '😊', icon: 'smile' },
+					mood: { text: '😊', level: 4 },
 					grateful: 'Test',
 					desire: '',
 					goal: '',
 					todoList: [],
 					toRelaxList: []
 				},
-				end: { mood: { text: '', icon: '' }, achievements: '' }
+				end: { mood: { text: '', level: 3 }, achievements: '' }
 			};
 
 			const weekEntry: WeekFormType = {
@@ -293,26 +293,26 @@ describe('entries', () => {
 		it('should filter out entries without content', async () => {
 			const emptyEntry: DayFormType = {
 				start: {
-					mood: { text: '', icon: '' },
+					mood: { text: '', level: 3 },
 					grateful: '',
 					desire: '',
 					goal: '',
 					todoList: [],
 					toRelaxList: []
 				},
-				end: { mood: { text: '', icon: '' }, achievements: '' }
+				end: { mood: { text: '', level: 3 }, achievements: '' }
 			};
 
 			const validEntry: DayFormType = {
 				start: {
-					mood: { text: '😊', icon: 'smile' },
+					mood: { text: '😊', level: 4 },
 					grateful: 'Something',
 					desire: '',
 					goal: '',
 					todoList: [],
 					toRelaxList: []
 				},
-				end: { mood: { text: '', icon: '' }, achievements: '' }
+				end: { mood: { text: '', level: 3 }, achievements: '' }
 			};
 
 			storageData.set('day:2025-01-15', emptyEntry);
@@ -334,14 +334,14 @@ describe('entries', () => {
 			// This shouldn't normally happen, but test the sorting logic
 			const dayEntry: DayFormType = {
 				start: {
-					mood: { text: '😊', icon: 'smile' },
+					mood: { text: '😊', level: 4 },
 					grateful: 'Day',
 					desire: '',
 					goal: '',
 					todoList: [],
 					toRelaxList: []
 				},
-				end: { mood: { text: '', icon: '' }, achievements: '' }
+				end: { mood: { text: '', level: 3 }, achievements: '' }
 			};
 
 			const weekEntry: WeekFormType = {
@@ -367,14 +367,14 @@ describe('entries', () => {
 		it('should handle entries with only end section content', async () => {
 			const entryWithEndOnly: DayFormType = {
 				start: {
-					mood: { text: '', icon: '' },
+					mood: { text: '', level: 3 },
 					grateful: '',
 					desire: '',
 					goal: '',
 					todoList: [],
 					toRelaxList: []
 				},
-				end: { mood: { text: '', icon: '' }, achievements: 'Completed something' }
+				end: { mood: { text: '', level: 3 }, achievements: 'Completed something' }
 			};
 
 			storageData.set('day:2025-01-15', entryWithEndOnly);
@@ -390,7 +390,7 @@ describe('entries', () => {
 		it('should merge arrays without duplicates', () => {
 			const existing: DayFormType = {
 				start: {
-					mood: { text: '😊', icon: 'smile' },
+					mood: { text: '😊', level: 4 },
 					grateful: '',
 					desire: '',
 					goal: '',
@@ -400,12 +400,12 @@ describe('entries', () => {
 					],
 					toRelaxList: []
 				},
-				end: { mood: { text: '', icon: '' }, achievements: '' }
+				end: { mood: { text: '', level: 3 }, achievements: '' }
 			};
 
 			const imported: DayFormType = {
 				start: {
-					mood: { text: '😊', icon: 'smile' },
+					mood: { text: '😊', level: 4 },
 					grateful: '',
 					desire: '',
 					goal: '',
@@ -415,7 +415,7 @@ describe('entries', () => {
 					],
 					toRelaxList: []
 				},
-				end: { mood: { text: '', icon: '' }, achievements: '' }
+				end: { mood: { text: '', level: 3 }, achievements: '' }
 			};
 
 			const result = mergeEntries(existing, imported);
@@ -431,26 +431,26 @@ describe('entries', () => {
 		it('should prefer non-empty strings from imported entry', () => {
 			const existing: DayFormType = {
 				start: {
-					mood: { text: '😊', icon: 'smile' },
+					mood: { text: '😊', level: 4 },
 					grateful: '',
 					desire: '',
 					goal: '',
 					todoList: [],
 					toRelaxList: []
 				},
-				end: { mood: { text: '', icon: '' }, achievements: '' }
+				end: { mood: { text: '', level: 3 }, achievements: '' }
 			};
 
 			const imported: DayFormType = {
 				start: {
-					mood: { text: '😃', icon: 'happy' },
+					mood: { text: '😃', level: 4 },
 					grateful: 'New grateful',
 					desire: '',
 					goal: '',
 					todoList: [],
 					toRelaxList: []
 				},
-				end: { mood: { text: '', icon: '' }, achievements: 'New achievement' }
+				end: { mood: { text: '', level: 3 }, achievements: 'New achievement' }
 			};
 
 			const result = mergeEntries(existing, imported);
@@ -462,26 +462,26 @@ describe('entries', () => {
 		it('should keep existing non-empty strings when imported is empty', () => {
 			const existing: DayFormType = {
 				start: {
-					mood: { text: '😊', icon: 'smile' },
+					mood: { text: '😊', level: 4 },
 					grateful: 'Keep this',
 					desire: '',
 					goal: '',
 					todoList: [],
 					toRelaxList: []
 				},
-				end: { mood: { text: '', icon: '' }, achievements: '' }
+				end: { mood: { text: '', level: 3 }, achievements: '' }
 			};
 
 			const imported: DayFormType = {
 				start: {
-					mood: { text: '😊', icon: 'smile' },
+					mood: { text: '😊', level: 4 },
 					grateful: '',
 					desire: '',
 					goal: '',
 					todoList: [],
 					toRelaxList: []
 				},
-				end: { mood: { text: '', icon: '' }, achievements: '' }
+				end: { mood: { text: '', level: 3 }, achievements: '' }
 			};
 
 			const result = mergeEntries(existing, imported);
@@ -492,14 +492,14 @@ describe('entries', () => {
 		it('should return imported when existing is null', () => {
 			const imported: DayFormType = {
 				start: {
-					mood: { text: '😊', icon: 'smile' },
+					mood: { text: '😊', level: 4 },
 					grateful: 'Test',
 					desire: '',
 					goal: '',
 					todoList: [],
 					toRelaxList: []
 				},
-				end: { mood: { text: '', icon: '' }, achievements: '' }
+				end: { mood: { text: '', level: 3 }, achievements: '' }
 			};
 
 			const result = mergeEntries(null, imported);
@@ -510,14 +510,14 @@ describe('entries', () => {
 		it('should return existing when imported is null', () => {
 			const existing: DayFormType = {
 				start: {
-					mood: { text: '😊', icon: 'smile' },
+					mood: { text: '😊', level: 4 },
 					grateful: 'Test',
 					desire: '',
 					goal: '',
 					todoList: [],
 					toRelaxList: []
 				},
-				end: { mood: { text: '', icon: '' }, achievements: '' }
+				end: { mood: { text: '', level: 3 }, achievements: '' }
 			};
 
 			const result = mergeEntries(existing, null);

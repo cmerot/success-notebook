@@ -105,14 +105,14 @@ describe('store', () => {
 					'day:2025-01-15',
 					{
 						start: {
-							mood: { text: '😊', icon: 'smile' },
+							mood: { text: '😊', level: 4 },
 							grateful: 'Existing',
 							desire: '',
 							goal: '',
 							todoList: [],
 							toRelaxList: []
 						},
-						end: { mood: { text: '😊', icon: 'smile' }, achievements: '' }
+						end: { mood: { text: '😊', level: 4 }, achievements: '' }
 					}
 				]
 			];
@@ -127,14 +127,14 @@ describe('store', () => {
 		it('should count merged entries correctly', async () => {
 			const existing: DayFormType = {
 				start: {
-					mood: { text: '😊', icon: 'smile' },
+					mood: { text: '😊', level: 4 },
 					grateful: 'Existing',
 					desire: '',
 					goal: '',
 					todoList: [],
 					toRelaxList: []
 				},
-				end: { mood: { text: '😊', icon: 'smile' }, achievements: '' }
+				end: { mood: { text: '😊', level: 4 }, achievements: '' }
 			};
 			storageData.set('day:2025-01-15', existing);
 
@@ -143,14 +143,14 @@ describe('store', () => {
 					'day:2025-01-15',
 					{
 						start: {
-							mood: { text: '😊', icon: 'smile' },
+							mood: { text: '😊', level: 4 },
 							grateful: 'New',
 							desire: '',
 							goal: '',
 							todoList: [],
 							toRelaxList: []
 						},
-						end: { mood: { text: '😃', icon: 'happy' }, achievements: 'Achievement' }
+						end: { mood: { text: '😃', level: 4 }, achievements: 'Achievement' }
 					}
 				]
 			];
@@ -169,14 +169,14 @@ describe('store', () => {
 					'day:2025-01-16',
 					{
 						start: {
-							mood: { text: '😊', icon: 'smile' },
+							mood: { text: '😊', level: 4 },
 							grateful: '',
 							desire: '',
 							goal: '',
 							todoList: [],
 							toRelaxList: []
 						},
-						end: { mood: { text: '', icon: '' }, achievements: '' }
+						end: { mood: { text: '', level: 3 }, achievements: '' }
 					}
 				]
 			];
@@ -222,14 +222,14 @@ describe('store', () => {
 					'day:2025-01-15',
 					{
 						start: {
-							mood: { text: '😊', icon: 'smile' },
+							mood: { text: '😊', level: 4 },
 							grateful: 'Test',
 							desire: '',
 							goal: '',
 							todoList: [],
 							toRelaxList: []
 						},
-						end: { mood: { text: '😊', icon: 'smile' }, achievements: '' }
+						end: { mood: { text: '😊', level: 4 }, achievements: '' }
 					}
 				],
 				[

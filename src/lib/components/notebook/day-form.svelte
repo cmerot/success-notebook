@@ -5,7 +5,7 @@
 	import type { Snippet } from 'svelte';
 	import { formatDay, getDaySectionEditMode } from '$lib/utils/date';
 	import { saveDayEntry } from '$lib/services/entries';
-	import { EmoticonsField } from '$lib/components/form/emoticon';
+	import { EmoticonsLevelField } from '$lib/components/form/emoticon';
 	import BaseForm from './base-form.svelte';
 
 	interface Props {
@@ -35,6 +35,6 @@
 	{footer}
 >
 	{#snippet emoticons({ form })}
-		<EmoticonsField {form} startName="start.mood.icon" endName="end.mood.icon" size="md" />
+		<EmoticonsLevelField {form} startName="start.mood.level" endName="end.mood.level" size="md" />
 	{/snippet}
 </BaseForm>

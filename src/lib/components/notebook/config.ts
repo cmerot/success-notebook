@@ -3,9 +3,9 @@ import { TodoFieldset } from '$lib/components/form/todo';
 import { GoalFieldset } from '$lib/components/form/goal';
 import { RoutineFieldset } from '$lib/components/form/routine';
 import { Calendar1, CalendarCheck, Moon, Sun } from 'lucide-svelte';
-import MoodFieldset from '$lib/components/form/mood/mood-fieldset.svelte';
 import type { FormConfig } from '$lib/types/form';
 import type { AppSettings } from '$lib/services/settings';
+import { MoodLevelFieldset } from '../form/mood';
 
 export function createDayConfig(settings: AppSettings): FormConfig {
 	return {
@@ -19,7 +19,7 @@ export function createDayConfig(settings: AppSettings): FormConfig {
 					{
 						name: 'morningMood',
 						path: 'start.mood',
-						component: MoodFieldset,
+						component: MoodLevelFieldset,
 						legend: 'Émotion(s) du matin',
 						placeholder: 'Comment vous sentez-vous ce matin ?'
 					},
@@ -76,7 +76,7 @@ export function createDayConfig(settings: AppSettings): FormConfig {
 					{
 						name: 'eveningMood',
 						path: 'end.mood',
-						component: MoodFieldset,
+						component: MoodLevelFieldset,
 						legend: 'Émotion(s) du soir',
 						placeholder: 'Comment terminez-vous cette journée ?'
 					}

@@ -1,12 +1,12 @@
 import { z } from 'zod';
-import { checklistItemSchema, moodSchema } from './common';
+import { checklistItemSchema, moodLevelSchema } from './common';
 import type { AppSettings } from '$lib/services/settings';
 
 // Day form schema factory
 export function createDayFormSchema(settings: AppSettings) {
 	return z.object({
 		start: z.object({
-			mood: moodSchema,
+			mood: moodLevelSchema,
 			grateful: z.string(),
 			desire: z.string(),
 			goal: z.string(),
@@ -15,7 +15,7 @@ export function createDayFormSchema(settings: AppSettings) {
 		}),
 		end: z.object({
 			achievements: z.string(),
-			mood: moodSchema
+			mood: moodLevelSchema
 		})
 	});
 }

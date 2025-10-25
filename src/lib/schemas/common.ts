@@ -17,6 +17,12 @@ export const moodSchema = z.object({
 	icon: z.string()
 });
 
+export const moodLevelSchema = z.object({
+	text: z.string(),
+	level: z.number().min(1).max(5).optional()
+});
+
 export type CheckListItemType = z.infer<typeof checklistItemSchema>;
 export type GoalItemSchemaType = z.infer<typeof goalItemSchema>;
 export type MoodSchemaType = z.infer<typeof moodSchema>;
+export type MoodLevelSchemaType = z.infer<typeof moodLevelSchema>;
