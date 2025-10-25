@@ -253,7 +253,12 @@ describe('hasContent', () => {
 		});
 
 		it('should handle array of arrays of arrays with content', () => {
-			expect(hasContent([[[], []], [[], ['item']]])).toBe(true);
+			expect(
+				hasContent([
+					[[], []],
+					[[], ['item']]
+				])
+			).toBe(true);
 		});
 
 		it('should handle zero as string content', () => {

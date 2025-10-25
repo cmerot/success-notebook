@@ -13,9 +13,9 @@
 	<Surface.Section class="prose prose-sm max-w-none text-muted-foreground">
 		<h3 class="text-primary">Le carnet de succès</h3>
 		<p>
-			Ce journal de développement personnel s'inspire du concept de "carnet de succès" enseigné
-			par Julien DIEU dans sa formation "Gestion du temps", basée sur le principe que le bien-être
-			est le socle d'une performance durable.
+			Ce journal de développement personnel s'inspire du concept de "carnet de succès" enseigné par
+			Julien DIEU dans sa formation "Gestion du temps", basée sur le principe que le bien-être est
+			le socle d'une performance durable.
 		</p>
 		<div class="flex items-center gap-4">
 			<a
@@ -24,11 +24,7 @@
 				rel="noopener noreferrer"
 				class="inline-block"
 			>
-				<img
-					src="/logo-lineupcoaching/logo.png"
-					alt="Line Up Coaching"
-					class="h-12 w-auto"
-				/>
+				<img src="/logo-lineupcoaching/logo.png" alt="Line Up Coaching" class="h-12 w-auto" />
 			</a>
 			<a
 				href="https://lineupcoaching.fr/"
@@ -70,9 +66,7 @@
 		</p>
 
 		<h3 class="text-primary">Développement</h3>
-		<p class="mb-0">
-			Cette application a été développée par Corentin Merot.
-		</p>
+		<p class="mb-0">Cette application a été développée par Corentin Merot.</p>
 		<p class="mb-0">
 			<a
 				href="https://github.com/cmerot"

@@ -1,9 +1,8 @@
 <script lang="ts">
-	import { weekFormSchema, type WeekFormType } from '$lib/schemas';
+	import { getWeekFormSchema, getWeekConfig, type WeekFormType } from '$lib/schemas';
 	import { type CalendarDate } from '@internationalized/date';
 	import type { SuperValidated } from 'sveltekit-superforms';
 	import type { Snippet } from 'svelte';
-	import { weekConfig } from '$lib/components/notebook/config';
 	import { formatWeek, getWeekSectionEditMode } from '$lib/utils/date';
 	import { saveWeekEntry } from '$lib/stores/backend-store';
 	import { Emoticon } from '$lib/components/form/emoticon';
@@ -22,12 +21,14 @@
 	}
 
 	let { data, bindToTime = false, isEditMode = $bindable(false), footer }: Props = $props();
+
+	const weekConfig = getWeekConfig();
 </script>
 
 <BaseForm
 	data={{ date: data.date, form: data.week.form }}
 	config={weekConfig}
-	schema={weekFormSchema}
+	schema={getWeekFormSchema()}
 	onSave={(formData) => saveWeekEntry(data.date, formData)}
 	formatTitle={(date: CalendarDate) => formatWeek(date, { size: 'md' })}
 	getSectionEditMode={getWeekSectionEditMode}

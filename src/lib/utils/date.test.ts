@@ -256,23 +256,13 @@ describe('getDaySectionEditMode', () => {
 	describe('basic edit mode behavior', () => {
 		it('should return false when isEditMode is false', async () => {
 			const { getDaySectionEditMode } = await import('./date');
-			const result = getDaySectionEditMode(
-				false,
-				false,
-				new CalendarDate(2025, 1, 15),
-				'start'
-			);
+			const result = getDaySectionEditMode(false, false, new CalendarDate(2025, 1, 15), 'start');
 			expect(result).toBe(false);
 		});
 
 		it('should return true when isEditMode is true and bindToTime is false', async () => {
 			const { getDaySectionEditMode } = await import('./date');
-			const result = getDaySectionEditMode(
-				true,
-				false,
-				new CalendarDate(2025, 1, 15),
-				'start'
-			);
+			const result = getDaySectionEditMode(true, false, new CalendarDate(2025, 1, 15), 'start');
 			expect(result).toBe(true);
 		});
 
@@ -525,23 +515,13 @@ describe('getMonthSectionEditMode', () => {
 	describe('basic edit mode behavior', () => {
 		it('should return false when isEditMode is false', async () => {
 			const { getMonthSectionEditMode } = await import('./date');
-			const result = getMonthSectionEditMode(
-				false,
-				false,
-				new CalendarDate(2025, 1, 1),
-				'start'
-			);
+			const result = getMonthSectionEditMode(false, false, new CalendarDate(2025, 1, 1), 'start');
 			expect(result).toBe(false);
 		});
 
 		it('should return true when isEditMode is true and bindToTime is false', async () => {
 			const { getMonthSectionEditMode } = await import('./date');
-			const result = getMonthSectionEditMode(
-				true,
-				false,
-				new CalendarDate(2025, 1, 1),
-				'start'
-			);
+			const result = getMonthSectionEditMode(true, false, new CalendarDate(2025, 1, 1), 'start');
 			expect(result).toBe(true);
 		});
 

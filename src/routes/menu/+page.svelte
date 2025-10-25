@@ -3,7 +3,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
-	import { CircleQuestionMark, History, Database, Info } from 'lucide-svelte';
+	import { CircleQuestionMark, History, Database, Info, Settings } from 'lucide-svelte';
 	import type { ComponentType } from 'svelte';
 
 	// Navigation items
@@ -11,6 +11,7 @@
 		{ href: resolve('/help'), label: 'Comment utiliser votre carnet', icon: CircleQuestionMark },
 		{ href: resolve('/history'), label: 'Historique', icon: History },
 		{ href: resolve('/data'), label: 'Gestion de vos données', icon: Database },
+		{ href: resolve('/settings'), label: 'Paramètres', icon: Settings },
 		{ href: resolve('/about'), label: 'À propos', icon: Info }
 	];
 

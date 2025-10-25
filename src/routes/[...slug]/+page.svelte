@@ -7,10 +7,14 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Menu } from 'lucide-svelte';
 	import DatePicker from '$lib/components/date-picker/date-picker.svelte';
-	import { dayConfig, monthConfig, weekConfig } from '$lib/components/notebook/config';
+	import { getDayConfig, getMonthConfig, getWeekConfig } from '$lib/schemas';
 	import { resolve } from '$app/paths';
 
 	let { data }: PageProps = $props();
+
+	const dayConfig = getDayConfig();
+	const weekConfig = getWeekConfig();
+	const monthConfig = getMonthConfig();
 
 	let dateIsToday = $derived(data.date.compare(today) === 0);
 

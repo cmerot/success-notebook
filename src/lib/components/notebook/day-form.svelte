@@ -1,9 +1,8 @@
 <script lang="ts">
-	import { dayFormSchema, type DayFormType } from '$lib/schemas';
+	import { getDayFormSchema, getDayConfig, type DayFormType } from '$lib/schemas';
 	import { type CalendarDate } from '@internationalized/date';
 	import type { SuperValidated } from 'sveltekit-superforms';
 	import type { Snippet } from 'svelte';
-	import { dayConfig } from '$lib/components/notebook/config';
 	import { formatDay, getDaySectionEditMode } from '$lib/utils/date';
 	import { saveDayEntry } from '$lib/stores/backend-store';
 	import { EmoticonsField } from '$lib/components/form/emoticon';
@@ -26,8 +25,8 @@
 
 <BaseForm
 	data={{ date: data.date, form: data.day.form }}
-	config={dayConfig}
-	schema={dayFormSchema}
+	config={getDayConfig()}
+	schema={getDayFormSchema()}
 	onSave={(formData) => saveDayEntry(data.date, formData)}
 	formatTitle={formatDay}
 	getSectionEditMode={getDaySectionEditMode}

@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { CalendarDate } from '@internationalized/date';
 	import type { SuperValidated } from 'sveltekit-superforms';
-	import { monthFormSchema, type MonthFormType } from '$lib/schemas';
-	import { monthConfig } from '$lib/components/notebook/config';
+	import { getMonthFormSchema, getMonthConfig, type MonthFormType } from '$lib/schemas';
 	import { formatMonth, getMonthSectionEditMode } from '$lib/utils/date';
 	import { saveMonthEntry } from '$lib/stores/backend-store';
 	import { Emoticon } from '$lib/components/form/emoticon';
@@ -22,12 +21,14 @@
 	}
 
 	let { data, bindToTime = false, isEditMode = $bindable(false), footer }: Props = $props();
+
+	const monthConfig = getMonthConfig();
 </script>
 
 <BaseForm
 	data={{ date: data.date, form: data.month.form }}
 	config={monthConfig}
-	schema={monthFormSchema}
+	schema={getMonthFormSchema()}
 	onSave={(formData) => saveMonthEntry(data.date, formData)}
 	formatTitle={(date: CalendarDate) => formatMonth(date, { size: 'md' })}
 	getSectionEditMode={getMonthSectionEditMode}

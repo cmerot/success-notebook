@@ -2,7 +2,7 @@ import { superValidate } from 'sveltekit-superforms';
 import type { PageLoad } from './$types';
 import { CalendarDate, startOfMonth, startOfWeek } from '@internationalized/date';
 import { zod4 } from 'sveltekit-superforms/adapters';
-import { dayFormSchema, monthFormSchema, weekFormSchema } from '$lib/schemas';
+import { getDayFormSchema, getMonthFormSchema, getWeekFormSchema } from '$lib/schemas';
 import { loadDayEntry, loadMonthEntry, loadWeekEntry } from '$lib/stores/backend-store';
 import { hasContent } from '$lib/utils/utils';
 import { error } from '@sveltejs/kit';
@@ -91,14 +91,14 @@ export const load: PageLoad = async ({ params, url }) => {
 	);
 
 	const dayEntry = await loadDayEntry(date);
-	const dayForm = await superValidate(dayEntry, zod4(dayFormSchema));
+	const dayForm = await superValidate(dayEntry, zod4(getDayFormSchema()));
 	// const dayUrl =
 
 	const weekEntry = await loadWeekEntry(date);
-	const weekForm = await superValidate(weekEntry, zod4(weekFormSchema));
+	const weekForm = await superValidate(weekEntry, zod4(getWeekFormSchema()));
 
 	const monthEntry = await loadMonthEntry(date);
-	const monthForm = await superValidate(monthEntry, zod4(monthFormSchema));
+	const monthForm = await superValidate(monthEntry, zod4(getMonthFormSchema()));
 
 	// If the entry is new, or at least one section
 	// is in the time window of editing, return true
