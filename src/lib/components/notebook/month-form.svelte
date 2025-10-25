@@ -3,7 +3,7 @@
 	import type { SuperValidated } from 'sveltekit-superforms';
 	import { getMonthFormSchema, getMonthConfig, type MonthFormType } from '$lib/schemas';
 	import { formatMonth, getMonthSectionEditMode } from '$lib/utils/date';
-	import { saveMonthEntry } from '$lib/stores/backend-store';
+	import { saveMonthEntry } from '$lib/services/entries';
 	import { Emoticon } from '$lib/components/form/emoticon';
 	import type { Snippet } from 'svelte';
 	import BaseForm from './base-form.svelte';

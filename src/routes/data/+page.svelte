@@ -1,6 +1,6 @@
 <!-- src/routes/entries/+page.svelte -->
 <script lang="ts">
-	import { clearStore, dumpStore, importStore } from '$lib/stores/backend-store';
+	import { clearStore, dumpStore, importStore } from '$lib/services/store';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { Download, Trash, Upload } from 'lucide-svelte';
 	import { invalidateAll } from '$app/navigation';

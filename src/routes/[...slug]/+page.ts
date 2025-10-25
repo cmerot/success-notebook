@@ -3,7 +3,7 @@ import type { PageLoad } from './$types';
 import { CalendarDate, startOfMonth, startOfWeek } from '@internationalized/date';
 import { zod4 } from 'sveltekit-superforms/adapters';
 import { getDayFormSchema, getMonthFormSchema, getWeekFormSchema } from '$lib/schemas';
-import { loadDayEntry, loadMonthEntry, loadWeekEntry } from '$lib/stores/backend-store';
+import { loadDayEntry, loadMonthEntry, loadWeekEntry } from '$lib/services/entries';
 import { hasContent } from '$lib/utils/utils';
 import { error } from '@sveltejs/kit';
 import {

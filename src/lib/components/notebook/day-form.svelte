@@ -4,7 +4,7 @@
 	import type { SuperValidated } from 'sveltekit-superforms';
 	import type { Snippet } from 'svelte';
 	import { formatDay, getDaySectionEditMode } from '$lib/utils/date';
-	import { saveDayEntry } from '$lib/stores/backend-store';
+	import { saveDayEntry } from '$lib/services/entries';
 	import { EmoticonsField } from '$lib/components/form/emoticon';
 	import BaseForm from './base-form.svelte';
 
