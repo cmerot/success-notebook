@@ -51,6 +51,16 @@ describe('store', () => {
 			expect(mockStorageInstance.clear).toHaveBeenCalledOnce();
 			expect(storageData.size).toBe(0);
 		});
+
+		it('should clear settings along with entries', async () => {
+			storageData.set('day:2025-01-15', { data: 'test' });
+			storageData.set('settings:app', { maxTodoList: 5 });
+
+			await clearStore();
+
+			expect(mockStorageInstance.clear).toHaveBeenCalledOnce();
+			expect(storageData.size).toBe(0);
+		});
 	});
 
 	describe('dumpStore', () => {
@@ -72,6 +82,19 @@ describe('store', () => {
 			const result = await dumpStore();
 
 			expect(result).toEqual([]);
+		});
+
+		it('should include settings in dump', async () => {
+			const testData: [string, unknown][] = [
+				['day:2025-01-15', { data: 'day1' }],
+				['settings:app', { maxTodoList: 5, maxToRelaxList: 4 }]
+			];
+			testData.forEach(([key, value]) => storageData.set(key, value));
+
+			const result = await dumpStore();
+
+			expect(result).toHaveLength(2);
+			expect(result).toEqual(expect.arrayContaining(testData));
 		});
 	});
 
@@ -101,7 +124,7 @@ describe('store', () => {
 			expect(mockStorageInstance.save).toHaveBeenCalledOnce();
 		});
 
-		it('should merge with existing entries', async () => {
+		it('should count merged entries correctly', async () => {
 			const existing: DayFormType = {
 				start: {
 					mood: { text: '😊', icon: 'smile' },
@@ -135,10 +158,7 @@ describe('store', () => {
 			const result = await importStore(entries);
 
 			expect(result).toEqual({ imported: 0, merged: 1, skipped: 0 });
-			const savedEntry = storageData.get('day:2025-01-15') as DayFormType;
-			// New non-empty values should override existing
-			expect(savedEntry.start.grateful).toBe('New');
-			expect(savedEntry.end.achievements).toBe('Achievement');
+			expect(mockStorageInstance.save).toHaveBeenCalledOnce();
 		});
 
 		it('should skip invalid entries', async () => {
@@ -161,133 +181,98 @@ describe('store', () => {
 				]
 			];
 
-			const result = await importStore(entries as [string, DayFormType][]);
+			const result = await importStore(entries);
 
 			expect(result.skipped).toBeGreaterThan(0);
 		});
 
-		it('should merge arrays without duplicates', async () => {
-			const existing: DayFormType = {
-				start: {
-					mood: { text: '😊', icon: 'smile' },
-					grateful: '',
-					desire: '',
-					goal: '',
-					todoList: [
-						{ text: 'Existing task', completed: false },
-						{ text: 'Common task', completed: false }
-					],
-					toRelaxList: []
-				},
-				end: { mood: { text: '', icon: '' }, achievements: '' }
-			};
-			storageData.set('day:2025-01-15', existing);
-
-			const entries: [string, DayFormType][] = [
+		it('should import settings', async () => {
+			const entries: [string, unknown][] = [
 				[
-					'day:2025-01-15',
+					'settings:app',
 					{
-						start: {
-							mood: { text: '😊', icon: 'smile' },
-							grateful: '',
-							desire: '',
-							goal: '',
-							todoList: [
-								{ text: 'Common task', completed: false },
-								{ text: 'New task', completed: false }
-							],
-							toRelaxList: []
-						},
-						end: { mood: { text: '', icon: '' }, achievements: '' }
+						maxTodoList: 5,
+						maxToRelaxList: 4,
+						maxWeekRoutines: 6,
+						maxWeekGoals: 4,
+						maxMonthRoutines: 7,
+						maxMonthGoals: 4
 					}
 				]
 			];
 
 			const result = await importStore(entries);
 
-			expect(result).toEqual({ imported: 0, merged: 1, skipped: 0 });
-			const savedEntry = storageData.get('day:2025-01-15') as DayFormType;
-			// Should have all 3 tasks without duplicating "Common task"
-			expect(savedEntry.start.todoList).toHaveLength(3);
-			const texts = savedEntry.start.todoList.map((t) => t.text);
-			expect(texts).toContain('Existing task');
-			expect(texts).toContain('Common task');
-			expect(texts).toContain('New task');
+			expect(result).toEqual({ imported: 1, merged: 0, skipped: 0 });
+			expect(storageData.has('settings:app')).toBe(true);
+			const settings = storageData.get('settings:app');
+			expect(settings).toEqual({
+				maxTodoList: 5,
+				maxToRelaxList: 4,
+				maxWeekRoutines: 6,
+				maxWeekGoals: 4,
+				maxMonthRoutines: 7,
+				maxMonthGoals: 4
+			});
 		});
 
-		it('should prefer non-empty strings from imported entry', async () => {
-			const existing: DayFormType = {
-				start: {
-					mood: { text: '😊', icon: 'smile' },
-					grateful: '',
-					desire: '',
-					goal: '',
-					todoList: [],
-					toRelaxList: []
-				},
-				end: { mood: { text: '', icon: '' }, achievements: '' }
-			};
-			storageData.set('day:2025-01-15', existing);
-
-			const entries: [string, DayFormType][] = [
-				[
-					'day:2025-01-15',
-					{
-						start: {
-							mood: { text: '😃', icon: 'happy' },
-							grateful: 'New grateful',
-							desire: '',
-							goal: '',
-							todoList: [],
-							toRelaxList: []
-						},
-						end: { mood: { text: '', icon: '' }, achievements: 'New achievement' }
-					}
-				]
-			];
-
-			await importStore(entries);
-
-			const savedEntry = storageData.get('day:2025-01-15') as DayFormType;
-			expect(savedEntry.start.grateful).toBe('New grateful');
-			expect(savedEntry.end.achievements).toBe('New achievement');
-		});
-
-		it('should keep existing non-empty strings when imported is empty', async () => {
-			const existing: DayFormType = {
-				start: {
-					mood: { text: '😊', icon: 'smile' },
-					grateful: 'Keep this',
-					desire: '',
-					goal: '',
-					todoList: [],
-					toRelaxList: []
-				},
-				end: { mood: { text: '', icon: '' }, achievements: '' }
-			};
-			storageData.set('day:2025-01-15', existing);
-
-			const entries: [string, DayFormType][] = [
+		it('should import both entries and settings together', async () => {
+			const entries: [string, unknown][] = [
 				[
 					'day:2025-01-15',
 					{
 						start: {
 							mood: { text: '😊', icon: 'smile' },
-							grateful: '',
+							grateful: 'Test',
 							desire: '',
 							goal: '',
 							todoList: [],
 							toRelaxList: []
 						},
-						end: { mood: { text: '', icon: '' }, achievements: '' }
+						end: { mood: { text: '😊', icon: 'smile' }, achievements: '' }
+					}
+				],
+				[
+					'settings:app',
+					{
+						maxTodoList: 10
 					}
 				]
 			];
 
-			await importStore(entries);
+			const result = await importStore(entries);
 
-			const savedEntry = storageData.get('day:2025-01-15') as DayFormType;
-			expect(savedEntry.start.grateful).toBe('Keep this');
+			expect(result).toEqual({ imported: 2, merged: 0, skipped: 0 });
+			expect(storageData.has('day:2025-01-15')).toBe(true);
+			expect(storageData.has('settings:app')).toBe(true);
+		});
+
+		it('should overwrite existing settings when importing', async () => {
+			// Set existing settings
+			storageData.set('settings:app', {
+				maxTodoList: 3,
+				maxToRelaxList: 3
+			});
+
+			const entries: [string, unknown][] = [
+				[
+					'settings:app',
+					{
+						maxTodoList: 10,
+						maxWeekRoutines: 8
+					}
+				]
+			];
+
+			const result = await importStore(entries);
+
+			expect(result).toEqual({ imported: 1, merged: 0, skipped: 0 });
+			const settings = storageData.get('settings:app');
+			// Settings should be completely replaced, not merged
+			expect(settings).toEqual({
+				maxTodoList: 10,
+				maxWeekRoutines: 8
+			});
 		});
 	});
 });

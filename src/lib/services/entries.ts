@@ -1,7 +1,67 @@
 import { startOfWeek, type CalendarDate, startOfMonth, parseDate } from '@internationalized/date';
 import type { DayFormType, WeekFormType, MonthFormType } from '$lib/schemas';
-import { hasContent } from '$lib/utils/utils.js';
+import { hasContent, type HasContentValue } from '$lib/utils/utils.js';
 import { getStorage } from './store';
+
+//
+// Merge Utilities
+//
+
+// Helper type guard for objects with text property
+function hasTextProperty(value: unknown): value is { text: unknown } {
+	return value !== null && typeof value === 'object' && 'text' in value;
+}
+
+/**
+ * Merge two entries, preferring non-empty values from the new entry
+ * Used for combining existing and imported entries
+ */
+export function mergeEntries<T>(existing: T, imported: T): T {
+	// If either is null/undefined, return the other
+	if (existing === null || existing === undefined) return imported;
+	if (imported === null || imported === undefined) return existing;
+
+	// For strings, prefer non-empty imported value
+	if (typeof existing === 'string' && typeof imported === 'string') {
+		return imported.trim() !== '' ? imported : existing;
+	}
+
+	// For arrays, merge and deduplicate
+	if (Array.isArray(existing) && Array.isArray(imported)) {
+		const merged = [...existing];
+		for (const item of imported) {
+			// For objects with text property, check for duplicates
+			if (hasTextProperty(item)) {
+				const itemText = item.text;
+				const existingItem = merged.find((m) => {
+					return hasTextProperty(m) && m.text === itemText;
+				});
+				if (!existingItem && hasContent(item as HasContentValue)) {
+					merged.push(item);
+				}
+			} else if (hasContent(item as HasContentValue) && !merged.includes(item)) {
+				merged.push(item);
+			}
+		}
+		return merged as T;
+	}
+
+	// For objects, merge recursively
+	if (existing && typeof existing === 'object' && imported && typeof imported === 'object') {
+		const merged = { ...existing } as Record<string, unknown>;
+		for (const [key, value] of Object.entries(imported as Record<string, unknown>)) {
+			if (key in merged) {
+				merged[key] = mergeEntries(merged[key], value);
+			} else {
+				merged[key] = value;
+			}
+		}
+		return merged as T;
+	}
+
+	// For other types, prefer imported value if not empty
+	return hasContent(imported as HasContentValue) ? imported : existing;
+}
 
 //
 // Load API

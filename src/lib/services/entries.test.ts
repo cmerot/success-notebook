@@ -9,7 +9,8 @@ import {
 	saveDayEntry,
 	saveWeekEntry,
 	saveMonthEntry,
-	getAllEntries
+	getAllEntries,
+	mergeEntries
 } from './entries';
 import { _setStorageAdapter } from './store';
 
@@ -382,6 +383,181 @@ describe('entries', () => {
 
 			expect(result).toHaveLength(1);
 			expect(result[0].entry).toEqual(entryWithEndOnly);
+		});
+	});
+
+	describe('mergeEntries', () => {
+		it('should merge arrays without duplicates', () => {
+			const existing: DayFormType = {
+				start: {
+					mood: { text: '😊', icon: 'smile' },
+					grateful: '',
+					desire: '',
+					goal: '',
+					todoList: [
+						{ text: 'Existing task', completed: false },
+						{ text: 'Common task', completed: false }
+					],
+					toRelaxList: []
+				},
+				end: { mood: { text: '', icon: '' }, achievements: '' }
+			};
+
+			const imported: DayFormType = {
+				start: {
+					mood: { text: '😊', icon: 'smile' },
+					grateful: '',
+					desire: '',
+					goal: '',
+					todoList: [
+						{ text: 'Common task', completed: false },
+						{ text: 'New task', completed: false }
+					],
+					toRelaxList: []
+				},
+				end: { mood: { text: '', icon: '' }, achievements: '' }
+			};
+
+			const result = mergeEntries(existing, imported);
+
+			// Should have all 3 tasks without duplicating "Common task"
+			expect(result.start.todoList).toHaveLength(3);
+			const texts = result.start.todoList.map((t) => t.text);
+			expect(texts).toContain('Existing task');
+			expect(texts).toContain('Common task');
+			expect(texts).toContain('New task');
+		});
+
+		it('should prefer non-empty strings from imported entry', () => {
+			const existing: DayFormType = {
+				start: {
+					mood: { text: '😊', icon: 'smile' },
+					grateful: '',
+					desire: '',
+					goal: '',
+					todoList: [],
+					toRelaxList: []
+				},
+				end: { mood: { text: '', icon: '' }, achievements: '' }
+			};
+
+			const imported: DayFormType = {
+				start: {
+					mood: { text: '😃', icon: 'happy' },
+					grateful: 'New grateful',
+					desire: '',
+					goal: '',
+					todoList: [],
+					toRelaxList: []
+				},
+				end: { mood: { text: '', icon: '' }, achievements: 'New achievement' }
+			};
+
+			const result = mergeEntries(existing, imported);
+
+			expect(result.start.grateful).toBe('New grateful');
+			expect(result.end.achievements).toBe('New achievement');
+		});
+
+		it('should keep existing non-empty strings when imported is empty', () => {
+			const existing: DayFormType = {
+				start: {
+					mood: { text: '😊', icon: 'smile' },
+					grateful: 'Keep this',
+					desire: '',
+					goal: '',
+					todoList: [],
+					toRelaxList: []
+				},
+				end: { mood: { text: '', icon: '' }, achievements: '' }
+			};
+
+			const imported: DayFormType = {
+				start: {
+					mood: { text: '😊', icon: 'smile' },
+					grateful: '',
+					desire: '',
+					goal: '',
+					todoList: [],
+					toRelaxList: []
+				},
+				end: { mood: { text: '', icon: '' }, achievements: '' }
+			};
+
+			const result = mergeEntries(existing, imported);
+
+			expect(result.start.grateful).toBe('Keep this');
+		});
+
+		it('should return imported when existing is null', () => {
+			const imported: DayFormType = {
+				start: {
+					mood: { text: '😊', icon: 'smile' },
+					grateful: 'Test',
+					desire: '',
+					goal: '',
+					todoList: [],
+					toRelaxList: []
+				},
+				end: { mood: { text: '', icon: '' }, achievements: '' }
+			};
+
+			const result = mergeEntries(null, imported);
+
+			expect(result).toEqual(imported);
+		});
+
+		it('should return existing when imported is null', () => {
+			const existing: DayFormType = {
+				start: {
+					mood: { text: '😊', icon: 'smile' },
+					grateful: 'Test',
+					desire: '',
+					goal: '',
+					todoList: [],
+					toRelaxList: []
+				},
+				end: { mood: { text: '', icon: '' }, achievements: '' }
+			};
+
+			const result = mergeEntries(existing, null);
+
+			expect(result).toEqual(existing);
+		});
+
+		it('should merge nested objects recursively', () => {
+			const existing = {
+				level1: {
+					level2: {
+						keepThis: 'existing value',
+						overwriteThis: ''
+					}
+				}
+			};
+
+			const imported = {
+				level1: {
+					level2: {
+						overwriteThis: 'new value',
+						addThis: 'added value'
+					}
+				}
+			};
+
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			const result = mergeEntries(existing, imported as any) as {
+				level1: {
+					level2: {
+						keepThis: string;
+						overwriteThis: string;
+						addThis: string;
+					};
+				};
+			};
+
+			expect(result.level1.level2.keepThis).toBe('existing value');
+			expect(result.level1.level2.overwriteThis).toBe('new value');
+			expect(result.level1.level2.addThis).toBe('added value');
 		});
 	});
 });

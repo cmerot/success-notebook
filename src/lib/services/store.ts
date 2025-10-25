@@ -1,6 +1,6 @@
 import { getStorageAdapter, type StorageAdapter } from '$lib/adapters/storage';
-import type { DayFormType, WeekFormType, MonthFormType } from '$lib/schemas';
 import { hasContent, type HasContentValue } from '$lib/utils/utils.js';
+import { mergeEntries } from './entries';
 
 // Storage adapter instance - lazy initialized or injected for testing
 let storagePromise: Promise<StorageAdapter> | null = null;
@@ -46,61 +46,8 @@ export async function dumpStore() {
 	return await storage.entries();
 }
 
-// Helper type guard for objects with text property
-function hasTextProperty(value: unknown): value is { text: unknown } {
-	return value !== null && typeof value === 'object' && 'text' in value;
-}
-
-// Helper function to merge two entries, preferring non-empty values from the new entry
-function mergeEntries<T>(existing: T, imported: T): T {
-	// If either is null/undefined, return the other
-	if (existing === null || existing === undefined) return imported;
-	if (imported === null || imported === undefined) return existing;
-
-	// For strings, prefer non-empty imported value
-	if (typeof existing === 'string' && typeof imported === 'string') {
-		return imported.trim() !== '' ? imported : existing;
-	}
-
-	// For arrays, merge and deduplicate
-	if (Array.isArray(existing) && Array.isArray(imported)) {
-		const merged = [...existing];
-		for (const item of imported) {
-			// For objects with text property, check for duplicates
-			if (hasTextProperty(item)) {
-				const itemText = item.text;
-				const existingItem = merged.find((m) => {
-					return hasTextProperty(m) && m.text === itemText;
-				});
-				if (!existingItem && hasContent(item as HasContentValue)) {
-					merged.push(item);
-				}
-			} else if (hasContent(item as HasContentValue) && !merged.includes(item)) {
-				merged.push(item);
-			}
-		}
-		return merged as T;
-	}
-
-	// For objects, merge recursively
-	if (existing && typeof existing === 'object' && imported && typeof imported === 'object') {
-		const merged = { ...existing } as Record<string, unknown>;
-		for (const [key, value] of Object.entries(imported as Record<string, unknown>)) {
-			if (key in merged) {
-				merged[key] = mergeEntries(merged[key], value);
-			} else {
-				merged[key] = value;
-			}
-		}
-		return merged as T;
-	}
-
-	// For other types, prefer imported value if not empty
-	return hasContent(imported as HasContentValue) ? imported : existing;
-}
-
 export async function importStore(
-	entries: [string, DayFormType | WeekFormType | MonthFormType][]
+	entries: [string, unknown][]
 ): Promise<{ imported: number; merged: number; skipped: number }> {
 	const storage = await getStorage();
 	let imported = 0;
@@ -108,28 +55,45 @@ export async function importStore(
 	let skipped = 0;
 
 	for (const [key, value] of entries) {
-		// Skip non-entry keys or invalid entries
-		if (
-			typeof key !== 'string' ||
-			(!key.startsWith('day:') && !key.startsWith('week:') && !key.startsWith('month:')) ||
-			!hasContent(value as HasContentValue)
-		) {
+		// Validate key is a string
+		if (typeof key !== 'string') {
 			skipped++;
 			continue;
 		}
 
-		const existing = await storage.get<typeof value>(key);
-
-		if (existing) {
-			// Merge with existing entry
-			const mergedEntry = mergeEntries(existing, value);
-			await storage.set(key, mergedEntry);
-			merged++;
-		} else {
-			// Import as new entry
+		// Handle settings separately
+		if (key.startsWith('settings:')) {
+			// Settings are imported directly without merging
 			await storage.set(key, value);
 			imported++;
+			continue;
 		}
+
+		// Handle entries (day/week/month)
+		if (key.startsWith('day:') || key.startsWith('week:') || key.startsWith('month:')) {
+			// Skip invalid entries
+			if (!hasContent(value as HasContentValue)) {
+				skipped++;
+				continue;
+			}
+
+			const existing = await storage.get<typeof value>(key);
+
+			if (existing) {
+				// Merge with existing entry
+				const mergedEntry = mergeEntries(existing, value);
+				await storage.set(key, mergedEntry);
+				merged++;
+			} else {
+				// Import as new entry
+				await storage.set(key, value);
+				imported++;
+			}
+			continue;
+		}
+
+		// Skip unknown key types
+		skipped++;
 	}
 
 	await storage.save();
