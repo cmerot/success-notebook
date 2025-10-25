@@ -9,6 +9,7 @@
 	import { page } from '$app/state';
 	import { today } from '$lib/utils/date';
 	import { resolve } from '$app/paths';
+	import { CalendarIcon } from 'lucide-svelte';
 
 	interface Props {
 		children: Snippet;
@@ -65,6 +66,7 @@
 			className
 		)}
 	>
+		<CalendarIcon />
 		{@render children()}
 	</Popover.Trigger>
 	<Popover.Content class="w-auto p-0">

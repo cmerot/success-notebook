@@ -96,38 +96,43 @@
 <Header title="Vos données" variant="sidebar" />
 
 <Surface.Root class="theme-blue">
-	<Surface.Header title="Télécharger" />
+	<Surface.Header title="Gestion de vos données" />
 
-	<Surface.Section class="text-muted-foreground">
-		<p class="mb-3">
-			Téléchargez votre carnet au format <code>json</code>.
-		</p>
-		<p>
-			<Button onclick={downloadData}>Télécharger <Download /></Button>
-		</p>
-	</Surface.Section>
-</Surface.Root>
+	<Surface.Section>
+		<div class="prose prose-sm mb-6 max-w-none text-muted-foreground">
+			<p class="mb-2">
+				Cette application utilise une base de données locale. Aucune communication n'est effectuée
+				avec le monde extérieur : pas de sauvegarde cloud, pas de tracking, pas de collecte de
+				données.
+			</p>
+			<p>
+				Vos données restent sur votre appareil. Vous pouvez les télécharger, les importer ou les
+				supprimer à tout moment.
+			</p>
+		</div>
 
-<Surface.Root class="theme-blue">
-	<Surface.Header title="Importer" />
+		<div class="space-y-12">
+			<div>
+				<h3 class="mb-2 font-semibold text-primary">Sauvegarde</h3>
+				<p class="mb-3 text-sm">
+					Téléchargez votre carnet au format <code>json</code>.
+				</p>
+				<Button onclick={downloadData}><Download /> Télécharger</Button>
+			</div>
 
-	<Surface.Section class="text-muted-foreground">
-		<p class="mb-3">
-			Importez votre carnet au format <code>json</code>.
-		</p>
-		<p>
-			<Button onclick={importData}>Importer un fichier<Upload /></Button>
-		</p>
-	</Surface.Section>
-</Surface.Root>
+			<div>
+				<h3 class="mb-2 font-semibold text-primary">Restauration</h3>
+				<p class="mb-3 text-sm">
+					Importez votre carnet au format <code>json</code>.
+				</p>
+				<Button onclick={importData}><Upload /> Importer un fichier</Button>
+			</div>
 
-<Surface.Root class="theme-rose">
-	<Surface.Header title="Supprimer" />
-
-	<Surface.Section class="text-muted-foreground">
-		<p class="mb-3">Supprimez votre carnet de ce périphérique.</p>
-		<p>
-			<Button variant="destructive" onclick={clearData}>Tout supprimer <Trash /></Button>
-		</p>
+			<div>
+				<h3 class="mb-2 font-semibold text-destructive">Réinitialisation</h3>
+				<p class="mb-3 text-sm">Supprimez votre carnet de ce périphérique.</p>
+				<Button variant="destructive" onclick={clearData}><Trash /> Tout supprimer</Button>
+			</div>
+		</div>
 	</Surface.Section>
 </Surface.Root>
