@@ -24,7 +24,11 @@
 				rel="noopener noreferrer"
 				class="inline-block"
 			>
-				<img src="/logo-lineupcoaching/logo.png" alt="Line Up Coaching" class="h-12 w-auto" />
+				<img
+					src={resolve('/logo-lineupcoaching/logo.png')}
+					alt="Line Up Coaching"
+					class="h-12 w-auto"
+				/>
 			</a>
 			<a
 				href="https://lineupcoaching.fr/"
