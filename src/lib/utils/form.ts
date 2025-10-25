@@ -46,6 +46,7 @@ function buildFieldProps<T extends Record<string, unknown>>(
 
 	if (config.label) props.label = config.label;
 	if (config.legend) props.legend = config.legend;
+	if (config.placeholder) props.placeholder = config.placeholder;
 	if (config.maxItems) props.maxItems = config.maxItems;
 
 	return props;

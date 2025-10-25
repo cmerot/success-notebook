@@ -16,9 +16,17 @@
 		isEditMode: boolean;
 		disableCompletion?: boolean;
 		onBlur?: () => void;
+		placeholder?: string;
 	}
 
-	let { form, name, isEditMode, disableCompletion = false, onBlur }: Props = $props();
+	let {
+		form,
+		name,
+		isEditMode,
+		disableCompletion = false,
+		onBlur,
+		placeholder = 'Nouvel objectif...'
+	}: Props = $props();
 
 	const goal = fieldProxy(form.form, name) as unknown as Writable<GoalItemSchemaType>;
 
@@ -36,7 +44,7 @@
 				<EditableTextBare
 					{isEditMode}
 					bind:value={$goal.text}
-					placeholder="Nouvel objectif..."
+					{placeholder}
 					{onBlur}
 					formProps={isEditMode ? props : {}}
 					inputClass="block flex-1"

@@ -7,6 +7,7 @@ export interface FieldConfig {
 	component: any;
 	label?: string;
 	legend?: string;
+	placeholder?: string;
 	maxItems?: number;
 }
 

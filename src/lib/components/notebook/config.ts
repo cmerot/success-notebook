@@ -18,37 +18,43 @@ export const dayConfig: FormConfig = {
 					name: 'morningMood',
 					path: 'start.mood',
 					component: MoodFieldset,
-					legend: 'Émotion(s) du matin'
+					legend: 'Émotion(s) du matin',
+					placeholder: 'Comment vous sentez-vous ce matin ?'
 				},
 				{
 					name: 'grateful',
 					path: 'start.grateful',
 					component: TextField,
-					label: 'Je suis reconnaissant·e pour'
+					label: 'Je suis reconnaissant·e pour',
+					placeholder: "Ce qui vous rend heureux·se aujourd'hui..."
 				},
 				{
 					name: 'desire',
 					path: 'start.desire',
 					component: TextField,
-					label: "J'attends avec impatience"
+					label: "J'attends avec impatience",
+					placeholder: 'Ce moment, cette activité que vous anticipez...'
 				},
 				{
 					name: 'goal',
 					path: 'start.goal',
 					component: TextField,
-					label: 'Je serais satisfait·e de ma journée si'
+					label: 'Je serais satisfait·e de ma journée si',
+					placeholder: "Votre objectif principal pour aujourd'hui..."
 				},
 				{
 					name: 'todoList',
 					path: 'start.todoList',
 					component: TodoFieldset,
-					legend: 'To Do List'
+					legend: 'To Do List',
+					placeholder: 'Une tâche à accomplir...'
 				},
 				{
 					name: 'toRelaxList',
 					path: 'start.toRelaxList',
 					component: TodoFieldset,
 					legend: 'To Relax List',
+					placeholder: 'Une activité relaxante...',
 					maxItems: 3
 				}
 			]
@@ -61,13 +67,15 @@ export const dayConfig: FormConfig = {
 					name: 'achievements',
 					path: 'end.achievements',
 					component: TextField,
-					label: "Les choses formidables vécues aujourd'hui + mes réussites"
+					label: "Les choses formidables vécues aujourd'hui + mes réussites",
+					placeholder: "Vos succès, petits et grands, d'aujourd'hui..."
 				},
 				{
 					name: 'eveningMood',
 					path: 'end.mood',
 					component: MoodFieldset,
-					legend: 'Émotion(s) du soir'
+					legend: 'Émotion(s) du soir',
+					placeholder: 'Comment terminez-vous cette journée ?'
 				}
 			]
 		}
@@ -91,19 +99,22 @@ export const weekConfig: FormConfig = {
 					name: 'mantra',
 					path: 'start.mantra',
 					component: TextField,
-					label: 'Mon mantra de la semaine'
+					label: 'Mon mantra de la semaine',
+					placeholder: 'Une phrase inspirante pour guider votre semaine...'
 				},
 				{
 					name: 'goals',
 					path: 'start.goals',
 					component: GoalFieldset,
-					legend: 'Mes objectifs (SMARTE) de la semaine'
+					legend: 'Mes objectifs (SMARTE) de la semaine',
+					placeholder: 'Un objectif SMARTE pour cette semaine...'
 				},
 				{
 					name: 'routines',
 					path: 'start.routines',
 					component: RoutineFieldset,
-					legend: 'Mes routines de la semaine'
+					legend: 'Mes routines de la semaine',
+					placeholder: 'Une routine à suivre cette semaine...'
 				}
 			]
 		},
@@ -115,7 +126,8 @@ export const weekConfig: FormConfig = {
 					name: 'achievements',
 					path: 'end.achievements',
 					component: TextField,
-					label: 'Mes réussites et fiertés de la semaine'
+					label: 'Mes réussites et fiertés de la semaine',
+					placeholder: 'Ce dont vous êtes fier·ère cette semaine...'
 				}
 			]
 		}
@@ -139,19 +151,22 @@ export const monthConfig: FormConfig = {
 					name: 'mantra',
 					path: 'start.mantra',
 					component: TextField,
-					label: 'Mon mantra du mois'
+					label: 'Mon mantra du mois',
+					placeholder: 'Votre intention pour ce mois...'
 				},
 				{
 					name: 'goals',
 					path: 'start.goals',
 					component: GoalFieldset,
-					legend: 'Mes objectifs (SMARTE) du mois'
+					legend: 'Mes objectifs (SMARTE) du mois',
+					placeholder: 'Un objectif SMARTE pour ce mois...'
 				},
 				{
 					name: 'routines',
 					path: 'start.routines',
 					component: TextFieldset,
-					legend: 'Mes (nouvelles) routines du mois'
+					legend: 'Mes (nouvelles) routines du mois',
+					placeholder: 'Une nouvelle routine à intégrer ce mois...'
 				}
 			]
 		},
@@ -163,7 +178,8 @@ export const monthConfig: FormConfig = {
 					name: 'achievements',
 					path: 'end.achievements',
 					component: TextField,
-					label: 'Mes réussites et fiertés du mois'
+					label: 'Mes réussites et fiertés du mois',
+					placeholder: 'Vos accomplissements ce mois...'
 				}
 			]
 		}

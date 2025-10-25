@@ -21,9 +21,10 @@
 
 		legend?: string;
 		class?: string;
+		placeholder?: string;
 	}
 
-	let { class: className, form, name, legend, isEditMode }: Props = $props();
+	let { class: className, form, name, legend, placeholder, isEditMode }: Props = $props();
 </script>
 
 <Form.Fieldset {form} {name} class={className}>
@@ -32,6 +33,6 @@
 	{/if}
 	<div class="flex items-end space-x-1">
 		<EmoticonField {form} name={`${name}.icon` as U} {isEditMode} size="sm" />
-		<TextField {form} name={`${name}.text` as U} {isEditMode} class="flex-1" />
+		<TextField {form} name={`${name}.text` as U} {isEditMode} {placeholder} class="flex-1" />
 	</div>
 </Form.Fieldset>

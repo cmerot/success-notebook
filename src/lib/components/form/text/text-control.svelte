@@ -10,9 +10,10 @@
 		name: U;
 		isEditMode: boolean;
 		onBlur?: () => void;
+		placeholder?: string;
 	}
 
-	let { form, name, isEditMode, onBlur }: Props = $props();
+	let { form, name, isEditMode, onBlur, placeholder = 'Nouvelle tâche...' }: Props = $props();
 
 	const text = fieldProxy(form.form, name) as unknown as Writable<string>;
 </script>
@@ -23,7 +24,7 @@
 			<EditableText
 				{isEditMode}
 				bind:value={$text}
-				placeholder="Nouvelle tâche..."
+				{placeholder}
 				{onBlur}
 				formProps={props}
 				viewClass="min-h-[1.25rem] text-left text-foreground"

@@ -21,6 +21,7 @@
 
 		legend?: string;
 		class?: string;
+		placeholder?: string;
 		/**
 		 * Maximum number of items allowed in the list.
 		 * If not specified, there's no limit.
