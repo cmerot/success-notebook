@@ -17,25 +17,18 @@
 			Julien DIEU dans sa formation "Gestion du temps", basée sur le principe que le bien-être est
 			le socle d'une performance durable.
 		</p>
-		<div class="flex items-center gap-4">
+		<div>
 			<a
 				href="https://lineupcoaching.fr/"
 				target="_blank"
 				rel="noopener noreferrer"
-				class="inline-block"
+				class="flex items-center gap-4 rounded-lg bg-[#008c95] px-4 text-white no-underline transition-shadow hover:underline hover:shadow-xl"
 			>
 				<img
 					src={resolve('/logo-lineupcoaching/logo.png')}
 					alt="Line Up Coaching"
-					class="h-12 w-auto"
+					class="mr-4 inline h-20 w-auto"
 				/>
-			</a>
-			<a
-				href="https://lineupcoaching.fr/"
-				class="text-primary underline hover:no-underline"
-				target="_blank"
-				rel="noopener noreferrer"
-			>
 				Découvrir Line Up Coaching
 			</a>
 		</div>
