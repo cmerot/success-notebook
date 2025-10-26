@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getDayFormSchema, getDayConfig, type DayFormType } from '$lib/schemas';
+	import type { DayFormType } from '$lib/schemas';
 	import { type CalendarDate } from '@internationalized/date';
 	import type { SuperValidated } from 'sveltekit-superforms';
 	import type { Snippet } from 'svelte';
@@ -7,13 +7,15 @@
 	import { saveDayEntry } from '$lib/services/entries';
 	import { EmoticonsLevelField } from '$lib/components/form/emoticon';
 	import BaseForm from './base-form.svelte';
+	import type { FormConfig } from '$lib/types/form';
+	import type { z } from 'zod';
 
 	interface Props {
 		data: {
 			date: CalendarDate;
-			day: {
-				form: SuperValidated<DayFormType>;
-			};
+			form: SuperValidated<DayFormType>;
+			schema: z.ZodType<DayFormType>;
+			config: FormConfig;
 		};
 		bindToTime?: boolean;
 		isEditMode?: boolean;
@@ -24,9 +26,7 @@
 </script>
 
 <BaseForm
-	data={{ date: data.date, form: data.day.form }}
-	config={getDayConfig()}
-	schema={getDayFormSchema()}
+	{data}
 	onSave={(formData) => saveDayEntry(data.date, formData)}
 	formatTitle={formatDay}
 	getSectionEditMode={getDaySectionEditMode}

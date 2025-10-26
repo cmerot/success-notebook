@@ -22,7 +22,6 @@
 	let open = $state(false);
 
 	function handleChange(value?: DateValue) {
-		console.log('handleChange', value);
 		if (!value) return;
 
 		if (today.compare(value) === 0) {

@@ -1,19 +1,21 @@
 <script lang="ts">
 	import { CalendarDate } from '@internationalized/date';
 	import type { SuperValidated } from 'sveltekit-superforms';
-	import { getMonthFormSchema, getMonthConfig, type MonthFormType } from '$lib/schemas';
+	import type { MonthFormType } from '$lib/schemas';
 	import { formatMonth, getMonthSectionEditMode } from '$lib/utils/date';
 	import { saveMonthEntry } from '$lib/services/entries';
 	import { Emoticon } from '$lib/components/form/emoticon';
 	import type { Snippet } from 'svelte';
 	import BaseForm from './base-form.svelte';
+	import type { FormConfig } from '$lib/types/form';
+	import type { z } from 'zod';
 
 	interface Props {
 		data: {
 			date: CalendarDate;
-			month: {
-				form: SuperValidated<MonthFormType>;
-			};
+			config: FormConfig;
+			form: SuperValidated<MonthFormType>;
+			schema: z.ZodType<MonthFormType>;
 		};
 		bindToTime?: boolean;
 		isEditMode?: boolean;
@@ -21,14 +23,10 @@
 	}
 
 	let { data, bindToTime = false, isEditMode = $bindable(false), footer }: Props = $props();
-
-	const monthConfig = getMonthConfig();
 </script>
 
 <BaseForm
-	data={{ date: data.date, form: data.month.form }}
-	config={monthConfig}
-	schema={getMonthFormSchema()}
+	{data}
 	onSave={(formData) => saveMonthEntry(data.date, formData)}
 	formatTitle={(date: CalendarDate) => formatMonth(date, { size: 'md' })}
 	getSectionEditMode={getMonthSectionEditMode}
@@ -37,6 +35,6 @@
 	{footer}
 >
 	{#snippet emoticons()}
-		<Emoticon value={monthConfig.emoji} />
+		<Emoticon value={data.config.emoji} />
 	{/snippet}
 </BaseForm>

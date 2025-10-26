@@ -2,23 +2,16 @@
 	import { dev } from '$app/environment';
 	import { onNavigate } from '$app/navigation';
 	import { resolve } from '$app/paths';
-	import { onMount } from 'svelte';
 	import '../app.css';
 	import { Toaster } from '$lib/components/ui/sonner';
 	import { ModeWatcher } from 'mode-watcher';
 	import TailwindIndicator from '$lib/components/tailwind-indicator.svelte';
-	import { initSchemas } from '$lib/schemas';
 
 	let { children } = $props();
 
 	// Track navigation path history to detect direction
 	let pathHistory: string[] = $state([]);
 	let initialized = false;
-
-	// Initialize schemas with user settings
-	onMount(async () => {
-		await initSchemas();
-	});
 
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;

@@ -7,14 +7,9 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Menu } from 'lucide-svelte';
 	import DatePicker from '$lib/components/date-picker/date-picker.svelte';
-	import { getDayConfig, getMonthConfig, getWeekConfig } from '$lib/schemas';
 	import { resolve } from '$app/paths';
 
 	let { data }: PageProps = $props();
-
-	const dayConfig = getDayConfig();
-	const weekConfig = getWeekConfig();
-	const monthConfig = getMonthConfig();
 
 	let dateIsToday = $derived(data.date.compare(today) === 0);
 
@@ -24,11 +19,11 @@
 
 	let title = $derived.by(() => {
 		if (data.period == 'day') {
-			return `${formatDay(data.date, 'numeric')} - ${dayConfig.emptyState.title}`;
+			return `${formatDay(data.date, 'numeric')} - ${data.day.config.emptyState.title}`;
 		} else if (data.period == 'week') {
-			return `${formatWeek(data.date, 'numeric')} - ${weekConfig.emptyState.title}`;
+			return `${formatWeek(data.date, 'numeric')} - ${data.week.config.emptyState.title}`;
 		} else if (data.period == 'month') {
-			return `${formatMonth(data.date, 'numeric')} - ${monthConfig.emptyState.title}`;
+			return `${formatMonth(data.date, 'numeric')} - ${data.month.config.emptyState.title}`;
 		} else if (data.date.compare(today) !== 0) {
 			return `${formatDay(data.date, 'numeric')} - Carnet`;
 		}
@@ -41,7 +36,7 @@
 </svelte:head>
 
 {#if data.period == 'day'}
-	<Header class={dayConfig.theme}>
+	<Header class={data.day.config.theme}>
 		{#snippet title()}
 			<h2 class="flex w-full items-center">
 				<span class="text-xl">Succès du quotidien</span>
@@ -54,10 +49,10 @@
 	</Header>
 
 	{#key `${data.date}`}
-		<DayForm {data} />
+		<DayForm data={{ ...data.day, date: data.date }} />
 	{/key}
 {:else if data.period == 'week'}
-	<Header class={weekConfig.theme}>
+	<Header class={data.week.config.theme}>
 		{#snippet title()}
 			<h2 class="flex w-full items-center">
 				<span class="text-xl">Succès de la semaine</span>
@@ -69,10 +64,10 @@
 		{/snippet}
 	</Header>
 	{#key `${data.date}`}
-		<WeekForm {data} />
+		<WeekForm data={{ ...data.week, date: data.date }} />
 	{/key}
 {:else if data.period == 'month'}
-	<Header class={monthConfig.theme}>
+	<Header class={data.month.config.theme}>
 		{#snippet title()}
 			<h2 class="flex w-full items-center">
 				<span class="text-xl">Succès du mois</span>
@@ -85,7 +80,7 @@
 	</Header>
 
 	{#key `${data.date}`}
-		<MonthForm {data} />
+		<MonthForm data={{ ...data.month, date: data.date }} />
 	{/key}
 {:else}
 	<Header variant="sidebar" nav={dateIsToday ? nav : undefined}>

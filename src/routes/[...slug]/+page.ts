@@ -2,7 +2,6 @@ import { superValidate } from 'sveltekit-superforms';
 import type { PageLoad } from './$types';
 import { CalendarDate, startOfMonth, startOfWeek } from '@internationalized/date';
 import { zod4 } from 'sveltekit-superforms/adapters';
-import { getDayFormSchema, getMonthFormSchema, getWeekFormSchema } from '$lib/schemas';
 import { loadDayEntry, loadMonthEntry, loadWeekEntry } from '$lib/services/entries';
 import { hasContent } from '$lib/utils/utils';
 import { error } from '@sveltejs/kit';
@@ -49,7 +48,8 @@ function parseSlug(path: string): Slug | null {
 	return slug;
 }
 
-export const load: PageLoad = async ({ params, url }) => {
+export const load: PageLoad = async ({ params, url, parent }) => {
+	const { schemas, configs } = await parent();
 	const slug = parseSlug(params.slug);
 
 	if (!slug && url.pathname !== resolve('/')) {
@@ -91,14 +91,14 @@ export const load: PageLoad = async ({ params, url }) => {
 	);
 
 	const dayEntry = await loadDayEntry(date);
-	const dayForm = await superValidate(dayEntry, zod4(getDayFormSchema()));
+	const dayForm = await superValidate(dayEntry, zod4(schemas.day));
 	// const dayUrl =
 
 	const weekEntry = await loadWeekEntry(date);
-	const weekForm = await superValidate(weekEntry, zod4(getWeekFormSchema()));
+	const weekForm = await superValidate(weekEntry, zod4(schemas.week));
 
 	const monthEntry = await loadMonthEntry(date);
-	const monthForm = await superValidate(monthEntry, zod4(getMonthFormSchema()));
+	const monthForm = await superValidate(monthEntry, zod4(schemas.month));
 
 	// If the entry is new, or at least one section
 	// is in the time window of editing, return true
@@ -120,8 +120,26 @@ export const load: PageLoad = async ({ params, url }) => {
 	return {
 		date,
 		period,
-		day: { form: dayForm, isEditMode: dayIsEditMode, url: dayHref },
-		week: { form: weekForm, isEditMode: weekIsEditMode, url: weekHref },
-		month: { form: monthForm, isEditMode: monthIsEditMode, url: monthHref }
+		day: {
+			form: dayForm,
+			isEditMode: dayIsEditMode,
+			url: dayHref,
+			schema: schemas.day,
+			config: configs.day
+		},
+		week: {
+			form: weekForm,
+			isEditMode: weekIsEditMode,
+			url: weekHref,
+			schema: schemas.week,
+			config: configs.week
+		},
+		month: {
+			form: monthForm,
+			isEditMode: monthIsEditMode,
+			url: monthHref,
+			schema: schemas.month,
+			config: configs.month
+		}
 	};
 };

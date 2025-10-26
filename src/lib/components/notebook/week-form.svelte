@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getWeekFormSchema, getWeekConfig, type WeekFormType } from '$lib/schemas';
+	import type { WeekFormType } from '$lib/schemas';
 	import { type CalendarDate } from '@internationalized/date';
 	import type { SuperValidated } from 'sveltekit-superforms';
 	import type { Snippet } from 'svelte';
@@ -7,13 +7,15 @@
 	import { saveWeekEntry } from '$lib/services/entries';
 	import { Emoticon } from '$lib/components/form/emoticon';
 	import BaseForm from './base-form.svelte';
+	import type { FormConfig } from '$lib/types/form';
+	import type { z } from 'zod';
 
 	interface Props {
 		data: {
 			date: CalendarDate;
-			week: {
-				form: SuperValidated<WeekFormType>;
-			};
+			config: FormConfig;
+			form: SuperValidated<WeekFormType>;
+			schema: z.ZodType<WeekFormType>;
 		};
 		bindToTime?: boolean;
 		isEditMode?: boolean;
@@ -21,14 +23,10 @@
 	}
 
 	let { data, bindToTime = false, isEditMode = $bindable(false), footer }: Props = $props();
-
-	const weekConfig = getWeekConfig();
 </script>
 
 <BaseForm
-	data={{ date: data.date, form: data.week.form }}
-	config={weekConfig}
-	schema={getWeekFormSchema()}
+	{data}
 	onSave={(formData) => saveWeekEntry(data.date, formData)}
 	formatTitle={(date: CalendarDate) => formatWeek(date, { size: 'md' })}
 	getSectionEditMode={getWeekSectionEditMode}
@@ -37,6 +35,6 @@
 	{footer}
 >
 	{#snippet emoticons()}
-		<Emoticon value={weekConfig.emoji} />
+		<Emoticon value={data.config.emoji} />
 	{/snippet}
 </BaseForm>

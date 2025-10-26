@@ -17,9 +17,9 @@
 		data: {
 			date: CalendarDate;
 			form: SuperValidated<T>;
+			config: FormConfig;
+			schema: ZodType<T>;
 		};
-		config: FormConfig;
-		schema: ZodType<T>;
 		onSave: (formData: T) => Promise<void>;
 		formatTitle: (date: CalendarDate, options?: BreakpointSize | FormatOptions) => string;
 		getSectionEditMode: (
@@ -36,8 +36,6 @@
 
 	let {
 		data,
-		config,
-		schema,
 		onSave,
 		formatTitle,
 		getSectionEditMode,
@@ -52,7 +50,7 @@
 		SPA: true,
 		resetForm: false,
 		// @ts-expect-error - Generic zod schema type is not fully compatible with zod4 validator
-		validators: zod4(schema),
+		validators: zod4(data.schema),
 		dataType: 'json',
 		async onUpdate({ form, cancel }) {
 			if (form.valid) {
@@ -97,7 +95,7 @@
 	// Derive section states to manage all field state
 	const { sections, hasContent, isEditable } = $derived(
 		getSectionStates({
-			sectionConfig: config.sections,
+			sectionConfig: data.config.sections,
 			isEditMode,
 			bindToTime,
 			date: data.date,
@@ -109,7 +107,7 @@
 </script>
 
 <form use:enhance>
-	<Surface.Root class={config.theme}>
+	<Surface.Root class={data.config.theme}>
 		<Surface.Header>
 			{#snippet title()}
 				<div class="mb-6 flex items-center gap-x-2">
@@ -135,9 +133,9 @@
 
 		{#if !hasContent}
 			<div>
-				<h3 class="mb-2 text-lg font-semibold text-primary/50">{config.emptyState.title}</h3>
-				<p class="text-muted-foreground">{config.emptyState.start}</p>
-				<p class="text-muted-foreground">{config.emptyState.end}</p>
+				<h3 class="mb-2 text-lg font-semibold text-primary/50">{data.config.emptyState.title}</h3>
+				<p class="text-muted-foreground">{data.config.emptyState.start}</p>
+				<p class="text-muted-foreground">{data.config.emptyState.end}</p>
 			</div>
 		{/if}
 
