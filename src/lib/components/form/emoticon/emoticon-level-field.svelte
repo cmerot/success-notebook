@@ -6,7 +6,7 @@
 	import EmoticonLevelPopover from './emoticon-level-popover.svelte';
 	import Emoticon from './emoticon.svelte';
 	import type { EmoticonSize } from './emoticon-sizes';
-	import { getLevelEmoticons, type MoodLevel } from './level-emoticons';
+	import { getMoodEmoticons, type MoodScale } from './emoticons-level';
 	import { cn } from '$lib/utils/utils';
 
 	interface Props {
@@ -29,10 +29,10 @@
 
 	const level = fieldProxy(form.form, name) as unknown as Writable<number | undefined>;
 
-	const levelEmoticons = getLevelEmoticons();
+	const levelEmoticons = getMoodEmoticons();
 	const currentEmoticon = $derived(
 		$level !== undefined && $level in levelEmoticons
-			? levelEmoticons[$level as MoodLevel]
+			? levelEmoticons[$level as MoodScale]
 			: undefined
 	);
 </script>

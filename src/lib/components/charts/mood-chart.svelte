@@ -4,7 +4,7 @@
 	import type { MoodStats } from '$lib/utils/stats';
 	import { TrendingUp, TrendingDown, Minus } from 'lucide-svelte';
 	import { cn } from '$lib/utils/utils';
-	import type { LevelEmoticons } from '$lib/components/form/emoticon/level-emoticons';
+	import type { MoodEmoticonTheme, MoodScale } from '$lib/components/form/emoticon/emoticons-level';
 
 	interface MoodDataPoint {
 		date: string;
@@ -21,16 +21,16 @@
 	interface Props {
 		data?: MoodDataPoint[];
 		moodStats?: MoodStats;
-		levelEmoticons?: LevelEmoticons;
+		emoticons?: MoodEmoticonTheme;
 	}
 
-	let { data, moodStats, levelEmoticons }: Props = $props();
+	let { data, moodStats, emoticons }: Props = $props();
 
 	// Fonction pour obtenir l'émoticône d'un niveau
 	function getEmoticon(level: number | null): string {
-		if (!levelEmoticons || level === null) return '';
-		const roundedLevel = Math.round(level) as keyof typeof levelEmoticons;
-		return levelEmoticons[roundedLevel] || '';
+		if (!emoticons || level === null) return '';
+		const roundedLevel = Math.round(level) as MoodScale;
+		return emoticons[roundedLevel] || '';
 	}
 
 	// Préparer les données pour LineChart avec plusieurs séries
@@ -118,7 +118,7 @@
 				<div class="text-center">
 					<p class="text-2xl font-bold">
 						{moodStats.average}
-						{#if levelEmoticons}
+						{#if emoticons}
 							<span class="ml-2 text-3xl">{getEmoticon(moodStats.average)}</span>
 						{/if}
 					</p>
@@ -127,7 +127,7 @@
 				<div class="text-center">
 					<p class="text-2xl font-bold">
 						{moodStats.startAverage}
-						{#if levelEmoticons}
+						{#if emoticons}
 							<span class="ml-2 text-3xl">{getEmoticon(moodStats.startAverage)}</span>
 						{/if}
 					</p>
@@ -136,7 +136,7 @@
 				<div class="text-center">
 					<p class="text-2xl font-bold">
 						{moodStats.endAverage}
-						{#if levelEmoticons}
+						{#if emoticons}
 							<span class="ml-2 text-3xl">{getEmoticon(moodStats.endAverage)}</span>
 						{/if}
 					</p>
@@ -175,10 +175,10 @@
 						},
 						yAxis: {
 							ticks: 5,
-							format: levelEmoticons
+							format: emoticons
 								? (d) => {
 										const level = Math.round(d);
-										return levelEmoticons[level as keyof typeof levelEmoticons] || '';
+										return emoticons[level as keyof typeof emoticons] || '';
 									}
 								: undefined
 						}
@@ -206,7 +206,7 @@
 								<Tooltip.List>
 									<Tooltip.Item
 										label="Humeur"
-										value={levelEmoticons ? `${data.value} ${emoticon}` : data.value}
+										value={emoticons ? `${data.value} ${emoticon}` : data.value}
 										color="var(--chart-1)"
 									/>
 								</Tooltip.List>
@@ -240,10 +240,10 @@
 					},
 					yAxis: {
 						ticks: 5,
-						format: levelEmoticons
+						format: emoticons
 							? (d) => {
 									const level = Math.round(d);
-									return levelEmoticons[level as keyof typeof levelEmoticons] || '';
+									return emoticons[level as keyof typeof emoticons] || '';
 								}
 							: undefined
 					}
@@ -279,7 +279,7 @@
 										{@const emoticon = getEmoticon(value)}
 										<Tooltip.Item
 											{label}
-											value={levelEmoticons ? `${value} ${emoticon}` : value}
+											value={emoticons ? `${value} ${emoticon}` : value}
 											color={s.color}
 										/>
 									{/if}

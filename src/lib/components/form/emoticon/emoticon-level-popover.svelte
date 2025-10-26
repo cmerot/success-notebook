@@ -5,7 +5,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { RotateCcw } from 'lucide-svelte';
 	import type { EmoticonSize } from './emoticon-sizes';
-	import { getLevelEmoticons, getMoodLevels, type MoodLevel } from './level-emoticons';
+	import { getMoodEmoticons, getMoodLevels, type MoodScale } from './emoticons-level';
 
 	interface Props {
 		value?: number | undefined;
@@ -27,7 +27,7 @@
 
 	let isOpen = $state(false);
 
-	function selectLevel(level: MoodLevel) {
+	function selectLevel(level: MoodScale) {
 		value = level;
 		isOpen = false;
 	}
@@ -37,9 +37,9 @@
 		isOpen = false;
 	}
 
-	const levelEmoticons = getLevelEmoticons();
+	const levelEmoticons = getMoodEmoticons();
 	const currentEmoticon = $derived(
-		value && value in levelEmoticons ? levelEmoticons[value as MoodLevel] : undefined
+		value && value in levelEmoticons ? levelEmoticons[value as MoodScale] : undefined
 	);
 
 	const reversedLevels = getMoodLevels().reverse();
