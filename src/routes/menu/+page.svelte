@@ -3,7 +3,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
-	import { CircleQuestionMark, History, Database, Info, Settings } from 'lucide-svelte';
+	import { CircleQuestionMark, History, Database, Info, Settings, ChartBar } from 'lucide-svelte';
 	import type { ComponentType } from 'svelte';
 
 	// Navigation items
@@ -12,6 +12,7 @@
 		{ href: resolve('/history'), label: 'Historique', icon: History },
 		{ href: resolve('/data'), label: 'Gestion de vos données', icon: Database },
 		{ href: resolve('/settings'), label: 'Paramètres', icon: Settings },
+		{ href: resolve('/stats'), label: 'Statistiques', icon: ChartBar },
 		{ href: resolve('/about'), label: 'À propos', icon: Info }
 	];
 
@@ -29,7 +30,7 @@
 				<Button
 					onclick={() => navigate(item.href)}
 					variant="ghost"
-					class="w-full justify-start gap-3 rounded-none text-lg"
+					class="w-full justify-start gap-3 rounded-none py-8 text-lg"
 				>
 					<item.icon class="size-5" />
 					{item.label}
