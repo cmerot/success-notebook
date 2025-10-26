@@ -16,6 +16,7 @@
 		size?: EmoticonSize;
 		class?: string;
 		emoticonClass?: string;
+		fallback?: string;
 	}
 
 	let {
@@ -24,16 +25,15 @@
 		isEditMode = false,
 		size = 'md',
 		class: className,
-		emoticonClass
+		emoticonClass,
+		fallback
 	}: Props = $props();
 
 	const level = fieldProxy(form.form, name) as unknown as Writable<number | undefined>;
 
-	const levelEmoticons = getMoodEmoticons();
+	const emoticons = getMoodEmoticons();
 	const currentEmoticon = $derived(
-		$level !== undefined && $level in levelEmoticons
-			? levelEmoticons[$level as MoodScale]
-			: undefined
+		$level !== undefined && $level in emoticons ? emoticons[$level as MoodScale] : undefined
 	);
 </script>
 
@@ -41,7 +41,13 @@
 	{#if isEditMode}
 		<Form.Control>
 			{#snippet children({ props })}
-				<EmoticonLevelPopover bind:value={$level} {size} class={emoticonClass} {...props} />
+				<EmoticonLevelPopover
+					bind:value={$level}
+					{size}
+					class={emoticonClass}
+					{...props}
+					{fallback}
+				/>
 			{/snippet}
 		</Form.Control>
 	{:else}
@@ -50,6 +56,7 @@
 			{size}
 			class={cn('border-2 border-transparent', emoticonClass)}
 			ariaLabel={$level !== undefined ? `Niveau ${$level}` : 'Aucun niveau'}
+			{fallback}
 		/>
 	{/if}
 </Form.Field>

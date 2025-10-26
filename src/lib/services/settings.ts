@@ -1,4 +1,5 @@
 import { getStorageAdapter } from '$lib/adapters/storage';
+import type { EmoticonThemeName } from '$lib/components/form/emoticon';
 
 export interface AppSettings {
 	maxTodoList: number;
@@ -7,7 +8,7 @@ export interface AppSettings {
 	maxWeekGoals: number;
 	maxMonthRoutines: number;
 	maxMonthGoals: number;
-	emoticonTheme: 'smiley' | 'weather';
+	emoticonTheme: EmoticonThemeName;
 }
 
 export const DEFAULT_SETTINGS: AppSettings = {

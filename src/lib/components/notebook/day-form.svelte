@@ -5,7 +5,7 @@
 	import type { Snippet } from 'svelte';
 	import { formatDay, getDaySectionEditMode } from '$lib/utils/date';
 	import { saveDayEntry } from '$lib/services/entries';
-	import { EmoticonsLevelField } from '$lib/components/form/emoticon';
+	import { EmoticonsLevelField, getMoodEmoticons } from '$lib/components/form/emoticon';
 	import BaseForm from './base-form.svelte';
 	import type { FormConfig } from '$lib/types/form';
 	import type { z } from 'zod';
@@ -21,7 +21,8 @@
 		isEditMode?: boolean;
 		footer?: Snippet;
 	}
-
+	const emoticons = getMoodEmoticons();
+	const fallback = emoticons[5];
 	let { data, bindToTime = false, isEditMode = $bindable(false), footer }: Props = $props();
 </script>
 
@@ -35,6 +36,12 @@
 	{footer}
 >
 	{#snippet emoticons({ form })}
-		<EmoticonsLevelField {form} startName="start.mood.level" endName="end.mood.level" size="md" />
+		<EmoticonsLevelField
+			{form}
+			startName="start.mood.level"
+			endName="end.mood.level"
+			size="md"
+			{fallback}
+		/>
 	{/snippet}
 </BaseForm>

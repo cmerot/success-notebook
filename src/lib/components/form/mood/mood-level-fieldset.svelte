@@ -3,8 +3,9 @@
 	import { type FormPath } from 'sveltekit-superforms';
 	import type * as FormPrimitive from 'formsnap';
 	import { TextField } from '$lib/components/form/text';
-	import { EmoticonLevelField } from '$lib/components/form/emoticon';
+	import { EmoticonLevelField, getMoodEmoticons } from '$lib/components/form/emoticon';
 
+	const emoticons = getMoodEmoticons();
 	interface Props {
 		/**
 		 * The form object returned from calling `superForm` in your component.
@@ -32,7 +33,13 @@
 		<Form.Legend class="mb-3 text-lg font-semibold text-primary">{legend}</Form.Legend>
 	{/if}
 	<div class="flex items-end space-x-1">
-		<EmoticonLevelField {form} name={`${name}.level` as U} {isEditMode} size="sm" />
+		<EmoticonLevelField
+			{form}
+			name={`${name}.level` as U}
+			{isEditMode}
+			size="sm"
+			fallback={emoticons[5]}
+		/>
 		<TextField {form} name={`${name}.text` as U} {isEditMode} {placeholder} class="flex-1" />
 	</div>
 </Form.Fieldset>
