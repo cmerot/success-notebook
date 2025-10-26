@@ -8,6 +8,7 @@ import EmoticonLevelPopover from './emoticon-level-popover.svelte';
 import EmoticonsLevel from './emoticons-level.svelte';
 import EmoticonsLevelField from './emoticons-level-field.svelte';
 import { type EmoticonSize, type EmoticonSizeConfig, emoticonSizes } from './emoticon-sizes';
+import { emoticonThemes } from './level-emoticons';
 
 export {
 	Emoticon,
@@ -25,7 +26,13 @@ export {
 	type EmoticonSize,
 	type EmoticonSizeConfig,
 	//
-	emoticonSizes
+	emoticonSizes,
+	emoticonThemes
 };
 export type { EmoticonProps } from './types';
-export { levelEmoticons, moodLevels, type MoodLevel } from './level-emoticons';
+export {
+	getLevelEmoticons,
+	getMoodLevels,
+	type MoodLevel,
+	type EmoticonTheme
+} from './level-emoticons';

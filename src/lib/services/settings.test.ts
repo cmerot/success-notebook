@@ -111,7 +111,8 @@ describe('settings', () => {
 				maxWeekRoutines: 6,
 				maxWeekGoals: 3,
 				maxMonthRoutines: 5,
-				maxMonthGoals: 3
+				maxMonthGoals: 3,
+				emoticonTheme: 'smiley'
 			};
 			storageData.set('settings:app', existingSettings);
 
@@ -124,7 +125,8 @@ describe('settings', () => {
 				maxWeekRoutines: 6,
 				maxWeekGoals: 3,
 				maxMonthRoutines: 5,
-				maxMonthGoals: 3
+				maxMonthGoals: 3,
+				emoticonTheme: 'smiley'
 			});
 		});
 

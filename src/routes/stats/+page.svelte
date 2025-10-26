@@ -10,7 +10,7 @@
 	import { Flame, ListRestart, Target, Zap } from 'lucide-svelte';
 	import type { PageProps } from './$types';
 	import { type PeriodType, calculatePeriodInfo, calculateAllStats } from '$lib/utils/stats';
-	import { levelEmoticons } from '$lib/components/form/emoticon/level-emoticons';
+	import { getLevelEmoticons } from '$lib/components/form/emoticon/level-emoticons';
 
 	let { data }: PageProps = $props();
 
@@ -23,6 +23,8 @@
 	let stats = $derived(
 		calculateAllStats(data.allEntries, periodInfo.startDate, periodInfo.endDate)
 	);
+
+	const levelEmoticons = getLevelEmoticons();
 
 	function handlePeriodChange(period: PeriodType) {
 		selectedPeriod = period;

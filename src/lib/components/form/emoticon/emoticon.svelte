@@ -9,7 +9,8 @@
 		fallback = '☀️',
 		size = 'md',
 		ariaLabel = 'Émoticône',
-		children
+		children,
+		...restProps
 	}: EmoticonProps = $props();
 
 	const sizeConfig = $derived(emoticonSizes[size]);
@@ -24,6 +25,7 @@
 		className
 	)}
 	aria-label={ariaLabel}
+	{...restProps}
 >
 	{#if children}
 		{@render children()}

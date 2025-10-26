@@ -5,7 +5,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { RotateCcw } from 'lucide-svelte';
 	import type { EmoticonSize } from './emoticon-sizes';
-	import { levelEmoticons, moodLevels, type MoodLevel } from './level-emoticons';
+	import { getLevelEmoticons, getMoodLevels, type MoodLevel } from './level-emoticons';
 
 	interface Props {
 		value?: number | undefined;
@@ -37,11 +37,12 @@
 		isOpen = false;
 	}
 
+	const levelEmoticons = getLevelEmoticons();
 	const currentEmoticon = $derived(
 		value && value in levelEmoticons ? levelEmoticons[value as MoodLevel] : undefined
 	);
 
-	const reversedLevels = $derived([...moodLevels].reverse());
+	const reversedLevels = getMoodLevels().reverse();
 </script>
 
 <Popover.Root bind:open={isOpen}>

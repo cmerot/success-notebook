@@ -9,6 +9,7 @@
 	import Label from '$lib/components/ui/label/label.svelte';
 	import Input from '$lib/components/ui/input/input.svelte';
 	import type { PageProps } from './$types';
+	import { Emoticon, emoticonThemes } from '$lib/components/form/emoticon';
 
 	let { data }: PageProps = $props();
 
@@ -16,10 +17,8 @@
 	let hasChanges = $state(false);
 	let canReset = $state(false);
 
-	// Track changes
 	$effect(() => {
 		hasChanges = JSON.stringify(settings) !== JSON.stringify(data.settings);
-		// Can reset if settings are modified OR if loaded settings are not default
 		canReset = hasChanges || JSON.stringify(data.settings) !== JSON.stringify(DEFAULT_SETTINGS);
 	});
 
@@ -29,8 +28,6 @@
 			description: "L'application va redémarrer pour appliquer les changements.",
 			duration: 2000
 		});
-
-		// Recharger après un court délai pour laisser le toast s'afficher
 		setTimeout(() => {
 			reloadApp();
 		}, 2000);
@@ -65,116 +62,153 @@
 			}}
 			class="space-y-8"
 		>
-			<!-- Paramètres quotidiens -->
+			<!-- Général -->
+			<div>
+				<h3 class="mb-4 text-lg font-semibold text-primary">Général</h3>
+				<div class="space-y-4">
+					<Label for="emoticonTheme" class="text-base">Thème des emoticons</Label>
+					<div class="flex gap-4">
+						{#each Object.entries(emoticonThemes) as [key, theme]}
+							<Emoticon
+								value={theme[5]}
+								onclick={() => {
+									settings.emoticonTheme = key as AppSettings['emoticonTheme'];
+								}}
+								size="sm"
+								class="{settings.emoticonTheme === key
+									? 'border-2 border-primary'
+									: ''} cursor-pointer"
+							/>
+						{/each}
+					</div>
+				</div>
+			</div>
+
+			<!-- Quotidien -->
 			<div>
 				<h3 class="mb-4 text-lg font-semibold text-primary">Quotidien</h3>
 				<div class="space-y-4">
-					<div class="grid gap-2">
-						<Label for="maxTodoList" class="text-base">
+					<div class="sm:flex sm:items-center sm:gap-4">
+						<Label for="maxTodoList" class="shrink-0 text-base sm:w-80">
 							Maximum de tâches à accomplir
-							<span class="text-sm font-normal text-muted-foreground">
-								(recommandé: {DEFAULT_SETTINGS.maxTodoList})
-							</span>
 						</Label>
-						<Input
-							id="maxTodoList"
-							type="number"
-							min="1"
-							max="20"
-							bind:value={settings.maxTodoList}
-						/>
+						<div class="flex items-center gap-4">
+							<Input
+								id="maxTodoList"
+								type="number"
+								min="1"
+								max="20"
+								bind:value={settings.maxTodoList}
+								class="w-20"
+							/>
+							<span class="text-sm text-muted-foreground">
+								recommandé: {DEFAULT_SETTINGS.maxTodoList}
+							</span>
+						</div>
 					</div>
 
-					<div class="grid gap-2">
-						<Label for="maxToRelaxList" class="text-base">
+					<div class="sm:flex sm:items-center sm:gap-4">
+						<Label for="maxToRelaxList" class="shrink-0 text-base sm:w-80">
 							Maximum de moments de détente
-							<span class="text-sm font-normal text-muted-foreground">
-								(recommandé: {DEFAULT_SETTINGS.maxToRelaxList})
-							</span>
 						</Label>
-						<Input
-							id="maxToRelaxList"
-							type="number"
-							min="1"
-							max="20"
-							bind:value={settings.maxToRelaxList}
-						/>
+						<div class="flex items-center gap-4">
+							<Input
+								id="maxToRelaxList"
+								type="number"
+								min="1"
+								max="20"
+								bind:value={settings.maxToRelaxList}
+								class="w-20"
+							/>
+							<span class="text-sm text-muted-foreground">
+								recommandé: {DEFAULT_SETTINGS.maxToRelaxList}
+							</span>
+						</div>
 					</div>
 				</div>
 			</div>
 
-			<!-- Paramètres hebdomadaires -->
+			<!-- Hebdomadaire -->
 			<div>
 				<h3 class="mb-4 text-lg font-semibold text-primary">Hebdomadaire</h3>
 				<div class="space-y-4">
-					<div class="grid gap-2">
-						<Label for="maxWeekRoutines" class="text-base">
-							Maximum de routines
-							<span class="text-sm font-normal text-muted-foreground">
-								(recommandé: {DEFAULT_SETTINGS.maxWeekRoutines})
+					<div class="sm:flex sm:items-center sm:gap-4">
+						<Label for="maxWeekRoutines" class="shrink-0 text-base sm:w-80"
+							>Maximum de routines</Label
+						>
+						<div class="flex items-center gap-4">
+							<Input
+								id="maxWeekRoutines"
+								type="number"
+								min="1"
+								max="20"
+								bind:value={settings.maxWeekRoutines}
+								class="w-20"
+							/>
+							<span class="text-sm text-muted-foreground">
+								recommandé: {DEFAULT_SETTINGS.maxWeekRoutines}
 							</span>
-						</Label>
-						<Input
-							id="maxWeekRoutines"
-							type="number"
-							min="1"
-							max="20"
-							bind:value={settings.maxWeekRoutines}
-						/>
+						</div>
 					</div>
 
-					<div class="grid gap-2">
-						<Label for="maxWeekGoals" class="text-base">
-							Maximum d'objectifs
-							<span class="text-sm font-normal text-muted-foreground">
-								(recommandé: {DEFAULT_SETTINGS.maxWeekGoals})
+					<div class="sm:flex sm:items-center sm:gap-4">
+						<Label for="maxWeekGoals" class="shrink-0 text-base sm:w-80">Maximum d'objectifs</Label>
+						<div class="flex items-center gap-4">
+							<Input
+								id="maxWeekGoals"
+								type="number"
+								min="1"
+								max="20"
+								bind:value={settings.maxWeekGoals}
+								class="w-20"
+							/>
+							<span class="text-sm text-muted-foreground">
+								recommandé: {DEFAULT_SETTINGS.maxWeekGoals}
 							</span>
-						</Label>
-						<Input
-							id="maxWeekGoals"
-							type="number"
-							min="1"
-							max="20"
-							bind:value={settings.maxWeekGoals}
-						/>
+						</div>
 					</div>
 				</div>
 			</div>
 
-			<!-- Paramètres mensuels -->
+			<!-- Mensuel -->
 			<div>
 				<h3 class="mb-4 text-lg font-semibold text-primary">Mensuel</h3>
 				<div class="space-y-4">
-					<div class="grid gap-2">
-						<Label for="maxMonthRoutines" class="text-base">
-							Maximum de routines
-							<span class="text-sm font-normal text-muted-foreground">
-								(recommandé: {DEFAULT_SETTINGS.maxMonthRoutines})
-							</span>
+					<div class="sm:flex sm:items-center sm:gap-4">
+						<Label for="maxMonthRoutines" class="shrink-0 text-base sm:w-80"
+							>Maximum de routines
 						</Label>
-						<Input
-							id="maxMonthRoutines"
-							type="number"
-							min="1"
-							max="20"
-							bind:value={settings.maxMonthRoutines}
-						/>
+						<div class="flex items-center gap-4">
+							<Input
+								id="maxMonthRoutines"
+								type="number"
+								min="1"
+								max="20"
+								bind:value={settings.maxMonthRoutines}
+								class="w-20"
+							/>
+							<span class="text-sm text-muted-foreground">
+								recommandé: {DEFAULT_SETTINGS.maxMonthRoutines}
+							</span>
+						</div>
 					</div>
 
-					<div class="grid gap-2">
-						<Label for="maxMonthGoals" class="text-base">
-							Maximum d'objectifs
-							<span class="text-sm font-normal text-muted-foreground">
-								(recommandé: {DEFAULT_SETTINGS.maxMonthGoals})
+					<div class="sm:flex sm:items-center sm:gap-4">
+						<Label for="maxMonthGoals" class="shrink-0 text-base sm:w-80">Maximum d'objectifs</Label
+						>
+						<div class="flex items-center gap-4">
+							<Input
+								id="maxMonthGoals"
+								type="number"
+								min="1"
+								max="20"
+								bind:value={settings.maxMonthGoals}
+								class="w-20"
+							/>
+							<span class="text-sm text-muted-foreground">
+								recommandé: {DEFAULT_SETTINGS.maxMonthGoals}
 							</span>
-						</Label>
-						<Input
-							id="maxMonthGoals"
-							type="number"
-							min="1"
-							max="20"
-							bind:value={settings.maxMonthGoals}
-						/>
+						</div>
 					</div>
 				</div>
 			</div>

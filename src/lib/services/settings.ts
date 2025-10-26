@@ -7,6 +7,7 @@ export interface AppSettings {
 	maxWeekGoals: number;
 	maxMonthRoutines: number;
 	maxMonthGoals: number;
+	emoticonTheme: 'smiley' | 'weather';
 }
 
 export const DEFAULT_SETTINGS: AppSettings = {
@@ -15,7 +16,8 @@ export const DEFAULT_SETTINGS: AppSettings = {
 	maxWeekRoutines: 4,
 	maxWeekGoals: 3,
 	maxMonthRoutines: 5,
-	maxMonthGoals: 3
+	maxMonthGoals: 3,
+	emoticonTheme: 'smiley'
 };
 
 const SETTINGS_KEY = 'settings:app';

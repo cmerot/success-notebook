@@ -4,7 +4,7 @@
 	import type { MoodStats } from '$lib/utils/stats';
 	import { TrendingUp, TrendingDown, Minus } from 'lucide-svelte';
 	import { cn } from '$lib/utils/utils';
-	import type { levelEmoticons as LevelEmoticonsType } from '$lib/components/form/emoticon/level-emoticons';
+	import type { LevelEmoticons } from '$lib/components/form/emoticon/level-emoticons';
 
 	interface MoodDataPoint {
 		date: string;
@@ -21,7 +21,7 @@
 	interface Props {
 		data?: MoodDataPoint[];
 		moodStats?: MoodStats;
-		levelEmoticons?: typeof LevelEmoticonsType;
+		levelEmoticons?: LevelEmoticons;
 	}
 
 	let { data, moodStats, levelEmoticons }: Props = $props();

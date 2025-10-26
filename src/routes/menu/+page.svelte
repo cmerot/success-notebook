@@ -9,10 +9,10 @@
 	// Navigation items
 	const navItems: Array<{ href: string; label: string; icon: ComponentType }> = [
 		{ href: resolve('/help'), label: 'Comment utiliser votre carnet', icon: CircleQuestionMark },
-		{ href: resolve('/history'), label: 'Historique', icon: History },
-		{ href: resolve('/data'), label: 'Gestion de vos données', icon: Database },
-		{ href: resolve('/settings'), label: 'Paramètres', icon: Settings },
 		{ href: resolve('/stats'), label: 'Statistiques', icon: ChartBar },
+		{ href: resolve('/history'), label: 'Historique', icon: History },
+		{ href: resolve('/settings'), label: 'Paramètres', icon: Settings },
+		{ href: resolve('/data'), label: 'Gestion de vos données', icon: Database },
 		{ href: resolve('/about'), label: 'À propos', icon: Info }
 	];
 

@@ -3,7 +3,7 @@
 	import { emoticonSizes } from './emoticon-sizes';
 	import Emoticon from './emoticon.svelte';
 	import type { EmoticonSize } from './emoticon-sizes';
-	import { levelEmoticons, type MoodLevel } from './level-emoticons';
+	import { getLevelEmoticons, type MoodLevel } from './level-emoticons';
 
 	interface Props {
 		start: number | undefined;
@@ -15,6 +15,7 @@
 	}
 	const { start, end, size = 'md', fallback, class: className, ariaLabel }: Props = $props();
 
+	const levelEmoticons = getLevelEmoticons();
 	const startEmoticon = $derived(
 		start !== undefined && start in levelEmoticons ? levelEmoticons[start as MoodLevel] : undefined
 	);
